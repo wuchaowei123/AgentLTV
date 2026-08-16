@@ -1,4 +1,4 @@
-api_key = "AIzaSyCPWw2gwyEuaj0DMFxTig3iEZcwGBh8F5A"
+api_key = ""
 # Configure the API key
 from google import genai
 
