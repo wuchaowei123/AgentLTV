@@ -1,0 +1,670 @@
+domain: "Machine Learning"
+task_name: "PLTV"
+description: |
+  Our goal is to predict a user's lifetime value (LTV) on day 60 based on data from the first ten days of installation. This is a regression problem.
+    Key Features:
+    -Both the training and test sets are tabular data, distinguishing users by device_id. Each user has seven rows representing all their data.
+    -The deposit column represents the user's recharge amount. This feature has a strong correlation with   the target prediction value and can be paid more attention to.
+    -For the CSV file containing the data, each seven rows represent a user's activity since installation, including numerical, date, and categorical data. We want to predict the 'REC_USD_D60' column in the last row for each user, representing the user's recharges over the past 60 days. You can use a time series model to model this user data.
+    -There are three CSV files: traindata.csv (training set), valdata.csv (validation set), and testdata.csv (test set).
+evaluation_metric: | 
+    NormGINI,this is how it's calculated(python code):
+    def cumulative_true(y_true, y_pred) -> np.ndarray:
+        df = pd.DataFrame({
+          'y_true': y_true,
+          'y_pred': y_pred,
+        }).sort_values(
+          by='y_pred', ascending=False)
+        return (df['y_true'].cumsum() / df['y_true'].sum()).values
+    def gini_from_gain(df: pd.DataFrame) -> pd.DataFrame:
+        raw = df.apply(lambda x: 2 * x.sum() / df.shape[0] - 1.)
+        normalized = raw / raw[0]
+        return pd.DataFrame({
+          'raw': raw,
+          'normalized': normalized
+        })[['raw', 'normalized']]"
+
+    
+higher_is_better: true
+
+secondary_metrics:
+  - "error_rate, This is how it's calculated(python code):error_rate = abs(test_true_sum - test_pred_sum) * 1.0 / test_true_sum"
+  - "SPEARMAN, This is how it's calculated(python code):SPEARMAN = spearmanr(labels, predicts)"
+
+data_files:
+  train data: "/home/jupyter/luigi/LLM+决策树/scientific-ai-system/tasks/PLTV/traindata.csv"
+  validation data: "/home/jupyter/luigi/LLM+决策树/scientific-ai-system/tasks/PLTV/valdata.csv"
+  test data: "/home/jupyter/luigi/LLM+决策树/scientific-ai-system/tasks/PLTV/testdata.csv"
+
+
+code_requirements:
+  target_column: "REC_USD_D60"
+  prediction_format: "Numerical"
+  required_libraries: ["pandas", "scikit-learn", "numpy", "scipy",'torch']
+  Numerical feature columns: ['DEPOSIT_AMOUNT',
+              'REC_USD','REC_USD_CUM','REC_USD_D6','CPI',
+              'RANK1_PLAY_CNT_ALL','RANK_UNDER3_PLAY_CNT_ALL','PLAY_CNT_ALL','PLAY_CNT_TICKET','AD_PLAY_CNT_ALL',
+              'CLEAR_PLAY_CNT_ALL','AVG_SCORE_ALL','SESSION_CNT_ALL','ACTUAL_ENTRY_FEE_CASH',
+              'ACTUAL_BONUS_ENTRY_FEE_CASH','ACTUAL_REWARD_CASH','ACTUAL_BONUS_REWARD_CASH','PLAY_CNT_CASH','CLEAR_PLAY_CNT_CASH',
+              'RANK1_PLAY_CNT_CASH','RANK_UNDER3_PLAY_CNT_CASH','HIGHFEE_PLAY_CNT_CASH','HIGHFEE_RANK1_PLAY_CNT_CASH',
+              'HIGHFEE_RANK_UNDER3_PLAY_CNT_CASH','AVG_SCORE_CASH','JN_PLAY_CNT','FJ80_PLAY_CNT','NORMAL_PLAY_CNT',
+              'DANBAN_PLAY_CNT','CHOUMA_PLAY_CNT','SAIJI_PLAY_CNT','VEGAS_PLAY_CNT','PASS_PLAY_CNT','SESSION_CNT_CASH',
+              'RN5_HIGH_FEE_CASH_CNT','PLAY_CNT_CASH_RATE','AD_PLAY_CNT_ALL_RATE','RANK1_PLAY_CNT_ALL_RATE',
+              'RANK_UNDER3_PLAY_CNT_ALL_RATE','CASH_RATIO','RANK1_PLAY_CNT_CASH_RATE','RANK_UNDER3_PLAY_CNT_CASH_RATE',
+              'JN_PLAY_CNT_RATE','FJ80_PLAY_CNT_RATE','NORMAL_PLAY_CNT_RATE','SAIJI_PLAY_CNT_RATE','PASS_PLAY_CNT_RATE',
+              'CLEAR_PLAY_CNT_ALL_RATE','CLEAR_PLAY_CNT_CASH_RATE','HIGHFEE_PLAY_CNT_CUM_RATE','HIGHFEE_RANK1_PLAY_CNT_CUM_RATE',
+              'HIGHFEE_RANK_UNDER3_PLAY_CNT_CUM_RATE','ACTIVE_DAYS_ALL_CUM','PLAY_CNT_ALL_CUM','RANK1_PLAY_CNT_ALL_CUM',
+              'RANK_UNDER3_PLAY_CNT_ALL_CUM','AD_PLAY_CNT_ALL_CUM','ACTUAL_ENTRY_FEE_CASH_CUM','ACTUAL_BONUS_ENTRY_FEE_CASH_CUM',
+              'ACTUAL_REWARD_CASH_CUM','ACTUAL_BONUS_REWARD_CASH_CUM','ACTIVE_DAYS_CASH_CUM','PLAY_CNT_CASH_CUM',
+              'RANK1_PLAY_CNT_CASH_CUM','RANK_UNDER3_PLAY_CNT_CASH_CUM','JN_PLAY_CNT_CUM','FJ80_PLAY_CNT_CUM',
+              'NORMAL_PLAY_CNT_CUM','PASS_PLAY_CNT_CUM','SAIJI_PLAY_CNT_CUM','CLEAR_PLAY_CNT_ALL_CUM','CLEAR_PLAY_CNT_CASH_CUM',
+              'HIGHFEE_PLAY_CNT_CASH_CUM','HIGHFEE_RANK1_PLAY_CNT_CASH_CUM','HIGHFEE_RANK_UNDER3_PLAY_CNT_CASH_CUM',
+              'MAX_ACTIVE_DAYS_ALL','MAX_ACTIVE_DAYS_CASH','RANK1_PLAY_CNT_ALL_CUM_RATE','RANK_UNDER3_PLAY_CNT_ALL_CUM_RATE',
+              'AD_PLAY_CNT_ALL_CUM_RATE','PLAY_CNT_CASH_CUM_RATE','RATIO_CASH_CUM','RANK1_PLAY_CNT_CASH_CUM_RATE',
+              'RANK_UNDER3_PLAY_CNT_CASH_CUM_RATE','JN_PLAY_CNT_CUM_RATE','FJ80_PLAY_CNT_CUM_RATE','NORMAL_PLAY_CNT_CUM_RATE',
+              'PASS_PLAY_CNT_CUM_RATE','SAIJI_PLAY_CNT_CUM_RATE','CLEAR_PLAY_CNT_ALL_CUM_RATE','CLEAR_PLAY_CNT_CASH_CUM_RATE',
+              'HIGHFEE_PLAY_CNT_CASH_CUM_RATE','HIGHFEE_RANK1_PLAY_CNT_CASH_CUM_RATE','HIGHFEE_RANK_UNDER3_PLAY_CNT_CASH_CUM_RATE',
+              'USER_RATIO_CASH_CUM_D3','USER_ACTIVE_DAYS_ALL_CUM_D3','USER_ACTIVE_DAYS_CASH_CUM_D3','USER_MAX_ACTIVE_DAYS_ALL_D3',
+              'USER_MAX_ACTIVE_DAYS_CASH_D3','USER_RATIO_CASH_CUM_D6','USER_ACTIVE_DAYS_ALL_CUM_D6','USER_ACTIVE_DAYS_CASH_CUM_D6',
+              'USER_MAX_ACTIVE_DAYS_ALL_D6','USER_MAX_ACTIVE_DAYS_CASH_D6','ACTUAL_ENTRY_FEE_CASH_BEFORE3',
+              'ACTUAL_ENTRY_FEE_CASH_AFTER3','ACTUAL_ENTRY_FEE_CASH_AFTER3_RATE','PLAY_CNT_CASH_BEFORE3',
+              'PLAY_CNT_CASH_AFTER3','PLAY_CNT_CASH_AFTER3_RATE','FIRST_FJ80_DAY',
+              'BONUS_BALANCE0_CNT','CASH_BALANCE0_CNT','ASSET_ACTIVITY_NUM','ASSET_WITHDRAW_NUM','ASSET_MATCH_NUM',
+              'ASSET_PLATFORM_NUM','ASSET_DEPOSIT_NUM','ASSET_ACTIVITY_BONUS_SUM','ASSET_MATCH_USE_BONUS_SUM',
+              'ASSET_MATCH_GET_BONUS_SUM','ASSET_MATCH_USE_CASH_SUM','ASSET_MATCH_GET_CASH_SUM','ASSET_DEPOSIT_CASH_SUM',
+              'ASSET_DEPOSIT_BONUS_SUM', 
+             ]
+Categorical feature columns: ['APP_ID','OS','MEDIA_SOURCE','COUNTRY','STATE','DEVICE_TYPE','SYSTEM_VERSION']
+
+
+
+research_ideas:
+  - "Use ensemble methods combining Long Short-Term Memory Network and Gated recurrent neural networks or other methods you think is better"
+  - "Apply advanced feature engineering with polynomial features and interactions"
+  - "Handle class imbalance with SMOTE oversampling or class weights"
+  - "Implement stacking ensemble with diverse base models"
+  - "Use hyperparameter optimization with Bayesian optimization"
+  - "Apply feature selection techniques to identify most important sensors"
+  - "Consider time-based features if temporal patterns exist"
+
+A working example code:
+        # !pip install genson
+        # %pip install snowflake-connector-python loguru snowflake-snowpark-python
+        # !pip install pyarrow==18.0.0
+        # %pip install sample-helper-aws-appconfig
+        # from datetime import datetime, timedelta
+        # import pandas as pd
+        # import numpy as np
+        # from sklearn.preprocessing import MinMaxScaler, StandardScaler
+        # from sklearn.preprocessing import OneHotEncoder
+        # from torch.utils.data import DataLoader
+        # import torch
+        # import torch.nn as nn
+        # from sklearn.preprocessing import LabelEncoder
+        # from scipy.stats import rankdata, pearsonr, spearmanr, kendalltau
+        # from sklearn.metrics import mean_squared_error
+        # import torch.nn.functional as F
+        # import sys
+        # sys.path.append('/home/ec2-user/SageMaker/niko/')
+        # from dataai_common_utils.config import ConfUtil
+        # from snowflake.snowpark import Session
+        # from tqdm import tqdm
+        # import warnings
+        # import torch.distributions as tdist
+        # warnings.filterwarnings("ignore")
+        
+        
+        # ENV = 'prod'
+        # aws_config = ConfUtil(ENV).get_conf()
+        # snowflake_config = {'user': aws_config['snowflake']['user'],
+        #                     'password': aws_config['snowflake']['password'],
+        #                     'account': aws_config['snowflake']['account'],
+        #                     'role': aws_config['snowflake']['role'],
+        #                     'port': aws_config['snowflake']['port'],
+        #                     'database': 'production_dataai',
+        #                     'schema': '_stage_marketing',
+        #                     'paramstyle': 'format',
+        #                     'warehouse': 'production_avia_default_xsmall_3'}
+        
+        # session = Session.builder.configs(snowflake_config).create()
+        # # NRMSE
+        # def _normalized_rmse(y_true, y_pred):
+        #     return np.sqrt(mean_squared_error(y_true, y_pred)) / y_true.mean()
+        
+        
+        # # GINI & NormGINI
+        # def cumulative_true(y_true, y_pred) -> np.ndarray:
+        #     df = pd.DataFrame({
+        #       'y_true': y_true,
+        #       'y_pred': y_pred,
+        #     }).sort_values(
+        #       by='y_pred', ascending=False)
+        #     return (df['y_true'].cumsum() / df['y_true'].sum()).values
+        
+        
+        # def gini_from_gain(df: pd.DataFrame) -> pd.DataFrame:
+        #     raw = df.apply(lambda x: 2 * x.sum() / df.shape[0] - 1.)
+        #     normalized = raw / raw[0]
+        #     return pd.DataFrame({
+        #       'raw': raw,
+        #       'normalized': normalized
+        #     })[['raw', 'normalized']]
+        
+        
+        # # Spearman’s 
+        # def corr_zero_inflate(labels, predicts):
+        #     labels = np.array(labels)
+        #     predicts = np.array(predicts)
+        #     mask1 = labels > 0
+        #     corr0 = spearmanr(labels, predicts)[0]
+        #     corr1 = spearmanr(labels[mask1], predicts[mask1])[0]
+        #     return corr0, corr1
+        
+        # # Error Rate
+        # def category_encoder(df, label_cols, top_n=10):
+        #     for col in label_cols:
+        #         df[col] = df[col].astype(str)
+        #         if df[col].nunique() > top_n:
+        #             top_categories = df[col].value_counts().nlargest(top_n).index
+        #             df[col] = df[col].apply(lambda x: x if x in top_categories else 'other')
+        
+        #         le = LabelEncoder()
+        #         df[col] = le.fit_transform(df[col])
+        #     embedding_info = {col: df[col].nunique() for col in label_cols}
+        
+        #     return df, embedding_info
+        
+        
+        # def load_data(df_all, resample_rate, is_test=False):
+        #     df_all = df_all.fillna(0)
+        #     for col in U_col_list:
+        #         df_all[col] = df_all[col].astype(np.float32)
+        
+        #     # print('before resample, df_all shape', df_all.shape)
+        
+        #     # # 预测d60实收
+        #     df_all['REC_USD_D60'] = df_all['REC_USD_D60'].copy(deep=True)
+        #     df_all = df_all[df_all['REC_USD_D60']>=0]
+        
+        #     # resample，如果是测试集不重采样，resample_rate=0
+        #     if resample_rate > 0:
+        #         negative_device_ids = pd.Series(df_all[df_all['REC_USD_D60'] == 0]['DEVICE_ID'].unique())
+        #         positive_device_ids = pd.Series(df_all[df_all['REC_USD_D60'] != 0]['DEVICE_ID'].unique())
+        
+        #         negative_count = len(negative_device_ids)
+        #         positive_count = len(positive_device_ids)
+        
+        #         # 取“实际负样本数”和“期望负样本数”的最小值
+        #         keep_negative_count = int(min(positive_count * resample_rate, negative_count))
+        #         keep_negative_device_ids = negative_device_ids.sample(n=keep_negative_count)
+        
+        #         device_ids_to_delete = negative_device_ids[~negative_device_ids.isin(keep_negative_device_ids)]
+        #         df_all = df_all[~df_all['DEVICE_ID'].isin(device_ids_to_delete)]
+        #         print('======')
+        #         print('negative_count', negative_count)
+        #         print('positive_count', positive_count)
+        #         print('after resample,df_all shape', df_all.shape)
+        
+        #     # 取出离散特征
+        #     df_all_cate = df_all.groupby(['DEVICE_ID', 'BEGIN_TIME_US'], as_index=False).first().copy()
+        #     df_all_cate = df_all_cate[category_col_list]
+        
+        #     if is_test is False:
+        #         # 取出训练标识特征
+        #         df_flag = df_all.groupby(['DEVICE_ID', 'BEGIN_TIME_US'], as_index=False).first().copy()
+        #         df_flag = df_flag[['train_flag_15', 'train_flag_30', 'train_flag_60']]
+        #         return df_all, df_all_cate, df_flag
+        #     else:
+        #         df_flag = pd.DataFrame(np.ones((len(df_all_cate), 3)), columns=['train_flag_15', 'train_flag_30', 'train_flag_60'])
+        #         return df_all, df_all_cate, df_flag
+        # def custom_quantile_binning(y, n_neg_bins=2, n_pos_bins=3, is_test=False, bin_data=None, edge=None):
+        #     y = pd.Series(y, name='REC_USD_AVG')
+        #     bins = pd.Series(np.zeros(len(y)), index=y.index)  # 初始化为 0 桶
+        
+        #     # 分负数桶
+        #     neg_mask = y < 0
+        #     if neg_mask.sum() >= n_neg_bins:
+        #         neg_bins, neg_bins_edge = pd.qcut(y[neg_mask], q=n_neg_bins, labels=False, duplicates='drop', retbins=True)
+        #         bins[neg_mask] = -(neg_bins + 1)
+        
+        #     # 分正数桶
+        #     pos_mask = y > 0
+        #     if pos_mask.sum() >= n_pos_bins:
+        #         pos_bins, pos_bins_edge = pd.qcut(y[pos_mask], q=n_pos_bins, labels=False, duplicates='drop', retbins=True)
+        #         bins[pos_mask] = pos_bins
+        
+        #     # 标签重构，适用于分类
+        #     bins = (bins - bins.min()).astype(int)
+        #     bins = pd.Series(bins, name='bins')
+        
+        #     min_bin_list = np.array(range(n_neg_bins))
+        #     max_bin_list = np.array(range(n_neg_bins, n_neg_bins + n_pos_bins))
+        
+        #     # 计算每一个分桶的均值
+        #     if is_test == False:
+        #         data = pd.concat([y, bins], axis=1)
+        #         min_bins = data[data['bins'].isin(min_bin_list)].groupby('bins')['REC_USD_AVG'].min()
+        #         max_bins = data[data['bins'].isin(max_bin_list)].groupby('bins')['REC_USD_AVG'].quantile(0.75)
+        #         bin_data = pd.concat([min_bins, max_bins]).sort_index()
+        #         # print(f"min_bin_list:{min_bin_list}; max_bin_list:{max_bin_list}；bin_data:{bin_data.to_dict()}")
+        #         edge = np.concatenate([np.array([-np.inf]), neg_bins_edge[1:-1], np.array([0]), pos_bins_edge[1:-1], np.array([np.inf])])
+        #         return bins, bin_data.to_dict(), edge
+        #     else:
+        #         bins = pd.cut(y, bins=edge, labels=[i for i in range(n_neg_bins-1,-1,-1)] + [i for i in range(n_neg_bins, n_neg_bins+n_pos_bins)], right=False)
+        #         return bins, bin_data, edge
+        
+        
+        # n_neg_bins = 8
+        # n_pos_bins = 14
+        
+        
+        # def Y_data_process(df_all, is_test, Y_scaler_train):
+        #     # 只保留必要列（根据你的需求可调整）
+        #     df_Y = df_all[['DEVICE_ID', 'BEGIN_TIME_US','REC_USD_D6','REC_USD_D15','REC_USD_D30','REC_USD_D60']]
+        #     df_Y = df_Y.fillna(0)
+        
+        #     # 按 device_id 分组后计算 rec_usd_d60 的均值
+        #     df_Y_result = df_Y.groupby(
+        #         ['DEVICE_ID', 'BEGIN_TIME_US'], 
+        #         as_index=False,
+        #         sort=False
+        #     ).agg(
+        #         REC_USD_D60_AVG=('REC_USD_D60', 'mean'),
+        #         REC_USD_D30_AVG=('REC_USD_D30', 'mean'),
+        #         REC_USD_D15_AVG=('REC_USD_D15', 'mean'),
+        #         # REC_USD_D6_AVG=('REC_USD_D6', 'mean'),
+        #     )
+        #     # print(f"======总训练样本量：{df_Y_result.shape[0]}")
+        
+        #     if is_test == False:
+        #         return df_Y_result[['REC_USD_D60_AVG', 'REC_USD_D30_AVG', 'REC_USD_D15_AVG']]
+        #     else:
+        #         return df_Y_result[['REC_USD_D60_AVG', 'REC_USD_D30_AVG', 'REC_USD_D15_AVG']]
+        
+        
+        # def U_data_process(df_all, U_col_list, timestep):
+        #     df_U = df_all[U_col_list]
+        #     print('before Standardlization,U shape', df_U.shape)
+        
+        #     # log变换
+        #     epsilon = 1
+        #     df_U['deposit_amount_log'] = np.log(df_U['DEPOSIT_AMOUNT'] + epsilon)
+        #     df_U = df_U.drop(['DEPOSIT_AMOUNT'], axis=1)
+        
+        #     U = df_U.values
+        #     U = U.reshape(-1, timestep, U.shape[-1])
+        #     print('after Standardlization,U shape', U.shape)
+        #     return U
+        
+        
+        # if torch.cuda.is_available():
+        #     print("CUDA is available. You can use GPU.")
+        # else:
+        #     print("CUDA is not available. You may need to install it or your hardware doesn't support it.")
+        # device = torch.device('cpu')
+        
+        
+        # def split_train_val_data(day, n=7):
+        #     convert_day = datetime.strptime(day, '%Y-%m-%d').date()
+        
+        #     val_begin_date = (convert_day - timedelta(n + 49)).strftime('%Y-%m-%d')
+        #     val_end_date = (convert_day - timedelta(50)).strftime('%Y-%m-%d')
+        #     print(f"val_begin_date: {val_begin_date}, val_end_date: {val_end_date}")
+        
+        #     train_end_date = (convert_day - timedelta(n + 50)).strftime('%Y-%m-%d')
+        #     train_begin_date = (convert_day - timedelta(n + 100)).strftime('%Y-%m-%d')
+        #     print(f"train_end_date: {train_end_date}, train_start_date: {train_begin_date}")
+        
+        #     test_end_date = (datetime.strptime(day, "%Y-%m-%d") + timedelta(days=6)).strftime("%Y-%m-%d")
+        #     test_begin_date = datetime.strptime(day, '%Y-%m-%d').strftime("%Y-%m-%d")
+        #     print(f"test_end_date: {test_end_date}, test_start_date: {test_begin_date}")
+        
+        #     statement = f"""
+        #         select * from production_dataai._stage_marketing.fact_pltv_pred_result_re_v1
+        #         where ((install_time between '{train_begin_date}' and '{val_end_date}') or (install_time between '{test_begin_date}' and '{test_end_date}')) and os='ios' and tdate_rn<=7 and app_name='Solitaire Clash'
+        #         order by device_id,begin_time_us,tdate_rn
+        #     """
+        
+        #     data = session.sql(statement).to_pandas()
+        #     data['INSTALL_TIME'] = data['INSTALL_TIME'].astype(str)
+        #     data, embedding_info = category_encoder(data, category_col_list)
+        
+        #     val_data = data[(data.INSTALL_TIME >= val_begin_date) & (data.INSTALL_TIME <= val_end_date) & (data.TDATE_RN<=7)]
+        #     test_data = data[(data.TDATE_RN <= 7) & (data.INSTALL_TIME >= test_begin_date) & (data.INSTALL_TIME <= test_end_date)]
+        #     train_data = data[(data.INSTALL_TIME >= train_begin_date) & (data.INSTALL_TIME <= train_end_date) & (data.TDATE_RN <= 7)]
+        
+        #     train_data['train_flag_15'], train_data['train_flag_30'], train_data['train_flag_60'] = 1, 1, 1
+        
+        #     # print(f"train_data line is : {len(train_data) / 7}, val_data line is : {len(val_data) / 7}, test_data line is : {len(test_data) / 7}")
+        #     return train_data, val_data, test_data, embedding_info
+        # class SEBlock(nn.Module):
+        #     def __init__(self, in_channels, reduction_ratio=16):
+        #         """
+        #         Squeeze-and-Excitation Block for 3D input with shape [batch_size, channels, length].
+        
+        #         Args:
+        #             in_channels (int): 输入的通道数。
+        #             reduction_ratio (int): 用于降维的比例，默认是16。
+        #         """
+        #         super(SEBlock, self).__init__()
+        
+        #         # 确保维度至少为 1
+        #         self.fc1 = nn.Linear(in_channels, max(in_channels // reduction_ratio, 1))
+        #         self.fc2 = nn.Linear(max(in_channels // reduction_ratio, 1), in_channels)
+        
+        #     def forward(self, x):
+        #         batch_size, channels, length = x.size()
+        
+        #         # Squeeze: 全局平均池化，得到 [batch_size, channels]
+        #         squeezed = x.mean(dim=2)  # [batch_size, channels]
+        
+        #         # Excitation: 通过两个全连接层计算通道权重
+        #         excited = F.relu(self.fc1(squeezed))  # [batch_size, channels // reduction_ratio]
+        #         excited = torch.sigmoid(self.fc2(excited))  # [batch_size, channels]
+        
+        #         # Scale: 将权重应用到原始输入
+        #         excited = excited.view(batch_size, channels, 1)  # [batch_size, channels, 1]
+        #         output = x * excited  # [batch_size, channels, length]
+        #         return output
+        
+        
+        # class DNN(nn.Module):
+        #     def __init__(self, input_size, output_size, hidden_size):
+        #         super(DNN, self).__init__()
+        #         self.fc1 = nn.Linear(input_size, hidden_size)
+        #         self.fc2 = nn.Linear(hidden_size, output_size)
+        #         self.relu = nn.ReLU()
+        #         self.dropout = nn.Dropout(0.1)
+        
+        #     def forward(self, x):
+        #         out = self.fc1(x)
+        #         out = self.relu(out)
+        #         out = self.dropout(out)
+        #         out = self.fc2(out)
+        #         return out
+        
+        
+        # class ZilnNet(nn.Module):
+        #     def __init__(self, embedding_info, feature_dim=len(U_col_list), embed_dim=64, hidden_dim=64, dropout_rate=0.2, out_dim=3):
+        #         super(ZilnNet, self).__init__()
+        
+        #         self.fc1 = nn.Linear(feature_dim, feature_dim)
+        #         self.relu = nn.ReLU()
+        #         self.gate = nn.Linear(out_dim, out_dim)
+        
+        #         self.feature_dim = feature_dim
+        #         self.lstm = nn.LSTM(
+        #             input_size=feature_dim,
+        #             hidden_size=hidden_dim,
+        #             batch_first=True
+        #         )
+        
+        #         self.embeddings = nn.ModuleDict({col: nn.Embedding(num_classes, embed_dim) for col, num_classes in embedding_info.items()})
+        
+        #         self.dropout = nn.Dropout(dropout_rate)
+        #         self.embed_dropout = nn.Dropout(dropout_rate)
+        #         self.layer_norm = nn.LayerNorm(hidden_dim)
+        #         self.embed_layer_norm = nn.LayerNorm(embed_dim)
+        #         self.dense1 = DNN(hidden_dim, embed_dim, hidden_dim)
+        #         self.dense2 = DNN(embed_dim * len(embedding_info), embed_dim, hidden_dim)
+        #         self.task = DNN(embed_dim * 2, out_dim, hidden_dim)
+        
+        #         # 权重初始化
+        #         # self.apply(self._init_weights)
+        
+        #     def _init_weights(self, module):
+        #         """ Initialize the weights """
+        #         if isinstance(module, (nn.Linear, nn.Embedding)):
+        #             module.weight.data.normal_(mean=0.0, std=0.02)
+        #         elif isinstance(module, nn.LayerNorm):
+        #             module.bias.data.zero_()
+        #             module.weight.data.fill_(1.0)
+        #         if isinstance(module, nn.Linear) and module.bias is not None:
+        #             module.bias.data.zero_()
+        
+        #     def forward(self, x, x_cate, device):
+        #         x1, x2 = x.to(device), x_cate.to(device)
+        
+        #         # x1 = SEBlock(x1.size(1))(x1)
+        #         # x1 = self.relu(x1)
+        #         # x1 = self.dropout(x1)
+        
+        #         x1, _ = self.lstm(x1)
+        #         x1 = x1[:, -1, :]
+        #         x1 = self.relu(x1)
+        #         x1 = self.layer_norm(x1)
+        #         x1 = self.dense1(x1)
+        
+        #         x2 = [self.embed_dropout(self.embeddings[col](x2[:, idx])) for idx, col in enumerate(embedding_info)]
+        #         x2 = [self.embed_layer_norm(embedding) for embedding in x2]
+        #         x2 = torch.cat(x2, dim=-1)
+        #         x2 = self.dense2(x2)
+        
+        #         x = torch.cat([x1, x2], dim=-1)
+        #         logits = self.task(x)
+        #         return logits
+        
+        #     def predict(self, logits):
+        #         y_preds = self.zero_inflated_lognormal_pred(logits)
+        #         return y_preds
+        
+        #     def calculate_loss(self, labels, logits):
+        #         # calculate loss for training
+        #         loss = self.zero_inflated_lognormal_loss(labels, logits).mean()
+        #         return loss
+        
+        #     def zero_inflated_lognormal_pred(self, logits):
+        #         positive_probs = torch.sigmoid(logits[..., :1])
+        #         loc = logits[..., 1:2]
+        #         scale = torch.nn.functional.softplus(logits[..., 2:])
+        #         preds = positive_probs * torch.exp(loc + 0.5 * scale**2)
+        #         return preds
+        
+        #     def zero_inflated_lognormal_loss(self, labels, logits, eps=1e-6):
+        #         # [batch_size, 1] label > 0 mask
+        #         positive_mask = (labels > 0).float().unsqueeze(1)
+        
+        #         # -------- Binary Classification Loss --------
+        #         logit_zero_or_positive = logits[:, 0:1]  # [batch_size, 1]
+        #         classification_loss = F.binary_cross_entropy_with_logits(
+        #             logit_zero_or_positive, positive_mask, reduction='mean'
+        #         )
+        
+        #         # -------- LogNormal Regression Loss --------
+        #         loc = logits[:, 1:2]  # [batch_size, 1]
+        #         raw_scale = logits[:, 2:3]
+        #         scale = torch.max(F.softplus(raw_scale),
+        #                           torch.tensor(torch.finfo(torch.float32).eps, device=logits.device))
+        
+        #         # Avoid log(0) by clamping
+        #         safe_labels = labels.clamp(min=eps).unsqueeze(1)
+        
+        #         # Compute log-prob of positive values only
+        #         lognormal = tdist.LogNormal(loc=loc, scale=scale)
+        #         log_prob = lognormal.log_prob(safe_labels)
+        
+        #         # Only keep loss for positive samples
+        #         regression_loss = -torch.sum(positive_mask * log_prob) / (positive_mask.sum() + eps)
+        #         return classification_loss + regression_loss
+        # class PortraitDataset(torch.utils.data.Dataset):
+        #     def __init__(self, x, x_cate, x_flag, y_pre):
+        #         self.x = torch.tensor(x, dtype=torch.float32)
+        #         self.x_cate = torch.tensor(x_cate.values, dtype=torch.long)
+        #         self.x_flag = torch.tensor(x_flag.values, dtype=torch.long)
+        #         self.y_pre = {f"D{day}_pre": torch.tensor(y_pre.iloc[:, idx], dtype=torch.float32) for idx, day in enumerate([60,30,15])}
+        
+        #     def __len__(self):
+        #         return len(self.x)
+        
+        #     def __getitem__(self, idx):
+        #         feature = self.x[idx]
+        #         cate_feature = self.x_cate[idx]
+        #         flag = self.x_flag[idx]
+        #         re_label = {k: v[idx] for k, v in self.y_pre.items()}
+        #         return feature, cate_feature, flag, re_label
+        
+        
+        # loss_max = 1000000
+        
+        
+        # def TrainAndTest(train_loader, val_loader, test_loader, model, device, max_epochs):
+        #     net = model
+        #     optimizer = torch.optim.AdamW(net.parameters(), lr=1e-4)
+        #     scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=10, gamma=0.5)
+        
+        #     loss_max = 1000000
+        #     val_error_max = 10
+        
+        #     print('-------- training start: PortraitNet, day is {}'.format(day))
+        #     net.train()
+        
+        #     for epoch in range(0, max_epochs):
+        #         val_pred_sum, val_true_sum = 0, 0
+        #         pbar = tqdm(enumerate(train_loader), total=len(train_loader), desc=f"Epoch {epoch+1}/{max_epochs}")
+        #         net.train()
+        
+        #         for (batch_idx, batch) in pbar:
+        #             (X, X_cate, X_flag, y_pre) = batch
+        #             logits = net(X, X_cate, device)
+        #             loss = net.calculate_loss(y_pre['D60_pre'], logits)
+        
+        #             # 反向传播
+        #             optimizer.zero_grad()
+        #             loss.backward()
+        
+        #             # 更新参数
+        #             optimizer.step()
+        
+        #         scheduler.step()
+        
+        #         net.eval()
+        #         val_pred_sum = 0
+        #         val_true_positive_sum = 0
+        #         val_true_negative_sum = 0
+        #         val_loss_total = 0
+        #         for (batch_idx, batch) in enumerate(val_loader):
+        #             (X, X_cate, X_flag, y_pre) = batch
+        #             logits = net(X, X_cate, device)
+        #             loss = net.calculate_loss(y_pre['D60_pre'], logits)
+        #             val_loss_total = val_loss_total + loss
+        
+        #             preds = net.predict(logits)
+        
+        #             # 筛选出正数并求和
+        #             val_true_positive_sum = val_true_positive_sum + y_pre['D60_pre'][y_pre['D60_pre'] > 0].sum().item()
+        
+        #             # 筛选出负数并求和
+        #             val_true_negative_sum = val_true_negative_sum + y_pre['D60_pre'][y_pre['D60_pre'] < 0].sum().item()
+                    
+        #             val_pred_sum = val_pred_sum + torch.sum(preds).item()
+        
+        #         val_true_sum = val_true_positive_sum + val_true_negative_sum
+        #         val_error_rate = abs(val_true_sum - val_pred_sum) * 1.0 / val_true_sum
+        #         val_loss_avg = val_loss_total / len(val_loader)
+        #         print(f"Val Metric: epoch：{epoch}, val_loss：{val_loss_avg}, loss_max:{loss_max}, val_error_rate:{val_error_rate}, val_pred_sum:{val_pred_sum}, val_true_sum:{val_true_sum},val_true_positive_sum:{val_true_positive_sum}, val_true_negative_sum:{val_true_negative_sum}")
+        
+        #         if val_error_rate < val_error_max:
+        #             torch.save(net, f'ckpt/Ziln-{day}.pth')
+        #             loss_max = val_loss_avg
+        #             val_error_max = val_error_rate
+        
+        #     print("--- training ended ")
+        
+        #     net = torch.load(f'ckpt/Ziln-{day}.pth')
+        #     net.eval()
+        #     test_pred_sum, test_true_sum, test_pred, test_true = 0, 0, [], []
+        
+        #     test_pred_sum = 0
+        #     test_true_positive_sum = 0
+        #     test_true_negative_sum = 0
+        #     for (batch_idx, batch) in enumerate(test_loader):
+        #         (X, X_cate, X_flag, y_pre) = batch
+        #         logits = net(X, X_cate, device)
+        #         test_true.extend(y_pre['D60_pre'].tolist())
+        #         preds = net.predict(logits)
+        #         test_pred.extend(preds.tolist()[0])
+        
+        #         # 筛选出正数并求和
+        #         test_true_positive_sum = test_true_positive_sum + y_pre['D60_pre'][y_pre['D60_pre'] > 0].sum().item()
+        
+        #         # 筛选出负数并求和
+        #         test_true_negative_sum = test_true_negative_sum + y_pre['D60_pre'][y_pre['D60_pre'] < 0].sum().item()
+        
+        #         test_pred_sum = test_pred_sum + torch.sum(preds).item()
+        
+        #     test_true_sum = test_true_positive_sum + test_true_negative_sum
+        
+        #     test_error_rate = abs(test_true_sum - test_pred_sum) * 1.0 / test_true_sum
+        #     print(f"test_true_sum:{test_true_sum}, test_pred_sum:{test_pred_sum}, test_error_rate:{test_error_rate}, test_positive_sum:{test_true_positive_sum},test_negative_sum:{test_true_negative_sum}")
+        #     result = pd.DataFrame(list(zip(test_true, test_pred)), columns = ['true', 'pred'])
+        #     return test_true_sum, test_pred_sum, test_error_rate, result
+        # days = pd.date_range(start="2024-11-18", end="2024-12-16", freq='W-MON').strftime('%Y-%m-%d').tolist()
+        # # days = ["2024-08-05"]
+        # date_list, d6_actual_val_list, d60_actual_val_list, d60_pred_val_list, d60_d6_actual_list,d60_d6_pred_list,error_rate_list = [],[],[],[],[],[],[]
+        # NRMSE, GINI, NormGINI, SPEARMAN = [], [], [], []
+        
+        # for day in days:
+        #     print(f"------------------test date is {day}--------------------")
+        #     df_train, df_val, df_test, embedding_info = split_train_val_data(day, n=7)
+        
+        #     model = ZilnNet(embedding_info=embedding_info, feature_dim=len(U_col_list), embed_dim=16, hidden_dim=64, dropout_rate=0.1, out_dim=3)
+        
+        #     df_train, df_train_cate, df_train_flag = load_data(df_train, 0, is_test=False)
+        #     Y_pre = Y_data_process(df_train, is_test=False, Y_scaler_train=None)
+        #     U_train = U_data_process(df_train, U_col_list, timestep=7)
+        
+        #     df_val, df_val_cate, df_val_flag = load_data(df_val, 0, is_test=True)
+        #     Y_pre_val = Y_data_process(df_val, is_test=True, Y_scaler_train=None)
+        #     U_val = U_data_process(df_val, U_col_list, timestep=7)
+        
+        #     df_test, df_test_cate, df_test_flag = load_data(df_test, 0, is_test=True)
+        #     Y_pre_test = Y_data_process(df_test, is_test=True, Y_scaler_train=None)
+        #     U_test = U_data_process(df_test, U_col_list, timestep=7)
+        
+        #     train_set = PortraitDataset(U_train, df_train_cate, df_train_flag, Y_pre)
+        #     val_set = PortraitDataset(U_val, df_val_cate, df_val_flag, Y_pre_val)
+        #     test_set = PortraitDataset(U_test, df_test_cate, df_test_flag, Y_pre_test)
+        
+        #     train_loader = DataLoader(train_set, batch_size=1024, shuffle=True)
+        #     val_loader = DataLoader(val_set, batch_size=128, shuffle=True)
+        #     test_loader = DataLoader(test_set, batch_size=128, shuffle=False)
+        
+        #     test_true_sum, test_pred_sum, test_error_rate, result = TrainAndTest(train_loader, val_loader, test_loader, model=model, device=device, max_epochs=10)
+        #     print(f"test_true_sum:{test_true_sum}, test_pred_sum:{test_pred_sum}, test_error_rate:{test_error_rate}")
+        
+        #     tmp = df_test[['DEVICE_ID', 'BEGIN_TIME_US', 'REC_USD_D6']].groupby(['DEVICE_ID', 'BEGIN_TIME_US'],as_index=False).agg(D6_MEAN=('REC_USD_D6', 'mean'))
+        
+        #     # 计算评估指标
+        #     nrmse = _normalized_rmse(y_pred=result['pred'], y_true=result['true'])
+        #     gain = pd.DataFrame({
+        #         'lorenz': cumulative_true(result['true'], result['true']),
+        #         'model': cumulative_true(result['true'], result['pred'])
+        #     })
+        #     num_customers = np.float32(gain.shape[0])
+        #     gain['cumulative_customer'] = (np.arange(num_customers) + 1.) / num_customers
+        #     gini = gini_from_gain(gain[['lorenz', 'model']])
+        #     spr_all, spr_positive = corr_zero_inflate(result['true'], result['pred'])
+        
+        #     NRMSE.append(nrmse)
+        #     GINI.append(gini.iloc[1, 0])
+        #     NormGINI.append(gini.iloc[1, 1])
+        #     SPEARMAN.append(spr_all)
+        
+        #     date_list.append(day)
+        #     d6_actual_val_list.append(tmp['D6_MEAN'].sum())
+        #     d60_actual_val_list.append(test_true_sum)
+        #     d60_pred_val_list.append(test_pred_sum)
+        #     d60_d6_actual_list.append(test_true_sum/tmp['D6_MEAN'].sum())
+        #     d60_d6_pred_list.append(test_pred_sum/tmp['D6_MEAN'].sum())
+        #     error_rate_list.append(test_error_rate)
+        
+        # show_df = pd.DataFrame(list(zip(date_list, d6_actual_val_list, d60_actual_val_list, d60_pred_val_list, d60_d6_actual_list, d60_d6_pred_list, error_rate_list, NRMSE, GINI, NormGINI, SPEARMAN)), 
+        #                        columns = ['WEEK', 'D6_REC', 'D60_REC_TRUE', 'D60_REC_PRED', 'D60_D6_ACTUAL', 'D60_D6_PRED', 'ERROR_RATE', 'NRMSE', 'GINI', 'NORM_GINI', 'SPEARMAN'])'''
+
+baseline_performance:
+  Deep & Cross Network: 0.68
+  GateNet: 0.66
+
+
+  
+

@@ -1,0 +1,595 @@
+/* Tree Search Explorer Styles */
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    color: #333;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Loading Screen */
+.loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.loading-content {
+    text-align: center;
+    color: white;
+}
+
+.loading-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(255,255,255,0.3);
+    border-top: 5px solid white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Main Application */
+.app {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: #f8f9fa;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Header */
+.header {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    color: white;
+    padding: 1rem 2rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    z-index: 1000;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.header h1 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+.header-controls {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.search-run-selector {
+    padding: 0.5rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: white;
+    color: #333;
+    font-size: 0.9rem;
+    min-width: 200px;
+}
+
+/* Buttons */
+.btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 500;
+}
+
+.btn-primary {
+    background: #3498db;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #2980b9;
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background: #95a5a6;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #7f8c8d;
+    transform: translateY(-1px);
+}
+
+.btn-sm {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.8rem;
+}
+
+/* Main Content Grid */
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    gap: 1rem;
+    overflow: hidden;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* Top Section: Breakthrough + Node Details */
+.top-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    height: 50%;
+    min-height: 400px;
+}
+
+/* Breakthrough Plot */
+.breakthrough-plot-container {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+.breakthrough-plot-container h3 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+}
+
+.breakthrough-plot {
+    flex: 1;
+    min-height: 250px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background: #fafafa;
+}
+
+.plot-stats {
+    margin-top: 1rem;
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.plot-stats span {
+    background: #f8f9fa;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    color: #555;
+    border: 1px solid #e0e0e0;
+}
+
+/* Node Details Panel */
+.node-details-container {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.node-details-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.node-details-header h3 {
+    color: #2c3e50;
+    font-size: 1.2rem;
+}
+
+.node-badges {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.badge {
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.badge.success {
+    background: #2ecc71;
+    color: white;
+}
+
+.badge.error {
+    background: #e74c3c;
+    color: white;
+}
+
+.badge.score {
+    background: #3498db;
+    color: white;
+}
+
+.node-details-content {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.details-section h4 {
+    color: #34495e;
+    font-size: 1rem;
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+}
+
+.summary-content {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    border-left: 4px solid #3498db;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    white-space: pre-line;
+}
+
+.metadata-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 0.8rem;
+}
+
+.metadata-item {
+    background: #f8f9fa;
+    padding: 0.8rem;
+    border-radius: 6px;
+    border: 1px solid #e0e0e0;
+}
+
+.metadata-label {
+    font-size: 0.8rem;
+    color: #666;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+}
+
+.metadata-value {
+    font-size: 0.9rem;
+    color: #333;
+    font-weight: 500;
+}
+
+/* Bottom Section: Tree + Code Diff */
+.bottom-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    height: 50%;
+    min-height: 400px;
+}
+
+/* Tree Visualization */
+.tree-visualization-container {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.tree-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.tree-header h3 {
+    color: #2c3e50;
+    font-size: 1.2rem;
+}
+
+.tree-controls {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.tree-visualization {
+    flex: 1;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background: #fafafa;
+    position: relative;
+    overflow: hidden;
+}
+
+.tree-legend {
+    margin-top: 1rem;
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: #555;
+}
+
+.legend-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid #333;
+}
+
+.legend-color.breakthrough {
+    background: #2ecc71;
+}
+
+.legend-color.regular {
+    background: #9b59b6;
+}
+
+.legend-color.selected {
+    background: #f39c12;
+}
+
+.legend-color.failed {
+    background: #e74c3c;
+}
+
+/* Code Comparison */
+.code-comparison-container {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.code-comparison-container h3 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+.code-comparison-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.code-panel-title {
+    background: #34495e;
+    color: white;
+    padding: 0.8rem;
+    border-radius: 6px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.code-comparison-content {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    min-height: 200px;
+}
+
+.code-panel {
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.code-editor {
+    height: 100%;
+    min-height: 200px;
+    font-family: 'Monaco', 'Consolas', 'Courier New', monospace;
+    font-size: 12px;
+    background: #f8f9fa;
+}
+
+.code-comparison-footer {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.diff-stats {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.diff-stats span {
+    background: #f8f9fa;
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    color: #555;
+    border: 1px solid #e0e0e0;
+}
+
+/* Tree Visualization Specific Styles */
+/* Tree visualization styles - Updated for improved design */
+.tree-node {
+    cursor: pointer;
+}
+
+/* Note: Node colors are now handled dynamically via JavaScript for score-based gradients */
+
+.tree-link {
+    fill: none;
+    /* Link colors are now handled dynamically via JavaScript */
+}
+
+.tree-node-label {
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 11px;
+    text-anchor: middle;
+    font-weight: bold;
+    fill: white;
+    pointer-events: none;
+}
+
+.tree-node-score {
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 10px;
+    text-anchor: middle;
+    fill: #333;
+    pointer-events: none;
+}
+
+/* Modal */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+}
+
+.modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+}
+
+.modal-content h3 {
+    color: #e74c3c;
+    margin-bottom: 1rem;
+}
+
+.modal-content p {
+    margin-bottom: 1.5rem;
+    color: #555;
+    line-height: 1.6;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .main-content {
+        padding: 0.5rem;
+    }
+    
+    .top-section,
+    .bottom-section {
+        grid-template-columns: 1fr;
+        height: auto;
+    }
+    
+    .app {
+        height: auto;
+        min-height: 100vh;
+    }
+    
+    .main-content {
+        overflow: visible;
+    }
+}
+
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .header-controls {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .search-run-selector {
+        min-width: 250px;
+    }
+    
+    .plot-stats,
+    .diff-stats {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .tree-controls {
+        flex-wrap: wrap;
+    }
+    
+    .code-comparison-footer {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}

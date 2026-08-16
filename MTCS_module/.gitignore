@@ -1,0 +1,244 @@
+# Scientific AI System - GitIgnore
+
+# ============================================
+# Python
+# ============================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# ============================================
+# Virtual Environments
+# ============================================
+venv/
+ENV/
+env/
+.venv
+.conda/
+conda-meta/
+
+# ============================================
+# Jupyter Notebook
+# ============================================
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+profile_default/
+ipython_config.py
+
+# ============================================
+# IDEs and Editors
+# ============================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.sublime-workspace
+*.sublime-project
+
+# ============================================
+# System Files
+# ============================================
+Thumbs.db
+desktop.ini
+.directory
+.Trash-*
+*.bak
+*.tmp
+*.temp
+
+# ============================================
+# Logs and Outputs
+# ============================================
+*.log
+*.out
+*.err
+logs/
+log/
+nohup.out
+
+# ============================================
+# Databases (except example)
+# ============================================
+*.db
+*.sqlite
+*.sqlite3
+!official_run_v5_test.db
+results_database/
+results_enhanced/
+
+# ============================================
+# Machine Learning Models
+# ============================================
+# Large pretrained models
+xlm-roberta-*/
+bert-*/
+gpt-*/
+t5-*/
+*.pt
+*.pth
+*.ckpt
+*.h5
+*.pkl
+*.pickle
+*.joblib
+*.model
+*.bin
+
+# CatBoost temporary files
+catboost_info/
+*.catboost
+*.cbm
+
+# TensorBoard
+events.out.tfevents.*
+tensorboard_logs/
+
+# ============================================
+# Data Files
+# ============================================
+# Keep example data, ignore large datasets
+data/raw/
+data/processed/
+data/external/
+*.csv.gz
+*.parquet
+*.feather
+*.hdf5
+*.h5py
+
+# Keep small example files
+!data/sample_submission.csv
+!data/test.csv
+!data/train.csv
+!data/full_dataset.csv
+
+# ============================================
+# Results and Outputs
+# ============================================
+results/
+outputs/
+submissions/
+predictions/
+checkpoints/
+saved_models/
+
+# Keep examples directory structure
+!results/.gitkeep
+!outputs/.gitkeep
+
+# ============================================
+# Temporary and Cache Files
+# ============================================
+.cache/
+*.cache
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+*.cover
+.hypothesis/
+
+# ============================================
+# Project Specific
+# ============================================
+# Execution code directory (generated at runtime)
+core/sandbox/exe_code/*.py
+!core/sandbox/exe_code/.gitkeep
+!core/sandbox/exe_code/README.md
+
+# JSON result files
+/tmp/ai_result_*.json
+*.manual.json
+
+# Backup files
+*.backup_*
+*_backup
+*_old
+
+# Temporary directories
+tmp/
+temp/
+scratch/
+grocery/
+
+# ============================================
+# Environment and Secrets
+# ============================================
+.env
+.env.local
+.env.*.local
+*.key
+*.pem
+secrets/
+credentials/
+config.local.yaml
+
+# ============================================
+# Documentation (generated)
+# ============================================
+docs/_build/
+docs/.doctrees/
+site/
+htmldocs/
+
+# ============================================
+# OS Generated
+# ============================================
+# Linux
+*~
+.fuse_hidden*
+.nfs*
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ============================================
+# Testing
+# ============================================
+test_*.db
+test_output/
+coverage.xml
+*.coverage
+
+# ============================================
+# Miscellaneous
+# ============================================
+*.zip
+*.tar
+*.tar.gz
+*.rar
+*.7z
+node_modules/
+package-lock.json

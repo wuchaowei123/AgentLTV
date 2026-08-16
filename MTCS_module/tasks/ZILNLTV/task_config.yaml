@@ -1,0 +1,51 @@
+domain: "Machine Learning"
+task_name: "ZILNLTV"
+description: |
+  Our goal is to predict a user's potential cumulative spending over a year based on their first purchase information. This is a regression problem.
+    - Both training and test data are tabular data, with an "id" column distinguishing different users, and each row representing all data for one user.
+    -There are two CSV files: ZILNtrain.csv (training set) and ZILNtest.csv (test set).
+    
+Data Description: |
+    The CSV file contains the following columns: id, First purchase date (date of first purchase), First purchase amount (cumulative amount of first purchase), Quantity of goods purchased (quantity of goods purchased in the first purchase), chains (an array representing all chains purchased by the user in the first purchase), depts, categories, companies, brands, productsizes, productmeasures, purchasequantitys, and purchaseamounts. These are processed similarly to chains and are obtained by concatenating the corresponding columns. The meanings of the elements in these arrays are as follows: chain - An integer representing a store chain; dept - An aggregate grouping of the Category (e.g., water); category - The product category (e.g., sparkling water); company - An id of the company that sells the item; brand - An id of the brand to which the item belongs; productsize - The amount of the product purchase (e.g., 16 oz of water); productmeasure - The units of the product purchase (e.g., ounces); purchasequantity - The number of units purchased; purchaseamount - The dollar amount of the purchase and LTV label (representing the prediction label, indicating the total cumulative purchase amount of a user in the year following their first purchase. For example, for user 86246, whose first purchase date is March 2, 2012, the sum of all purchase amounts from March 2, 2012 to March 2, 2013 would be used as the value of this column)
+
+evaluation_metric: | 
+    Spearman’s Correlation,this is how it's calculated(python code):
+    SPEARMAN = spearmanr(labels, predicts)
+
+    
+higher_is_better: true
+
+secondary_metrics:
+  - "MSE"
+
+data_files:
+  train data: "/home/jupyter/luigi/LLM+决策树/scientific-ai-system/tasks/ZILNLTV/ZILNtrain.csv"
+  test data: "/home/jupyter/luigi/LLM+决策树/scientific-ai-system/tasks/ZILNLTV/ZILNtest.csv"
+
+
+code_requirements:
+  target_column: "LTV label"
+  prediction_format: "Numerical"
+  required_libraries: ["pandas", "scikit-learn", "numpy", "scipy",'torch']
+  
+
+
+
+research_ideas:
+  - "Use ensemble methods combining Random Forest and XGBoost"
+  - "Apply advanced feature engineering with polynomial features and interactions"
+  - "Handle class imbalance with SMOTE oversampling or class weights"
+  - "Implement stacking ensemble with diverse base models"
+  - "Use hyperparameter optimization with Bayesian optimization"
+  - "Apply feature selection techniques to identify most important sensors"
+  - "Consider time-based features if temporal patterns exist"
+
+
+
+baseline_performance:
+  Deep neural Network: 0.43
+  linear regression: 0.41
+
+
+  
+

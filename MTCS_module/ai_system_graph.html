@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universal Scientific AI System Architecture</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 300;
+            letter-spacing: -1px;
+        }
+        
+        .header p {
+            margin: 10px 0 0 0;
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .graph-container {
+            padding: 40px;
+            background: #fafafa;
+        }
+        
+        .mermaid {
+            text-align: center;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        
+        .legend {
+            margin-top: 30px;
+            padding: 25px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        
+        .legend h3 {
+            margin-top: 0;
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        
+        .legend-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 5px;
+            background: #f8f9fa;
+        }
+        
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 3px;
+            margin-right: 12px;
+            border: 1px solid #ddd;
+        }
+        
+        .phase-description {
+            margin-top: 30px;
+            padding: 25px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        
+        .phase-description h3 {
+            color: #2c3e50;
+            border-bottom: 2px solid #e74c3c;
+            padding-bottom: 10px;
+        }
+        
+        .phase-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .phase-item {
+            padding: 15px;
+            border-left: 4px solid #3498db;
+            background: #f8f9fa;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .phase-item h4 {
+            margin: 0 0 10px 0;
+            color: #2c3e50;
+        }
+        
+        .phase-item p {
+            margin: 0;
+            color: #555;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧠 Universal Scientific AI System</h1>
+            <p>LLM + Tree Search Architecture for Automated Scientific Software Discovery</p>
+        </div>
+        
+        <div class="graph-container">
+            <div class="mermaid">
+graph TD
+    %% Define Styles
+    classDef mainLoop fill:#e6f3ff,stroke:#333,stroke-width:2px;
+    classDef prepLoop fill:#fffbe6,stroke:#333,stroke-width:1px,stroke-dasharray: 5 5;
+    classDef promptNode fill:#d4edda,stroke:#155724,stroke-width:2px;
+    classDef llmNode fill:#f8d7da,stroke:#721c24,stroke-width:2px;
+    classDef outputNode fill:#f0f0f0,stroke:#555,stroke-width:1px;
+
+    %% =================================================================
+    %% == START: Human Setup & Preparatory Loops
+    %% =================================================================
+    
+    subgraph "Phase 1: Setup & Knowledge Preparation"
+        direction LR
+        
+        %% Human Input
+        UserInput[/"Human defines Scorable Task (e.g., Kaggle problem, data, metric)"/]
+        
+        %% Deep Research Path (Preparatory Loop)
+        subgraph "prepLoop1" [Preparation: Deep Research]
+            style prepLoop1 prepLoop
+            P5_Brainstorm["Use **Prompt 5**: Brainstorm Ideas"]:::promptNode
+            P5_Brainstorm --> LLM1(LLM):::llmNode
+            LLM1 --> ResearchIdea[Novel Research Idea]
+            
+            PDF[Scientific Paper] --> P6_Summarize
+            ResearchIdea --> P6_Summarize
+            P6_Summarize["Use **Prompt 6**: Summarize & Structure Idea"]:::promptNode
+            P6_Summarize --> LLM2(LLM):::llmNode
+            LLM2 --> StructuredIdea[Structured Research Idea]:::outputNode
+        end
+        
+        %% Recombination Path (Preparatory Loop)
+        subgraph "prepLoop2" [Preparation: Recombination]
+            style prepLoop2 prepLoop
+            SolutionA[Best Code from Search A]:::outputNode --> P7_Analyze
+            SolutionB[Best Code from Search B]:::outputNode --> P7_Analyze
+            P7_Analyze["Use **Prompt 7**: Analyze & Compare Solutions"]:::promptNode
+            P7_Analyze --> LLM3(LLM):::llmNode
+            LLM3 --> Analysis[Analysis of Differences]
+            Analysis --> P8_Hybrid["Use **Prompt 8**: Generate Hybrid Strategy"]:::promptNode
+            P8_Hybrid --> LLM4(LLM):::llmNode
+            LLM4 --> HybridCode[Hybrid Code for Kick-off]:::outputNode
+        end
+    end
+
+    %% =================================================================
+    %% == KICK-OFF: Root Node Generation
+    %% =================================================================
+    
+    UserInput --> ChoosePath{Choose Search Type}
+    
+    ChoosePath -- "Standard Search" --> P1_Kickoff
+    P1_Kickoff["Use **Prompt 1**: Kick-start Task (Baseline)"]:::promptNode
+    
+    ChoosePath -- "Guided Search" --> StructuredIdea
+    StructuredIdea --> P1_GuidedKickoff["Use **Prompt 1** + Structured Idea"]:::promptNode
+    
+    ChoosePath -- "Replication" --> P9_Replicate
+    P9_Replicate["Use **Prompt 9**: Replicate Existing Model"]:::promptNode
+    
+    ChoosePath -- "Recombination" --> HybridCode
+    HybridCode --> P1_HybridKickoff["Use Hybrid Code as Kick-off"]:::promptNode
+    
+    P1_Kickoff & P1_GuidedKickoff & P9_Replicate & P1_HybridKickoff --> LLM_Root(LLM):::llmNode
+    LLM_Root --> RootCode[Initial Code Generated]
+    RootCode --> EvalRoot["Execute & Score Initial Code in Sandbox"]
+    EvalRoot --> RootNode([Root Node Created]):::outputNode
+    
+    %% =================================================================
+    %% == MAIN LOOP: Iterative Improvement
+    %% =================================================================
+
+    RootNode --> SelectNode
+
+    subgraph "Phase 2: Main Tree Search Loop (N Iterations)"
+        style SelectNode mainLoop
+        style ExpandNode mainLoop
+        style P2_Mutate mainLoop
+        style EvalNew mainLoop
+        style UpdateTree mainLoop
+        style Backpropagate mainLoop
+
+        SelectNode["1. Select Node (using PUCT)"]
+        SelectNode --> ExpandNode["2. Expand Node"]
+        
+        ExpandNode --> P2_Mutate
+        P3_Advisory(["**Prompt 3**: General Advice"]) -- Optional --> P2_Mutate
+        P4_Advisory(["**Prompt 4**: Algorithmic Advice"]) -- Optional --> P2_Mutate
+        P2_Mutate["Generate prompt using **Prompt 2** Template (Iterative Mutation)"]:::promptNode
+        
+        P2_Mutate --> LLM_Mutate(LLM):::llmNode
+        LLM_Mutate --> NewCode[New Mutated Code]
+        
+        NewCode --> EvalNew["3. Evaluate New Code in Sandbox"]
+        EvalNew --> |Score| UpdateTree["4. Add New Node to Tree"]
+        UpdateTree --> Backpropagate["5. Backpropagate Visit Counts"]
+        Backpropagate --> SelectNode
+    end
+    
+    %% =================================================================
+    %% == END: Final Output
+    %% =================================================================
+
+    UpdateTree --> |If score is best so far| BestSolution([Best Solution Found]):::outputNode
+            </div>
+            
+            <div class="legend">
+                <h3>🎨 Component Legend</h3>
+                <div class="legend-grid">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #e6f3ff; border-color: #333;"></div>
+                        <span><strong>Main Loop Components</strong> - Core tree search operations</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #fffbe6; border: 1px dashed #333;"></div>
+                        <span><strong>Preparatory Loops</strong> - Knowledge preparation phases</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #d4edda; border-color: #155724;"></div>
+                        <span><strong>Prompt Nodes</strong> - LLM prompt templates</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #f8d7da; border-color: #721c24;"></div>
+                        <span><strong>LLM Nodes</strong> - Language model execution</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #f0f0f0; border-color: #555;"></div>
+                        <span><strong>Output Nodes</strong> - Generated results and data</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="phase-description">
+                <h3>🔄 System Phases Explained</h3>
+                <div class="phase-list">
+                    <div class="phase-item">
+                        <h4>Phase 1: Setup & Knowledge Preparation</h4>
+                        <p>Human defines the scorable task and the system optionally runs preparatory loops for deep research and solution recombination to gather domain knowledge and novel approaches.</p>
+                    </div>
+                    <div class="phase-item">
+                        <h4>Root Node Generation</h4>
+                        <p>Based on the chosen search type (Standard, Guided, Replication, or Recombination), the system generates an initial baseline solution to start the tree search.</p>
+                    </div>
+                    <div class="phase-item">
+                        <h4>Phase 2: Main Tree Search Loop</h4>
+                        <p>Iterative PUCT-based tree search that selects promising nodes, expands them with LLM-generated mutations, evaluates code in sandbox, and backpropagates results.</p>
+                    </div>
+                    <div class="phase-item">
+                        <h4>Final Output</h4>
+                        <p>The system continuously tracks the best-performing solution and outputs the final optimized code that achieves the highest score on the defined metric.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            }
+        });
+    </script>
+</body>
+</html>

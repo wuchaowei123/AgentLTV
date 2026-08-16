@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tree Search Standalone Viewer</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+        }
+        #info {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        #tree-container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            overflow: auto;
+        }
+        .node circle {
+            fill: #69b3a2;
+            stroke: #333;
+            stroke-width: 2px;
+            cursor: pointer;
+        }
+        .node.best circle {
+            fill: #ffd700;
+        }
+        .node text {
+            font-size: 12px;
+            font-family: monospace;
+        }
+        .link {
+            fill: none;
+            stroke: #ccc;
+            stroke-width: 2px;
+        }
+        .node:hover circle {
+            stroke: #ff6b6b;
+            stroke-width: 3px;
+        }
+        .tooltip {
+            position: absolute;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            pointer-events: none;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="info">
+        <h1>🌳 Tree Search Viewer - Standalone</h1>
+        <div id="stats"></div>
+    </div>
+    <div id="tree-container"></div>
+    <div id="tooltip" class="tooltip"></div>
+
+    <script>
+        // Load and render the tree
+        fetch('/static/../official_run_data.json')
+            .then(response => response.json())
+            .then(data => {
+                console.log('Data loaded:', data);
+                const nodes = data.nodes || [];
+                const tree = data.tree_structure || {};
+                const bestScore = data.run_info?.best_score || 0;
+                
+                // Display stats
+                document.getElementById('stats').innerHTML = `
+                    <p><strong>Total Nodes:</strong> ${nodes.length}</p>
+                    <p><strong>Best Score:</strong> ${bestScore.toFixed(4)}</p>
+                    <p><strong>Tree Children:</strong> ${tree.children?.length || 0}</p>
+                    <p><strong>Success Rate:</strong> ${data.run_info?.success_rate?.toFixed(1) || 0}%</p>
+                `;
+                
+                // Render tree
+                renderTree(tree, nodes, bestScore);
+            })
+            .catch(error => {
+                console.error('Error loading data:', error);
+                document.getElementById('stats').innerHTML = `<p style="color: red;">Error loading data: ${error.message}</p>`;
+            });
+
+        function renderTree(treeData, allNodes, bestScore) {
+            const width = window.innerWidth - 80;
+            const height = Math.max(800, window.innerHeight - 200);
+            
+            const svg = d3.select('#tree-container')
+                .append('svg')
+                .attr('width', width)
+                .attr('height', height);
+            
+            const g = svg.append('g')
+                .attr('transform', 'translate(40,40)');
+            
+            // Create tree layout
+            const treeLayout = d3.tree()
+                .size([width - 100, height - 100]);
+            
+            // Convert to hierarchy
+            const root = d3.hierarchy(treeData);
+            
+            console.log('Root descendants:', root.descendants().length);
+            console.log('Root children:', root.children?.length || 0);
+            
+            // Apply layout
+            treeLayout(root);
+            
+            // Draw links
+            g.selectAll('.link')
+                .data(root.links())
+                .enter()
+                .append('path')
+                .attr('class', 'link')
+                .attr('d', d3.linkHorizontal()
+                    .x(d => d.y)
+                    .y(d => d.x)
+                );
+            
+            // Draw nodes
+            const nodes = g.selectAll('.node')
+                .data(root.descendants())
+                .enter()
+                .append('g')
+                .attr('class', d => 'node' + (d.data.score === bestScore ? ' best' : ''))
+                .attr('transform', d => `translate(${d.y},${d.x})`);
+            
+            // Add circles
+            nodes.append('circle')
+                .attr('r', 8)
+                .on('mouseover', function(event, d) {
+                    const tooltip = d3.select('#tooltip');
+                    tooltip
+                        .style('display', 'block')
+                        .style('left', (event.pageX + 10) + 'px')
+                        .style('top', (event.pageY - 10) + 'px')
+                        .html(`
+                            <strong>Node:</strong> ${d.data.node_id?.substring(0, 8) || 'root'}<br>
+                            <strong>Score:</strong> ${d.data.score?.toFixed(4) || 'N/A'}<br>
+                            <strong>Status:</strong> ${d.data.status || d.data.execution_status || 'N/A'}<br>
+                            <strong>Depth:</strong> ${d.depth}
+                        `);
+                })
+                .on('mouseout', function() {
+                    d3.select('#tooltip').style('display', 'none');
+                })
+                .on('click', function(event, d) {
+                    console.log('Node clicked:', d.data);
+                    alert(`Node: ${d.data.node_id?.substring(0, 8) || 'root'}\nScore: ${d.data.score?.toFixed(4) || 'N/A'}`);
+                });
+            
+            // Add labels
+            nodes.append('text')
+                .attr('dy', -15)
+                .attr('text-anchor', 'middle')
+                .text(d => {
+                    if (d.data.node_id === 'virtual_root') return 'ROOT';
+                    return d.data.node_id?.substring(0, 6) || '?';
+                });
+            
+            // Add score labels
+            nodes.append('text')
+                .attr('dy', 25)
+                .attr('text-anchor', 'middle')
+                .style('font-size', '10px')
+                .style('fill', '#666')
+                .text(d => d.data.score ? d.data.score.toFixed(3) : '');
+            
+            console.log('Tree rendered with', root.descendants().length, 'nodes');
+        }
+    </script>
+</body>
+</html>
+

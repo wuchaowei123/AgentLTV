@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tree Search Explorer</title>
+    
+    <!-- External Libraries -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs/loader.min.js"></script>
+    <!-- Multiple CDN fallbacks for diff-match-patch -->
+    <script src="https://cdn.jsdelivr.net/npm/diff-match-patch@1.0.5/index.js" 
+            onerror="this.onerror=null; this.src='https://unpkg.com/diff-match-patch@1.0.5/index.js'"></script>
+    <script>
+        // Fallback if diff_match_patch is still not available
+        window.addEventListener('DOMContentLoaded', function() {
+            if (typeof diff_match_patch === 'undefined') {
+                console.warn('diff_match_patch not loaded from CDN, using fallback');
+                // Simple fallback implementation
+                window.diff_match_patch = function() {
+                    this.diff_main = function(text1, text2) {
+                        return [[0, text1], [1, text2]]; // Simple fallback
+                    };
+                    this.diff_cleanupSemantic = function(diffs) {
+                        return diffs;
+                    };
+                };
+            }
+        });
+    </script>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="/static/css/tree_explorer.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <h2>🌳 Tree Search Explorer</h2>
+            <div class="loading-spinner"></div>
+            <p>Loading search data...</p>
+        </div>
+    </div>
+
+    <!-- Main Application -->
+    <div id="app" class="app hidden">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1 id="search-run-title">Tree Search Explorer</h1>
+                <div class="header-controls">
+                    <select id="search-run-selector" class="search-run-selector">
+                        <option value="">Select a search run...</option>
+                    </select>
+                    <button id="refresh-btn" class="btn btn-secondary">🔄 Refresh</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Grid -->
+        <main class="main-content">
+            <!-- Top Section: Breakthrough Plot + Node Details -->
+            <section class="top-section">
+                <!-- Left: Breakthrough Plot -->
+                <div class="breakthrough-plot-container">
+                    <h3>🚀 Breakthrough Progress</h3>
+                    <div id="breakthrough-plot" class="breakthrough-plot"></div>
+                    <div class="plot-stats">
+                        <span id="total-nodes-stat">Total Nodes: 0</span>
+                        <span id="success-rate-stat">Success Rate: 0%</span>
+                        <span id="best-score-stat">Best Score: 0.0000</span>
+                    </div>
+                </div>
+
+                <!-- Right: Node Details Panel -->
+                <div class="node-details-container">
+                    <div class="node-details-header">
+                        <h3 id="node-details-title">Node Details</h3>
+                        <div class="node-badges">
+                            <span id="node-status-badge" class="badge">Status</span>
+                            <span id="node-score-badge" class="badge">Score</span>
+                        </div>
+                    </div>
+                    
+                    <div class="node-details-content">
+                        <!-- LLM Summary Section -->
+                        <div class="details-section">
+                            <h4>🤖 LLM Summary of Solution</h4>
+                            <div id="llm-summary" class="summary-content">
+                                Select a node to view details...
+                            </div>
+                        </div>
+
+                        <!-- Differences Summary Section -->
+                        <div class="details-section" id="diff-summary-section">
+                            <h4>🔄 Differences from Parent Solution</h4>
+                            <div id="code-diff-summary" class="summary-content">
+                                Select a non-root node to view differences...
+                            </div>
+                        </div>
+
+                        <!-- Additional Metadata -->
+                        <div class="details-section">
+                            <h4>📊 Node Metadata</h4>
+                            <div id="node-metadata" class="metadata-grid">
+                                <!-- Populated dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Bottom Section: Tree Visualization + Code Diff -->
+            <section class="bottom-section">
+                <!-- Left: Tree Visualization -->
+                <div class="tree-visualization-container">
+                    <div class="tree-header">
+                        <h3>🌳 Search Tree</h3>
+                        <div class="tree-controls">
+                            <button id="tree-zoom-in" class="btn btn-sm">🔍+</button>
+                            <button id="tree-zoom-out" class="btn btn-sm">🔍-</button>
+                            <button id="tree-reset" class="btn btn-sm">🏠</button>
+                            <button id="tree-fit" class="btn btn-sm">📐</button>
+                        </div>
+                    </div>
+                    <div id="tree-visualization" class="tree-visualization">
+                        <!-- Tree will be rendered here by D3.js -->
+                    </div>
+                    <div class="tree-legend">
+                        <div class="legend-item">
+                            <div class="legend-color breakthrough"></div>
+                            <span>Breakthrough Node</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color regular"></div>
+                            <span>Regular Node</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color selected"></div>
+                            <span>Selected Node</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color failed"></div>
+                            <span>Failed Node</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Code Comparison -->
+                <div class="code-comparison-container">
+                    <h3>💻 Code Comparison</h3>
+                    <div class="code-comparison-header">
+                        <div class="code-panel-title" id="parent-code-title">
+                            Parent Code
+                        </div>
+                        <div class="code-panel-title" id="child-code-title">
+                            Child Code
+                        </div>
+                    </div>
+                    <div class="code-comparison-content">
+                        <div class="code-panel">
+                            <div id="parent-code-editor" class="code-editor"></div>
+                        </div>
+                        <div class="code-panel">
+                            <div id="child-code-editor" class="code-editor"></div>
+                        </div>
+                    </div>
+                    <div class="code-comparison-footer">
+                        <div class="diff-stats">
+                            <span id="lines-added">+0 lines added</span>
+                            <span id="lines-removed">-0 lines removed</span>
+                            <span id="lines-changed">~0 lines changed</span>
+                        </div>
+                        <button id="toggle-diff-highlight" class="btn btn-secondary">
+                            🎨 Toggle Diff Highlighting
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Error Modal -->
+    <div id="error-modal" class="modal hidden">
+        <div class="modal-content">
+            <h3>❌ Error</h3>
+            <p id="error-message"></p>
+            <button id="close-error-modal" class="btn btn-primary">Close</button>
+        </div>
+    </div>
+
+    <!-- JavaScript Application -->
+    <script src="/static/js/tree_explorer.js?v=20251015_fix3_final"></script>
+</body>
+</html>
