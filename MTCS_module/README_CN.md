@@ -53,8 +53,8 @@
 
 #### 步骤1：克隆仓库
 ```bash
-git clone https://github.com/<your-username>/scientific-ai-system.git
-cd scientific-ai-system
+git clone https://github.com/<your-username>/MTCS_module.git
+cd MTCS_module
 ```
 
 #### 步骤2：创建Python环境
@@ -312,7 +312,7 @@ python universal_main_database.py \
 ## 📁 项目结构
 
 ```
-scientific-ai-system/
+MTCS_module/
 ├── universal_main_database.py       # 🚀 主入口点
 ├── core/                            # 核心系统组件
 │   ├── controller/

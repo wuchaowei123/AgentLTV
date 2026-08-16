@@ -10,7 +10,7 @@
 
 ```bash
 # 克隆或解压项目
-cd scientific-ai-system
+cd MTCS_module
 
 # 创建Conda环境
 conda create -n scientific-ai python=3.10 -y
@@ -86,7 +86,7 @@ gcloud compute scp 中文版LLM+决策树.zip scientific-ai-vm:~ --zone=us-centr
 ```bash
 # 解压
 unzip 中文版LLM+决策树.zip
-cd scientific-ai-system
+cd MTCS_module
 
 # 创建环境
 conda create -n scientific-ai python=3.10 -y

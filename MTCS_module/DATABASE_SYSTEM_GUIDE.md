@@ -211,7 +211,7 @@ When automatic execution fails with severe errors, the system will display:
 🔧 Error: ImportError: No module named 'special_library'
 
 📋 Manual Execution Instructions:
-  1. cd /home/jupyter/scientific-ai-system
+  1. cd /home/jupyter/MTCS_module
   2. conda activate pytorch
   3. python core/sandbox/exe_code/node_abc123.py
   4. python manual_update_result.py --node-id abc123 --score <score> --success

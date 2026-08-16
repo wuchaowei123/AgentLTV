@@ -284,7 +284,7 @@ code_requirements:
   title = {Scientific AI System: Automated Research with Tree Search and LLM},
   author = {[Your Name]},
   year = {2025},
-  url = {https://github.com/yourusername/scientific-ai-system}
+  url = {https://github.com/yourusername/MTCS_module}
 }
 ```
 

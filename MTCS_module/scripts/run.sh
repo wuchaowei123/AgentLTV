@@ -1,4 +1,4 @@
-cd /home/jupyter/scientific-ai-system && \
+cd /home/jupyter/MTCS_module && \
 python universal_main_database.py \
   --task tasks/text_classification_for_custom_service/task_config.yaml \
   --iterations 100 \

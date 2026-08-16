@@ -783,12 +783,12 @@ except Exception as e:
             code_file=str(abs_code_path),
             error_message=node.error_message or "Unknown error",
             db_path=self.db_path,
-            project_dir="/home/jupyter/scientific-ai-system"
+            project_dir="/home/jupyter/MTCS_module"
         )
         
         print(f"\n📋 MANUAL EXECUTION INSTRUCTIONS:")
         print(f"  ┌─ Step 1: Navigate to Project Directory")
-        print(f"  │   cd /home/jupyter/scientific-ai-system")
+        print(f"  │   cd /home/jupyter/MTCS_module")
         print(f"  │")
         print(f"  ├─ Step 2: Activate Environment") 
         print(f"  │   conda activate pytorch")

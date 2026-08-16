@@ -336,7 +336,7 @@ pip install -r requirements.txt
 
 **Solution**: You're in the wrong directory:
 ```bash
-cd /path/to/scientific-ai-system  # Go to project root
+cd /path/to/MTCS_module  # Go to project root
 python universal_main_database.py --help
 ```
 

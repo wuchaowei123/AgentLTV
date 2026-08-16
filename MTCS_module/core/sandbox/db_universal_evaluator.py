@@ -185,7 +185,7 @@ class DatabaseUniversalEvaluator:
         print(f"📄 Code file: {node.code_file_path}")
         print(f"🔬 Mutation: {node.mutation_type}")
         print(f"\n📋 Manual Execution Instructions:")
-        print(f"  1. cd /home/jupyter/scientific-ai-system")
+        print(f"  1. cd /home/jupyter/MTCS_module")
         print(f"  2. conda activate pytorch")
         print(f"  3. nano {node.code_file_path}  # Fix the code")
         print(f"  4. python {node.code_file_path}")

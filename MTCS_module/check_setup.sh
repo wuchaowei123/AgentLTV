@@ -83,7 +83,7 @@ if python -c "from core.task_manager import TaskConfiguration" 2> /dev/null; the
     echo "   ✅ Core system imports working"
 else
     echo "   ❌ Core system imports failed"
-    echo "      Make sure you're in the scientific-ai-system directory"
+    echo "      Make sure you're in the MTCS_module directory"
     echo "      Run: pip install -r requirements.txt"
 fi
 

@@ -29,8 +29,8 @@ secondary_metrics:
 
 # 3. Data Files (MUST be absolute paths)
 data_files:
-  train: "/home/jupyter/scientific-ai-system/tasks/text_classification_for_custom_service/train.csv"
-  test: "/home/jupyter/scientific-ai-system/tasks/text_classification_for_custom_service/test.csv"
+  train: "/home/jupyter/MTCS_module/tasks/text_classification_for_custom_service/train.csv"
+  test: "/home/jupyter/MTCS_module/tasks/text_classification_for_custom_service/test.csv"
 
 # 4. Code Requirements (Critical for LLM code generation)
 code_requirements:
@@ -207,8 +207,8 @@ Description: Multi-label text classification task for customer service...
 Evaluation Metric: f1_score
 Higher is Better: True
 Data Files:
-- train: /home/jupyter/scientific-ai-system/tasks/.../train.csv
-- test: /home/jupyter/scientific-ai-system/tasks/.../test.csv
+- train: /home/jupyter/MTCS_module/tasks/.../train.csv
+- test: /home/jupyter/MTCS_module/tasks/.../test.csv
 Code Requirements:
 - **REQUIRED EMBEDDING MODEL**: Qwen/Qwen3-Embedding-8B
 - Embedding Model Details: Model: Qwen/Qwen3-Embedding-8B (8B parameters)...
@@ -385,8 +385,8 @@ Key characteristics:
 **Higher is Better:** True
 
 **Data Files:**
-- train: /home/jupyter/scientific-ai-system/tasks/text_classification_for_custom_service/train.csv
-- test: /home/jupyter/scientific-ai-system/tasks/text_classification_for_custom_service/test.csv
+- train: /home/jupyter/MTCS_module/tasks/text_classification_for_custom_service/train.csv
+- test: /home/jupyter/MTCS_module/tasks/text_classification_for_custom_service/test.csv
 
 **Required Output:**
 - Target column: labels
@@ -744,7 +744,7 @@ The `code_requirements` field ensures:
    ```yaml
    # ✅ REQUIRED
    data_files:
-     train: "/home/jupyter/scientific-ai-system/tasks/my_task/train.csv"
+     train: "/home/jupyter/MTCS_module/tasks/my_task/train.csv"
    
    # ❌ WILL FAIL
    data_files:

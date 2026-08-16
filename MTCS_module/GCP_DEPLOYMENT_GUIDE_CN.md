@@ -133,15 +133,15 @@ gcloud compute scp 中文版LLM+决策树.zip scientific-ai-vm:~ --zone=us-centr
 # 在VM上解压
 ssh scientific-ai-vm
 unzip 中文版LLM+决策树.zip
-cd scientific-ai-system
+cd MTCS_module
 ```
 
 ### 方法2：使用Git（推荐）
 
 ```bash
 # 在VM上执行
-git clone https://github.com/your-username/scientific-ai-system.git
-cd scientific-ai-system
+git clone https://github.com/your-username/MTCS_module.git
+cd MTCS_module
 ```
 
 ### 方法3：使用Google Cloud Storage
@@ -153,7 +153,7 @@ gsutil cp 中文版LLM+决策树.zip gs://your-bucket-name/
 # 在VM上下载
 gsutil cp gs://your-bucket-name/中文版LLM+决策树.zip .
 unzip 中文版LLM+决策树.zip
-cd scientific-ai-system
+cd MTCS_module
 ```
 
 ---
@@ -164,7 +164,7 @@ cd scientific-ai-system
 
 ```bash
 conda activate scientific-ai
-cd scientific-ai-system
+cd MTCS_module
 
 # 安装核心依赖
 pip install -r requirements.txt
@@ -310,10 +310,10 @@ gcloud compute instances describe scientific-ai-vm \
 
 ```bash
 # 从VM下载数据库
-gcloud compute scp scientific-ai-vm:~/scientific-ai-system/experiment.db . --zone=us-central1-a
+gcloud compute scp scientific-ai-vm:~/MTCS_module/experiment.db . --zone=us-central1-a
 
 # 下载整个结果目录
-gcloud compute scp --recurse scientific-ai-vm:~/scientific-ai-system/results . --zone=us-central1-a
+gcloud compute scp --recurse scientific-ai-vm:~/MTCS_module/results . --zone=us-central1-a
 ```
 
 ### 8.2 备份到Google Cloud Storage
@@ -324,7 +324,7 @@ gsutil cp experiment.db gs://your-bucket-name/backups/experiment_$(date +%Y%m%d_
 
 # 自动化每日备份
 crontab -e
-# 添加：0 2 * * * gsutil cp ~/scientific-ai-system/*.db gs://your-bucket-name/backups/
+# 添加：0 2 * * * gsutil cp ~/MTCS_module/*.db gs://your-bucket-name/backups/
 ```
 
 ---
@@ -520,8 +520,8 @@ gcloud compute ssh $INSTANCE_NAME --zone=$ZONE --command="
   sudo apt-get update -y
   
   # 克隆项目
-  git clone https://github.com/your-repo/scientific-ai-system.git
-  cd scientific-ai-system
+  git clone https://github.com/your-repo/MTCS_module.git
+  cd MTCS_module
   
   # 创建conda环境
   conda create -n scientific-ai python=3.10 -y

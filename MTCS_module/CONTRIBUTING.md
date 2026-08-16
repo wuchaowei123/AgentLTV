@@ -73,11 +73,11 @@ We accept pull requests for:
 # 1. Fork the repository on GitHub
 
 # 2. Clone your fork
-git clone https://github.com/<your-username>/scientific-ai-system.git
-cd scientific-ai-system
+git clone https://github.com/<your-username>/MTCS_module.git
+cd MTCS_module
 
 # 3. Add upstream remote
-git remote add upstream https://github.com/<original-repo>/scientific-ai-system.git
+git remote add upstream https://github.com/<original-repo>/MTCS_module.git
 
 # 4. Create development environment
 conda create -n scientific-ai-dev python=3.10 -y

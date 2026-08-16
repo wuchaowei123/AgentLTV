@@ -53,8 +53,8 @@ This system **automatically generates, tests, and improves scientific code** for
 
 #### Step 1: Clone Repository
 ```bash
-git clone https://github.com/<your-username>/scientific-ai-system.git
-cd scientific-ai-system
+git clone https://github.com/<your-username>/MTCS_module.git
+cd MTCS_module
 ```
 
 #### Step 2: Create Python Environment
@@ -1144,7 +1144,7 @@ python universal_main_database.py \
 ## 📁 Project Structure
 
 ```
-scientific-ai-system/
+MTCS_module/
 ├── universal_main_database.py       # 🚀 MAIN ENTRY POINT
 ├── core/                            # Core system components
 │   ├── controller/

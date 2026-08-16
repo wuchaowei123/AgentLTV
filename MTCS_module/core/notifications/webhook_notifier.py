@@ -33,7 +33,7 @@ class WebhookNotifier:
         code_file: str,
         error_message: str,
         db_path: str,
-        project_dir: str = "/home/jupyter/scientific-ai-system"
+        project_dir: str = "/home/jupyter/MTCS_module"
     ) -> bool:
         """
         Send alert when manual execution is required.

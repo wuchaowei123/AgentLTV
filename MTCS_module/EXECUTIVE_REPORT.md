@@ -223,4 +223,4 @@ The Universal Scientific AI System represents a **breakthrough in automated rese
 
 *Prepared by: AI Development Team*  
 *Contact: system-demo@research.ai*  
-*Repository: `/home/jupyter/scientific-ai-system/`*
+*Repository: `/home/jupyter/MTCS_module/`*

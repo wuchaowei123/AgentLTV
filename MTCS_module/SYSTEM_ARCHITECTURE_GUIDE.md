@@ -673,7 +673,7 @@ sequenceDiagram
 
 ```bash
 # 1. Navigate to code file
-cd /home/jupyter/scientific-ai-system
+cd /home/jupyter/MTCS_module
 nano core/sandbox/exe_code/node_abc12345.py
 
 # 2. Fix the error

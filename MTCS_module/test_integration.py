@@ -41,8 +41,8 @@ import numpy as np
 from sklearn.metrics import f1_score
 
 # Load data
-train_df = pd.read_csv('/home/jupyter/scientific-ai-system/tasks/text_classification_for_custom_service/train.csv')
-test_df = pd.read_csv('/home/jupyter/scientific-ai-system/tasks/text_classification_for_custom_service/test.csv')
+train_df = pd.read_csv('/home/jupyter/MTCS_module/tasks/text_classification_for_custom_service/train.csv')
+test_df = pd.read_csv('/home/jupyter/MTCS_module/tasks/text_classification_for_custom_service/test.csv')
 
 print(f"Data loaded: {len(train_df)} train, {len(test_df)} test")
 

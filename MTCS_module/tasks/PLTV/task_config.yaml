@@ -32,9 +32,9 @@ secondary_metrics:
   - "SPEARMAN, This is how it's calculated(python code):SPEARMAN = spearmanr(labels, predicts)"
 
 data_files:
-  train data: "/home/jupyter/luigi/LLM+决策树/scientific-ai-system/tasks/PLTV/traindata.csv"
-  validation data: "/home/jupyter/luigi/LLM+决策树/scientific-ai-system/tasks/PLTV/valdata.csv"
-  test data: "/home/jupyter/luigi/LLM+决策树/scientific-ai-system/tasks/PLTV/testdata.csv"
+  train data: "/home/jupyter/luigi/LLM+决策树/MTCS_module/tasks/PLTV/traindata.csv"
+  validation data: "/home/jupyter/luigi/LLM+决策树/MTCS_module/tasks/PLTV/valdata.csv"
+  test data: "/home/jupyter/luigi/LLM+决策树/MTCS_module/tasks/PLTV/testdata.csv"
 
 
 code_requirements:

@@ -193,7 +193,7 @@ The project is now ready to be published on GitHub with:
 
 ### 1. Initialize Git Repository (if not already)
 ```bash
-cd /home/jupyter/scientific-ai-system
+cd /home/jupyter/MTCS_module
 git init
 git add .
 git commit -m "feat: Initial public release of Scientific AI System
@@ -209,9 +209,9 @@ git commit -m "feat: Initial public release of Scientific AI System
 
 ### 2. Create GitHub Repository
 ```bash
-# On GitHub, create new repository: scientific-ai-system
+# On GitHub, create new repository: MTCS_module
 # Then connect local repo:
-git remote add origin https://github.com/<your-username>/scientific-ai-system.git
+git remote add origin https://github.com/<your-username>/MTCS_module.git
 git branch -M main
 git push -u origin main
 ```

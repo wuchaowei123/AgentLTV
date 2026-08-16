@@ -195,9 +195,9 @@ ALTER TABLE execution_nodes ADD COLUMN user_feedback TEXT;
 
 ## 📚 Related Documentation
 
-- `/home/jupyter/scientific-ai-system/gen_doc/USER_FEEDBACK_SYSTEM.md` - Complete guide
-- `/home/jupyter/scientific-ai-system/gen_doc/SYSTEM_ARCHITECTURE_GUIDE.md` - System overview
-- `/home/jupyter/scientific-ai-system/gen_doc/ERROR_LEARNING_GUIDE.md` - Error handling
+- `/home/jupyter/MTCS_module/gen_doc/USER_FEEDBACK_SYSTEM.md` - Complete guide
+- `/home/jupyter/MTCS_module/gen_doc/SYSTEM_ARCHITECTURE_GUIDE.md` - System overview
+- `/home/jupyter/MTCS_module/gen_doc/ERROR_LEARNING_GUIDE.md` - Error handling
 
 ---
 

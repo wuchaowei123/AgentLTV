@@ -67,7 +67,7 @@ def display_manual_required_nodes(db: DatabaseManager):
         
         # Show execution instructions
         print(f"   🔧 Manual Execution Instructions:")
-        print(f"      1. cd /home/jupyter/scientific-ai-system")
+        print(f"      1. cd /home/jupyter/MTCS_module")
         print(f"      2. conda activate trae-agent")
         print(f"      3. python {node.code_file_path}")
         print(f"      4. python manual_update_result.py --node-id {node.node_id} --score <score> --success")

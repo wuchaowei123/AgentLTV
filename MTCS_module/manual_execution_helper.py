@@ -73,8 +73,8 @@ print("=" * 50)
 try:
     # Option 1: Try predefined data paths
     data_paths = [
-        '/home/jupyter/scientific-ai-system/data/train.csv',
-        '/home/jupyter/scientific-ai-system/data/validation.csv',
+        '/home/jupyter/MTCS_module/data/train.csv',
+        '/home/jupyter/MTCS_module/data/validation.csv',
         'data/train.csv',
         'data/validation.csv',
         'train.csv',

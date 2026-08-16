@@ -52,7 +52,7 @@ A powerful web-based visualization tool for exploring AI system tree search resu
 
 2. **Start the Tree Explorer**:
    ```bash
-   cd /home/jupyter/scientific-ai-system/tree_search_explorer
+   cd /home/jupyter/MTCS_module/tree_search_explorer
    python app.py --db ../official_run_v5_test.db --port 8005 --host 0.0.0.0
    ```
    
@@ -77,7 +77,7 @@ A powerful web-based visualization tool for exploring AI system tree search resu
 ```bash
 # Kill existing processes and restart
 pkill -9 -f "tree_search_explorer/app.py"
-cd /home/jupyter/scientific-ai-system/tree_search_explorer
+cd /home/jupyter/MTCS_module/tree_search_explorer
 source ~/.bashrc && conda activate pytorch
 python app.py --db ../official_run_v5_test.db --port 8005 --host 0.0.0.0
 ```
@@ -283,7 +283,7 @@ tree_search_explorer/
    
    # Solution 3: Kill and restart server (forces cache-busting)
    pkill -9 -f "tree_search_explorer/app.py"
-   cd /home/jupyter/scientific-ai-system/tree_search_explorer
+   cd /home/jupyter/MTCS_module/tree_search_explorer
    source ~/.bashrc && conda activate pytorch
    python app.py --db ../official_run_v5_test.db --port 8005 --host 0.0.0.0
    

@@ -19,8 +19,8 @@ secondary_metrics:
   - "MSE"
 
 data_files:
-  train data: "/home/jupyter/luigi/LLM+决策树/scientific-ai-system/tasks/ZILNLTV/ZILNtrain.csv"
-  test data: "/home/jupyter/luigi/LLM+决策树/scientific-ai-system/tasks/ZILNLTV/ZILNtest.csv"
+  train data: "/home/jupyter/luigi/LLM+决策树/MTCS_module/tasks/ZILNLTV/ZILNtrain.csv"
+  test data: "/home/jupyter/luigi/LLM+决策树/MTCS_module/tasks/ZILNLTV/ZILNtest.csv"
 
 
 code_requirements:

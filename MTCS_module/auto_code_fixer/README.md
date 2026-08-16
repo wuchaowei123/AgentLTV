@@ -43,26 +43,26 @@ npm install -g @google/gemini-cli
 
 #### 方法一：使用增强版（推荐）
 ```bash
-cd /home/jupyter/scientific-ai-system/auto_code_fixer
+cd /home/jupyter/MTCS_module/auto_code_fixer
 python enhanced_gemini_auto_fixer.py your_script.py
 ```
 
 #### 方法二：使用标准版
 ```bash
-cd /home/jupyter/scientific-ai-system/auto_code_fixer
+cd /home/jupyter/MTCS_module/auto_code_fixer
 python gemini_auto_fixer.py your_script.py
 ```
 
 #### 方法三：使用便捷脚本
 ```bash
-cd /home/jupyter/scientific-ai-system/auto_code_fixer
+cd /home/jupyter/MTCS_module/auto_code_fixer
 ./run_with_auto_fix.sh your_script.py
 ```
 
 #### 方法三：从任何位置调用
 ```bash
 # 设置别名（可添加到 ~/.bashrc）
-alias autofix="python /home/jupyter/scientific-ai-system/auto_code_fixer/gemini_auto_fixer.py"
+alias autofix="python /home/jupyter/MTCS_module/auto_code_fixer/gemini_auto_fixer.py"
 
 # 使用
 autofix your_script.py
@@ -71,7 +71,7 @@ autofix your_script.py
 ### 3. 测试示例
 
 ```bash
-cd /home/jupyter/scientific-ai-system/auto_code_fixer
+cd /home/jupyter/MTCS_module/auto_code_fixer
 
 # 测试增强版修复器（推荐）
 python test_enhanced_fixer.py
@@ -230,7 +230,7 @@ result = subprocess.run(
 ```python
 # 在主系统代码中集成自动修复功能
 import sys
-sys.path.append('/home/jupyter/scientific-ai-system/auto_code_fixer')
+sys.path.append('/home/jupyter/MTCS_module/auto_code_fixer')
 from gemini_auto_fixer import GeminiAutoFixer
 
 def run_with_auto_fix(script_path):
@@ -304,7 +304,7 @@ gemini auth
 
 **3. 权限问题**
 ```bash
-chmod +x /home/jupyter/scientific-ai-system/auto_code_fixer/run_with_auto_fix.sh
+chmod +x /home/jupyter/MTCS_module/auto_code_fixer/run_with_auto_fix.sh
 ```
 
 **4. Python 路径问题**
