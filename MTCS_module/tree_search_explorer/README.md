@@ -1,6 +1,6 @@
 # Tree Search Explorer
 
-A powerful web-based visualization tool for exploring AI system tree search results, designed specifically for the Universal Scientific AI System.
+A powerful web-based visualization tool for exploring AI system tree search results, designed specifically for the Universal MTCS_module.
 
 ## 🌟 Features
 
@@ -387,7 +387,7 @@ this.treeVisualization = new TreeVisualization('tree-visualization', treeStructu
 
 ## 🎉 Success! 
 
-The Tree Search Explorer is now ready to help you visualize and understand your AI system's search process. Navigate through the solution space, discover breakthrough moments, and gain insights into how your Universal Scientific AI System discovers and improves scientific software!
+The Tree Search Explorer is now ready to help you visualize and understand your AI system's search process. Navigate through the solution space, discover breakthrough moments, and gain insights into how your Universal MTCS_module discovers and improves scientific software!
 
 ---
 

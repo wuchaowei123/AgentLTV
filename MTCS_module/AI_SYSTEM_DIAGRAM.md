@@ -1,4 +1,4 @@
-# Universal Scientific AI System - Architecture Diagram
+# Universal MTCS_module - Architecture Diagram
 
 ## System Overview Flowchart
 
@@ -75,7 +75,7 @@ flowchart TD
 ```mermaid
 graph TB
     %% Core System Components
-    subgraph "Universal Scientific AI System"
+    subgraph "Universal MTCS_module"
         subgraph "Input Layer"
             TC[Task Configuration Engine<br/>core/task_manager.py]
             YC[YAML Config Files<br/>tasks/*/task_config.yaml]

@@ -764,5 +764,5 @@ The `code_requirements` field ensures:
 ---
 
 *Documentation created: October 14, 2025*  
-*Part of the Scientific AI System documentation suite*
+*Part of the MTCS_module documentation suite*
 

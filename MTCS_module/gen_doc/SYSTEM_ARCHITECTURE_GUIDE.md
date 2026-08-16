@@ -1,4 +1,4 @@
-# 🧬 Scientific AI System - Complete Architecture Guide
+# 🧬 MTCS_module - Complete Architecture Guide
 
 **A fully autonomous system that generates, tests, and optimizes scientific code solutions using AI-driven tree search**
 
@@ -23,7 +23,7 @@
 
 ## 🎯 System Overview
 
-The Scientific AI System is an **autonomous software discovery platform** that:
+The MTCS_module is an **autonomous software discovery platform** that:
 
 - 🤖 **Generates** scientific code solutions using LLMs (Gemini 2.5 Pro / GPT-4)
 - 🌳 **Explores** solution space using intelligent tree search algorithms
@@ -1147,7 +1147,7 @@ print(f"Final score: {score}")
 
 ## 🎯 Summary
 
-The Scientific AI System is a **production-ready autonomous platform** for discovering scientific software solutions. It combines:
+The MTCS_module is a **production-ready autonomous platform** for discovering scientific software solutions. It combines:
 
 1. ✅ **Intelligent search** via tree algorithms
 2. ✅ **Autonomous code generation** via LLMs

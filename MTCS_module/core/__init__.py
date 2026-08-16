@@ -1,5 +1,5 @@
 """
-Universal Scientific AI System - Core Components
+Universal MTCS_module - Core Components
 ==============================================
 
 Core components for automated scientific software discovery using

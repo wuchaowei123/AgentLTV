@@ -1,6 +1,6 @@
-# Contributing to Scientific AI System
+# Contributing to MTCS_module
 
-Thank you for your interest in contributing to the Scientific AI System! This document provides guidelines for contributing to the project.
+Thank you for your interest in contributing to the MTCS_module! This document provides guidelines for contributing to the project.
 
 ## 🎯 Ways to Contribute
 
@@ -328,7 +328,7 @@ Contributors will be recognized in:
 - **CHANGELOG.md** for significant contributions
 - **Release notes** for feature contributions
 
-Thank you for helping make the Scientific AI System better! 🚀
+Thank you for helping make the MTCS_module better! 🚀
 
 ---
 

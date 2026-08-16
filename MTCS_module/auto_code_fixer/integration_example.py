@@ -16,7 +16,7 @@ from gemini_auto_fixer import GeminiAutoFixer
 def integrate_auto_fixer_with_main_system():
     """演示如何将自动修复功能集成到主系统中"""
     
-    print("🔗 Scientific AI System - 自动代码修复集成示例")
+    print("🔗 MTCS_module - 自动代码修复集成示例")
     print("=" * 60)
     
     # 初始化自动修复器

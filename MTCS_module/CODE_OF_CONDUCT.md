@@ -146,5 +146,5 @@ This Code of Conduct may be updated periodically. The latest version will always
 
 ---
 
-**Thank you for helping make the Scientific AI System community welcoming and inclusive!** 🤝
+**Thank you for helping make the MTCS_module community welcoming and inclusive!** 🤝
 

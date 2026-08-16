@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Database-Enhanced Universal Scientific AI System - Main Entry Point
+Database-Enhanced Universal MTCS_module - Main Entry Point
 ==================================================================
 
 Complete integration of the enhanced AI system with database-driven execution,
@@ -436,7 +436,7 @@ def save_database_enhanced_results(results: dict, output_dir: Path, args):
     # Save comprehensive results summary
     summary_file = output_dir / "database_enhanced_results.txt"
     with open(summary_file, 'w') as f:
-        f.write("Database-Enhanced Universal Scientific AI System - Results\n")
+        f.write("Database-Enhanced Universal MTCS_module - Results\n")
         f.write("=" * 60 + "\n\n")
         
         # Database-enhanced results

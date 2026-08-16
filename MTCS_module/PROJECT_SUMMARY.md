@@ -1,4 +1,4 @@
-# Scientific AI System - Project Summary
+# MTCS_module - Project Summary
 
 ## 🎯 Overview
 

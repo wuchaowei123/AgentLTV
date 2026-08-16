@@ -1,5 +1,5 @@
 """
-Database Management System for Universal Scientific AI System
+Database Management System for Universal MTCS_module
 ============================================================
 
 SQLite-based execution tracking and result storage system.

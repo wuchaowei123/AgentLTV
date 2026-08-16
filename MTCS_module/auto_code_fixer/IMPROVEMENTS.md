@@ -198,4 +198,4 @@ python test_enhanced_fixer.py
 
 ---
 
-**总结**: 增强版 auto_code_fixer 显著提升了系统的可靠性和智能化程度，解决了超时、导入错误和评分提取等关键问题，为 Scientific AI System 提供了更强大的自动化代码修复能力。
+**总结**: 增强版 auto_code_fixer 显著提升了系统的可靠性和智能化程度，解决了超时、导入错误和评分提取等关键问题，为 MTCS_module 提供了更强大的自动化代码修复能力。

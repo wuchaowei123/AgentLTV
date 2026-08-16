@@ -1,6 +1,6 @@
 # 🤖 自动代码执行和修复模块
 
-这是 Scientific AI System 的自动代码执行和修复模块，使用 Google Gemini CLI 实现智能代码错误检测和自动修复功能。
+这是 MTCS_module 的自动代码执行和修复模块，使用 Google Gemini CLI 实现智能代码错误检测和自动修复功能。
 
 ## 📋 模块概述
 
@@ -223,7 +223,7 @@ result = subprocess.run(
 )
 ```
 
-## 🔗 与 Scientific AI System 集成
+## 🔗 与 MTCS_module 集成
 
 ### 在主系统中使用
 
@@ -352,7 +352,7 @@ def get_custom_prompt(code, error, language='python'):
 ## 📚 相关文档
 
 - [详细使用文档](README_auto_fixer.md)
-- [Scientific AI System 主文档](../README.MD)
+- [MTCS_module 主文档](../README.MD)
 - [Gemini CLI 官方文档](https://github.com/google-gemini/gemini-cli)
 
 ## 🤝 贡献
@@ -366,4 +366,4 @@ def get_custom_prompt(code, error, language='python'):
 
 ---
 
-*本模块是 Scientific AI System 的组成部分，专注于提供智能化的代码执行和错误修复能力。*
+*本模块是 MTCS_module 的组成部分，专注于提供智能化的代码执行和错误修复能力。*

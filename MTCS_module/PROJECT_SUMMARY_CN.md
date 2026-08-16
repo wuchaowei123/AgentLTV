@@ -281,7 +281,7 @@ code_requirements:
 
 ```bibtex
 @software{scientific_ai_system,
-  title = {Scientific AI System: Automated Research with Tree Search and LLM},
+  title = {MTCS_module: Automated Research with Tree Search and LLM},
   author = {[Your Name]},
   year = {2025},
   url = {https://github.com/yourusername/MTCS_module}

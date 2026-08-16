@@ -1,4 +1,4 @@
-# 📋 Scientific AI System - Publication Checklist
+# 📋 MTCS_module - Publication Checklist
 
 This document tracks the readiness of the project for public release.
 
@@ -175,7 +175,7 @@ git init
 git add .
 
 # Create initial commit
-git commit -m "Initial release: Scientific AI System v2.0
+git commit -m "Initial release: MTCS_module v2.0
 
 - Database-enhanced tree search system
 - Automatic code generation with LLM

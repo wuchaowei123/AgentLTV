@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Universal Scientific AI System - Main Entry Point
+Universal MTCS_module - Main Entry Point
 ================================================
 
 A general-purpose AI system for automated scientific software discovery.
@@ -133,7 +133,7 @@ def validate_environment():
 def display_task_info(task_config: TaskConfiguration):
     """Display information about the loaded task."""
     print("╔══════════════════════════════════════════════════════════════════╗")
-    print("║                     Universal Scientific AI System                ║")
+    print("║                     Universal MTCS_module                ║")
     print("╚══════════════════════════════════════════════════════════════════╝")
     print()
     print(f"🎯 Domain: {task_config.domain}")

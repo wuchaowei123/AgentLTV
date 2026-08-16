@@ -1,5 +1,5 @@
 """
-Task Configuration Manager for Universal Scientific AI System
+Task Configuration Manager for Universal MTCS_module
 ===========================================================
 
 Handles loading and managing task-specific configurations from YAML files.

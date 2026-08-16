@@ -1,4 +1,4 @@
-# 🧬 Scientific AI System
+# 🧬 MTCS_module
 
 **Automatically discovers, generates, and optimizes scientific software solutions using tree search and LLM-powered code generation.**
 

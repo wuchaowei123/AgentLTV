@@ -1,8 +1,8 @@
 #!/bin/bash
-# Scientific AI System - Setup Verification Script
+# MTCS_module - Setup Verification Script
 # This script checks if your environment is properly configured
 
-echo "🔍 Checking Scientific AI System Setup..."
+echo "🔍 Checking MTCS_module Setup..."
 echo "=================================================="
 echo ""
 

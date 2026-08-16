@@ -1,4 +1,4 @@
-# Requirements for Scientific AI System
+# Requirements for MTCS_module
 
 ## 📋 System Requirements
 

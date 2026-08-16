@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Manual Execution Helper for Scientific AI System
+Manual Execution Helper for MTCS_module
 ===============================================
 
 Helps extract, debug, and run generated ML code manually when automated execution fails.
@@ -242,7 +242,7 @@ except Exception as e:
 
 def main():
     parser = argparse.ArgumentParser(
-        description='Manual execution helper for Scientific AI System',
+        description='Manual execution helper for MTCS_module',
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:

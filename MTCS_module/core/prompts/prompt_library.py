@@ -1,5 +1,5 @@
 """
-Complete Prompt Library for Universal Scientific AI System
+Complete Prompt Library for Universal MTCS_module
 =========================================================
 
 Enhanced version of the original prompts.py with additional domain-agnostic templates
