@@ -1,0 +1,17 @@
+#!/usr/bin/env python3
+"""
+EA Visualization CLI
+
+Command-line interface for visualizing EA evolution results.
+"""
+
+import os
+import sys
+
+# Add the parent directory to the Python path to ensure ea can be imported
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from ea.webui.visualization import main
+
+if __name__ == "__main__":
+    main()
