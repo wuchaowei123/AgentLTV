@@ -1,7 +1,7 @@
 """
-Kosmos Integration Module for EAFramework
+Kosmos Integration Module for AgentLTV
 
-Integrates the full Kosmos literature search system with EAFramework's evolution loop.
+Integrates the full Kosmos literature search system with AgentLTV's evolution loop.
 Uses Gemini 3.0 Pro for concept extraction instead of Claude.
 
 Features:
@@ -18,7 +18,7 @@ from typing import List, Dict, Any, Optional
 from dataclasses import dataclass
 
 # Add Kosmos to path if available
-KOSMOS_PATH = Path("/home/jupyter/Kosmos")
+KOSMOS_PATH = Path(os.getenv("KOSMOS_PATH", "Kosmos"))
 if KOSMOS_PATH.exists() and str(KOSMOS_PATH) not in sys.path:
     sys.path.insert(0, str(KOSMOS_PATH))
 
@@ -34,9 +34,9 @@ try:
     from kosmos.literature.unified_search import UnifiedLiteratureSearch
     from kosmos.literature.base_client import PaperMetadata as KosmosPaperMetadata, PaperSource
     KOSMOS_AVAILABLE = True
-    logger.info("鉁?Kosmos literature search available")
+    logger.info("閴?Kosmos literature search available")
 except ImportError as e:
-    logger.warning(f"鈿狅笍 Kosmos not available: {e}")
+    logger.warning(f"閳跨媴绗?Kosmos not available: {e}")
     UnifiedLiteratureSearch = None
     KosmosPaperMetadata = None
     PaperSource = None
@@ -94,7 +94,7 @@ class KosmosLiteratureIntegration:
     Combines:
     1. Kosmos's UnifiedLiteratureSearch (arXiv + Semantic Scholar + PubMed)
     2. Gemini-based concept extraction
-    3. Formatted output for EAFramework mutation prompts
+    3. Formatted output for AgentLTV mutation prompts
     """
     
     def __init__(
@@ -146,7 +146,7 @@ class KosmosLiteratureIntegration:
                 )
                 self.sources_available = list(self.search_client.clients.keys())
                 if verbose:
-                    logger.info(f"馃摎 Kosmos search initialized: {[s.value for s in self.sources_available]}")
+                    logger.info(f"棣冩憥 Kosmos search initialized: {[s.value for s in self.sources_available]}")
             except Exception as e:
                 logger.warning(f"Kosmos UnifiedSearch init failed: {e}")
                 # Try fallback: just use arXiv client directly
@@ -154,12 +154,12 @@ class KosmosLiteratureIntegration:
                     from kosmos.literature.arxiv_client import ArxivClient
                     self.arxiv_client = ArxivClient()
                     if verbose:
-                        logger.info("馃摎 Kosmos arXiv client initialized (direct)")
+                        logger.info("棣冩憥 Kosmos arXiv client initialized (direct)")
                 except Exception as e2:
                     logger.warning(f"Kosmos arXiv client init failed: {e2}")
         else:
             if verbose:
-                logger.warning("馃摎 Kosmos not available, using fallback arXiv search")
+                logger.warning("棣冩憥 Kosmos not available, using fallback arXiv search")
         
         # Initialize Gemini concept extractor
         self.extractor = GeminiConceptExtractor(
@@ -170,7 +170,7 @@ class KosmosLiteratureIntegration:
         )
         
         if verbose:
-            logger.info(f"馃 Gemini extractor initialized: {gemini_model}")
+            logger.info(f"棣冾潵 Gemini extractor initialized: {gemini_model}")
     
     def search_and_extract(
         self,
@@ -198,7 +198,7 @@ class KosmosLiteratureIntegration:
             LiteratureSearchResult with papers and extractions
         """
         if self.verbose:
-            logger.info(f"馃攳 Searching: {query[:50]}...")
+            logger.info(f"棣冩敵 Searching: {query[:50]}...")
         
         # Search for papers
         if self.search_client and KOSMOS_AVAILABLE:
@@ -212,7 +212,7 @@ class KosmosLiteratureIntegration:
             sources = ['arxiv_fallback']
         
         if self.verbose:
-            logger.info(f"馃搫 Found {len(papers)} papers")
+            logger.info(f"棣冩惈 Found {len(papers)} papers")
         
         # Extract concepts and methods
         extractions = []
@@ -242,7 +242,7 @@ class KosmosLiteratureIntegration:
                 ))
         
         if self.verbose:
-            logger.info(f"馃 Extracted {total_concepts} concepts, {total_methods} methods")
+            logger.info(f"棣冾潵 Extracted {total_concepts} concepts, {total_methods} methods")
         
         return LiteratureSearchResult(
             papers=papers,
@@ -417,7 +417,7 @@ class KosmosLiteratureIntegration:
             return "(No techniques extracted from literature)"
         
         lines = [
-            "# 馃摎 TECHNIQUES FROM SCIENTIFIC LITERATURE",
+            "# 棣冩憥 TECHNIQUES FROM SCIENTIFIC LITERATURE",
             "",
             f"Query: \"{search_result.query}\"",
             f"Sources: {', '.join(search_result.sources_searched)}",
@@ -512,7 +512,7 @@ def search_literature(
         else:
             papers = integration._search_fallback(query, max_papers)
         
-        lines = ["# 馃摎 PAPERS FROM SCIENTIFIC LITERATURE", "", f"Query: \"{query}\"", "", "---", ""]
+        lines = ["# 棣冩憥 PAPERS FROM SCIENTIFIC LITERATURE", "", f"Query: \"{query}\"", "", "---", ""]
         for i, paper in enumerate(papers, 1):
             lines.append(f"### [{i}] {paper.title}")
             lines.append(f"**Abstract:** {paper.abstract[:300]}...")

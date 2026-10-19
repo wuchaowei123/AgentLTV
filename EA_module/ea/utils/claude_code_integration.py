@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """
-Claude Code Integration for EAFramework
+Claude Code Integration for AgentLTV
 
-This module integrates Anthropic's Claude Code CLI tool with EAFramework.
+This module integrates Anthropic's Claude Code CLI tool with AgentLTV.
 Claude Code is an agentic coding tool that can understand codebases and fix code.
 
 Configuration:
     Set environment variables:
-    - ANTHROPIC_BASE_URL: LiteLLM proxy URL (e.g., http://litellm.aviagames.net)
+    - ANTHROPIC_BASE_URL: LiteLLM proxy URL (e.g., http://your-proxy-server:port)
     - ANTHROPIC_AUTH_TOKEN: LiteLLM API key
 
 Usage:
@@ -41,8 +41,8 @@ class ClaudeCodeFixer:
     PROMPT_FIX_SYNTAX = """Fix ALL issues in the Python code at {file_path}:
 - Fix syntax errors
 - Fix indentation errors
-- Replace Unicode characters (閳牃鍟?=, 閳倐鍟?=, etc.)
-- Fix incomplete decimals (1e閳?e0)
+- Replace Unicode characters (闁愁喖鐗冮崯?=, 闁愁喓鍊愰崯?=, etc.)
+- Fix incomplete decimals (1e闁?e0)
 - Add missing imports
 
 DO NOT change the algorithm or ML model libraries.
@@ -89,7 +89,7 @@ Return ONLY the complete fixed Python code, no explanations."""
         self.claude_available = self._check_claude_installed()
         
         if self.verbose:
-            print(f"棣冩暋 Claude Code Integration initialized")
+            print(f"妫ｅ啯鏆?Claude Code Integration initialized")
             print(f"   Model: {self.model}")
             print(f"   API Base: {self.api_base}")
             print(f"   Claude CLI available: {self.claude_available}")
@@ -132,7 +132,7 @@ Return ONLY the complete fixed Python code, no explanations."""
         
         try:
             if self.verbose:
-                print(f"棣冾樆 Running Claude Code...")
+                print(f"妫ｅ喚妯?Running Claude Code...")
             
             result = subprocess.run(
                 cmd,
@@ -222,7 +222,7 @@ Return ONLY the complete fixed Python code, no explanations."""
         # Check file exists
         if not os.path.exists(file_path):
             if self.verbose:
-                print(f"閴?File not found: {file_path}")
+                print(f"闁?File not found: {file_path}")
             return False, None
         
         # Build prompt
@@ -236,7 +236,7 @@ Return ONLY the complete fixed Python code, no explanations."""
         
         if not success:
             if self.verbose:
-                print(f"閴?Claude Code failed: {err}")
+                print(f"闁?Claude Code failed: {err}")
             return False, None
         
         # Extract code from response
@@ -244,7 +244,7 @@ Return ONLY the complete fixed Python code, no explanations."""
         
         if not fixed_code:
             if self.verbose:
-                print(f"閴?No code in response")
+                print(f"闁?No code in response")
             return False, None
         
         # Validate syntax
@@ -252,11 +252,11 @@ Return ONLY the complete fixed Python code, no explanations."""
             compile(fixed_code, '<string>', 'exec')
         except SyntaxError as e:
             if self.verbose:
-                print(f"閳跨媴绗? Fixed code still has syntax error: {e}")
+                print(f"闁宠法濯寸粭? Fixed code still has syntax error: {e}")
             # Return anyway, let caller decide
         
         if self.verbose:
-            print(f"閴?Code fixed successfully ({len(fixed_code)} chars)")
+            print(f"闁?Code fixed successfully ({len(fixed_code)} chars)")
         
         # Save if requested
         if save:
@@ -264,10 +264,10 @@ Return ONLY the complete fixed Python code, no explanations."""
                 with open(file_path, 'w', encoding='utf-8') as f:
                     f.write(fixed_code)
                 if self.verbose:
-                    print(f"閴?Saved to {file_path}")
+                    print(f"闁?Saved to {file_path}")
             except Exception as e:
                 if self.verbose:
-                    print(f"閳跨媴绗? Could not save: {e}")
+                    print(f"闁宠法濯寸粭? Could not save: {e}")
         
         return True, fixed_code
     
@@ -294,7 +294,7 @@ Return ONLY the complete fixed Python code, no explanations."""
         except SyntaxError as e:
             error = f"SyntaxError: {e.msg} at line {e.lineno}"
             if self.verbose:
-                print(f"棣冩敵 Found syntax error: {error}")
+                print(f"妫ｅ啯鏁?Found syntax error: {error}")
         except Exception as e:
             error = str(e)
         
@@ -366,7 +366,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     
     print("=" * 60)
-    print("Claude Code Integration for EAFramework")
+    print("Claude Code Integration for AgentLTV")
     print("=" * 60)
     
     fixer = ClaudeCodeFixer(verbose=not args.quiet)
@@ -377,14 +377,14 @@ if __name__ == "__main__":
     )
     
     if success:
-        print("\n閴?Code fixed successfully!")
+        print("\n闁?Code fixed successfully!")
         if args.no_save and fixed_code:
             print("\n" + "=" * 60)
             print("FIXED CODE:")
             print("=" * 60)
             print(fixed_code[:1000] + "..." if len(fixed_code) > 1000 else fixed_code)
     else:
-        print("\n閴?Failed to fix code")
+        print("\n闁?Failed to fix code")
         sys.exit(1)
 
 

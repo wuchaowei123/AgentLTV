@@ -1,4 +1,4 @@
-# Getting Started with EA 妫ｅ唭?
+# Getting Started with EA 濡絽鍞?
 EA is a framework that combines Large Language Models (LLMs) with evolutionary algorithms to drive scientific discovery. This guide will help you get started with installing, configuring, and running your first evolutionary experiments.
 
 ## Table of Contents
@@ -31,7 +31,7 @@ The framework is particularly well-suited for optimization problems, algorithm d
 - Git
 - Either uv (recommended) or conda/pip for environment management
 
-### Option 1: Using uv (Recommended - Faster) 闁?
+### Option 1: Using uv (Recommended - Faster) 闂?
 [uv](https://docs.astral.sh/uv/) is a modern, fast Python package installer and environment manager that's significantly faster than pip.
 
 #### Step 1: Install uv
@@ -51,7 +51,7 @@ pip install uv
 
 ```bash
 git clone <ea-repository-url>
-cd EAFramework
+cd AgentLTV
 
 # Create virtual environment with Python 3.11
 uv venv --python 3.11
@@ -77,7 +77,7 @@ conda activate ea
 
 ```bash
 git clone <ea-repository-url>
-cd EAFramework
+cd AgentLTV
 pip install -e .
 ```
 
@@ -198,9 +198,9 @@ This example demonstrates optimizing the arrangement of 26 circles in a unit squ
 #### Files Structure
 ```
 examples/circle_packing/
-闁宠澹曢弨銏ゅ煘閳?initial.py     # Starting solution
-闁宠澹曢弨銏ゅ煘閳?evaluate.py    # Evaluation script
-闁宠鏌￠弨銏ゅ煘閳?run_evo.py     # Direct Python runner
+闂佸疇顫夋竟鏇㈠绩閵忋倕鐓橀柍?initial.py     # Starting solution
+闂佸疇顫夋竟鏇㈠绩閵忋倕鐓橀柍?evaluate.py    # Evaluation script
+闂佸疇顫夐弻锟犲绩閵忋倕鐓橀柍?run_evo.py     # Direct Python runner
 ```
 
 #### Running the Example
@@ -529,4 +529,4 @@ Now that you have EA running:
 3. **Create Custom Tasks**: Adapt the framework to your specific optimization problems
 4. **Scale Up**: Deploy on clusters for large-scale evolutionary experiments
 
-Happy evolving! 妫ｅ唭?
+Happy evolving! 濡絽鍞?

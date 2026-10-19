@@ -549,7 +549,7 @@ class DatabaseRequestHandler(http.server.SimpleHTTPRequestHandler):
 <body>
     <div class="header-container">
         {f'<img src="{logo_data_uri}" alt="EA Logo" class="header-logo">' if logo_data_uri else ""}
-        <h1 class="header-title">EAFramework Meta-Scratchpad: \
+        <h1 class="header-title">AgentLTV Meta-Scratchpad: \
 {generation}</h1>
     </div>
     {html_content}
@@ -855,12 +855,12 @@ def main():
     if args.open_browser:
         try:
             webbrowser.open_new_tab(viz_url)
-            print(f"闁?Opening {viz_url} in browser")
+            print(f"闂?Opening {viz_url} in browser")
         except Exception as e:
-            print(f"闁?Could not open browser automatically: {e}")
-            print(f"闁?Visit {viz_url}")
+            print(f"闂?Could not open browser automatically: {e}")
+            print(f"闂?Visit {viz_url}")
     else:
-        print(f"闁?Visit {viz_url}")
+        print(f"闂?Visit {viz_url}")
         print("(remember to forward the port if this is a remote host)")
 
     try:

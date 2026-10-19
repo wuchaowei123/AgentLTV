@@ -1,5 +1,5 @@
 """
-Adaptive Patch Selection for EAFramework
+Adaptive Patch Selection for AgentLTV
 
 Dynamically adjusts patch type probabilities based on evolution progress:
 - Exploits (more DIFF) when making progress
@@ -55,7 +55,7 @@ class AdaptivePatchSelector:
         self.history = []
         
         if self.verbose:
-            logger.info(f"馃幉 AdaptivePatchSelector initialized")
+            logger.info(f"棣冨箟 AdaptivePatchSelector initialized")
             logger.info(f"   Base probs: diff={self.base_probs[0]:.0%}, full={self.base_probs[1]:.0%}, cross={self.base_probs[2]:.0%}")
     
     def update(self, current_best_score: float, generation: int = None):
@@ -70,7 +70,7 @@ class AdaptivePatchSelector:
         
         if improved:
             if self.verbose and self.generations_since_improvement > 0:
-                logger.info(f"馃幆 Improvement detected! Score: {self.last_best_score:.4f} 鈫?{current_best_score:.4f}")
+                logger.info(f"棣冨箚 Improvement detected! Score: {self.last_best_score:.4f} 閳?{current_best_score:.4f}")
                 logger.info(f"   Resetting stagnation counter (was {self.generations_since_improvement})")
             
             self.generations_since_improvement = 0
@@ -78,7 +78,7 @@ class AdaptivePatchSelector:
         else:
             self.generations_since_improvement += 1
             if self.verbose and self.generations_since_improvement % 5 == 0:
-                logger.info(f"鈴?No improvement for {self.generations_since_improvement} generations")
+                logger.info(f"閳?No improvement for {self.generations_since_improvement} generations")
         
         # Record history
         self.history.append({
@@ -121,7 +121,7 @@ class AdaptivePatchSelector:
                     probs = self.base_probs.copy()
                 
                 if self.verbose:
-                    logger.info(f"馃幉 Meta-forced patch type: {forced_type}")
+                    logger.info(f"棣冨箟 Meta-forced patch type: {forced_type}")
                     logger.info(f"   Probs: diff={probs[0]:.0%}, full={probs[1]:.0%}, cross={probs[2]:.0%}")
                 
                 self.current_probs = probs
@@ -141,7 +141,7 @@ class AdaptivePatchSelector:
                 probs = [p / total for p in probs]
                 
                 if self.verbose:
-                    logger.info(f"馃幉 Meta exploration boost: +{boost:.0%}")
+                    logger.info(f"棣冨箟 Meta exploration boost: +{boost:.0%}")
                     logger.info(f"   Probs: diff={probs[0]:.0%}, full={probs[1]:.0%}, cross={probs[2]:.0%}")
                 
                 self.current_probs = probs
@@ -171,7 +171,7 @@ class AdaptivePatchSelector:
             level = "MAX_EXPLORATION"
         
         if self.verbose and probs != self.current_probs:
-            logger.info(f"馃幉 Adaptive patch selection: {level}")
+            logger.info(f"棣冨箟 Adaptive patch selection: {level}")
             logger.info(f"   Stagnation: {stag} generations")
             logger.info(f"   Probs: diff={probs[0]:.0%}, full={probs[1]:.0%}, cross={probs[2]:.0%}")
         

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-EAFramework Auto Fixer
-Universal auto-fixing and safe code execution for EAFramework
+AgentLTV Auto Fixer
+Universal auto-fixing and safe code execution for AgentLTV
 
 Features:
 1. Pre-execution validation with static analysis (NEW!)
@@ -14,7 +14,7 @@ Features:
 ERROR ANALYSIS (from real evolution runs):
 - 42% IndentationError - LLM generates wrong indentation
 - 16% Invalid decimal literal - LLM writes '1e' or '0.'
-- 11% Invalid Unicode characters - LLM uses 閳?instead of ==
+- 11% Invalid Unicode characters - LLM uses 闁?instead of ==
 - 31% Missing imports - LLM forgets import statements
 
 This auto-fixer addresses ALL these common failure modes.
@@ -58,12 +58,12 @@ PACKAGE_NAME_MAPPING = {
 
 class EAAutoFixer:
     """
-    Universal auto-fixer for EAFramework.
+    Universal auto-fixer for AgentLTV.
     
     Capabilities:
     1. PRE-EXECUTION VALIDATION - Catch errors before running (saves time!)
     2. AUTO-FIX COMMON LLM ERRORS:
-       - Unicode characters (閳?閳?==)
+       - Unicode characters (闁?闁?==)
        - Indentation issues
        - Missing imports
        - Incomplete decimal literals
@@ -116,7 +116,7 @@ class EAAutoFixer:
         self.model = os.getenv('AUTOFIXER_MODEL', 'claude-sonnet-4-5')  # Best for code fixing (note: hyphen not dot!)
         
         if self.verbose:
-            print(f"棣冩暋 EAAutoFixer initialized")
+            print(f"妫ｅ啯鏆?EAAutoFixer initialized")
             print(f"   Max fix attempts: {self.max_fix_attempts}")
             print(f"   Execution timeout: {self.execution_timeout}s")
             print(f"   Auto-install packages: {self.auto_install}")
@@ -143,7 +143,7 @@ class EAAutoFixer:
             return True, None, False
         
         if self.verbose:
-            print(f"\n棣冩敵 Pre-validating: {program_path}")
+            print(f"\n妫ｅ啯鏁?Pre-validating: {program_path}")
         
         is_valid, error, fixed_code = self.code_validator.validate(program_path)
         
@@ -154,19 +154,19 @@ class EAAutoFixer:
                     with open(program_path, 'w', encoding='utf-8') as f:
                         f.write(fixed_code)
                     if self.verbose:
-                        print(f"閴?Static fixes applied and saved")
+                        print(f"闁?Static fixes applied and saved")
                     return True, None, True
                 except Exception as e:
                     if self.verbose:
-                        print(f"閳跨媴绗? Could not save fixes: {e}")
+                        print(f"闁宠法濯寸粭? Could not save fixes: {e}")
                     return True, None, False
             else:
                 if self.verbose:
-                    print(f"閴?Pre-validation passed (no fixes needed)")
+                    print(f"闁?Pre-validation passed (no fixes needed)")
                 return True, None, False
         else:
             if self.verbose:
-                print(f"閴?Pre-validation failed: {error}")
+                print(f"闁?Pre-validation failed: {error}")
             return False, error, False
     
     # =========================================================================
@@ -178,7 +178,7 @@ class EAAutoFixer:
         pip_package = PACKAGE_NAME_MAPPING.get(package_name, package_name)
         
         if self.verbose:
-            print(f"棣冩憹 Auto-installing: {package_name}")
+            print(f"妫ｅ啯鎲?Auto-installing: {package_name}")
             if pip_package != package_name:
                 print(f"   (pip: {pip_package})")
         
@@ -192,15 +192,15 @@ class EAAutoFixer:
             
             if result.returncode == 0:
                 if self.verbose:
-                    print(f"閴?Installed {pip_package}")
+                    print(f"闁?Installed {pip_package}")
                 return True
             else:
                 if self.verbose:
-                    print(f"閴?Failed to install {pip_package}")
+                    print(f"闁?Failed to install {pip_package}")
                 return False
         except Exception as e:
             if self.verbose:
-                print(f"閴?Error installing: {e}")
+                print(f"闁?Error installing: {e}")
             return False
     
     # =========================================================================
@@ -264,8 +264,8 @@ class EAAutoFixer:
         Validate that the fix didn't inappropriately change ML models.
         Returns (is_valid, reason_if_invalid)
         
-        ALLOW: catboost閳姡ightgbm if code was using lgb (fixing import mismatch)
-        REJECT: xgboost閳姡ightgbm if code was using xgb (changing working model)
+        ALLOW: catboost闁愁偅濮ghtgbm if code was using lgb (fixing import mismatch)
+        REJECT: xgboost闁愁偅濮ghtgbm if code was using xgb (changing working model)
         """
         original_libs = self._extract_ml_imports(original_code)
         fixed_libs = self._extract_ml_imports(fixed_code)
@@ -286,14 +286,14 @@ class EAAutoFixer:
                     for pattern in lib_aliases[added_lib]:
                         if pattern in original_code:
                             if self.verbose:
-                                print(f"   閳╃櫢绗? Detected import mismatch fix: {removed_libs}閳姾added_libs}")
+                                print(f"   闁斥晝娅㈢粭? Detected import mismatch fix: {removed_libs}闁愁偅濮綼dded_libs}")
                                 print(f"      Code was using {added_lib} syntax, fixing import")
                             return True, None
             
-            return False, f"閳跨媴绗? Auto-fixer changed model library! Removed: {removed_libs}, Added: {added_libs}"
+            return False, f"闁宠法濯寸粭? Auto-fixer changed model library! Removed: {removed_libs}, Added: {added_libs}"
         
         elif removed_libs:
-            return False, f"閳跨媴绗? Auto-fixer removed ML library: {removed_libs}"
+            return False, f"闁宠法濯寸粭? Auto-fixer removed ML library: {removed_libs}"
         
         return True, None
     
@@ -331,7 +331,7 @@ CRITICAL REQUIREMENTS:
 Fixed code:"""
             
             if self.verbose:
-                print("棣冾樆 Asking Claude to fix code...")
+                print("妫ｅ喚妯?Asking Claude to fix code...")
             
             headers = {
                 'Authorization': f'Bearer {self.api_key}',
@@ -359,7 +359,7 @@ Fixed code:"""
                     fixed_code = data['choices'][0]['message']['content'].strip()
                 else:
                     if self.verbose:
-                        print(f"閴?Unexpected response format")
+                        print(f"闁?Unexpected response format")
                     return None
                 
                 # Extract code from markdown if present
@@ -367,12 +367,12 @@ Fixed code:"""
                 return fixed_code
             else:
                 if self.verbose:
-                    print(f"閴?API call failed: {response.status_code}")
+                    print(f"闁?API call failed: {response.status_code}")
                 return None
                 
         except Exception as e:
             if self.verbose:
-                print(f"閴?Error during fix: {e}")
+                print(f"闁?Error during fix: {e}")
             return None
     
     # =========================================================================
@@ -398,7 +398,7 @@ Fixed code:"""
             (success, fixed_path) - fixed_path is None if fix failed
         """
         if self.verbose:
-            print(f"\n棣冩暋 Fixing code based on error...")
+            print(f"\n妫ｅ啯鏆?Fixing code based on error...")
             print(f"   Error: {error_msg[:200]}")
         
         try:
@@ -406,7 +406,7 @@ Fixed code:"""
                 code = f.read()
         except Exception as e:
             if self.verbose:
-                print(f"閴?Cannot read file: {e}")
+                print(f"闁?Cannot read file: {e}")
             return False, None
         
         # Construct fix prompt with hint
@@ -418,14 +418,14 @@ Fixed code:"""
         
         if not fixed_code:
             if self.verbose:
-                print("閴?Could not get fix from Claude")
+                print("闁?Could not get fix from Claude")
             return False, None
         
         # Validate the fix
         is_valid, validation_error = self._validate_fix(code, fixed_code)
         if not is_valid:
             if self.verbose:
-                print(f"閴?Fix validation failed: {validation_error}")
+                print(f"闁?Fix validation failed: {validation_error}")
             return False, None
         
         # Write fixed code to new file
@@ -434,11 +434,11 @@ Fixed code:"""
             with open(fixed_path, 'w', encoding='utf-8') as f:
                 f.write(fixed_code)
             if self.verbose:
-                print(f"閴?Fixed code saved to: {fixed_path}")
+                print(f"闁?Fixed code saved to: {fixed_path}")
             return True, fixed_path
         except Exception as e:
             if self.verbose:
-                print(f"閴?Cannot write fixed code: {e}")
+                print(f"闁?Cannot write fixed code: {e}")
             return False, None
     
     # =========================================================================
@@ -463,7 +463,7 @@ Fixed code:"""
             (success, metrics, error_msg)
         """
         if self.verbose:
-            print(f"\n棣冩畬 Executing with auto-fix: {program_path}")
+            print(f"\n妫ｅ啯鐣?Executing with auto-fix: {program_path}")
             print("=" * 70)
         
         # STEP 0: Pre-validation with static fixes (NEW!)
@@ -472,7 +472,7 @@ Fixed code:"""
             if not is_valid:
                 # Try to fix with Claude if static analysis found errors
                 if self.verbose:
-                    print(f"閳跨媴绗? Pre-validation failed, trying Claude fix...")
+                    print(f"闁宠法濯寸粭? Pre-validation failed, trying Claude fix...")
                 
                 try:
                     with open(program_path, 'r', encoding='utf-8') as f:
@@ -486,37 +486,37 @@ Fixed code:"""
                             with open(program_path, 'w', encoding='utf-8') as f:
                                 f.write(fixed_code)
                             if self.verbose:
-                                print(f"閴?Claude fix applied (pre-validation)")
+                                print(f"闁?Claude fix applied (pre-validation)")
                         else:
                             if self.verbose:
-                                print(f"閴?Claude fix rejected: {validation_error}")
+                                print(f"闁?Claude fix rejected: {validation_error}")
                             return False, None, pre_error
                     else:
                         return False, None, pre_error
                 except Exception as e:
                     if self.verbose:
-                        print(f"閴?Pre-fix failed: {e}")
+                        print(f"闁?Pre-fix failed: {e}")
                     return False, None, pre_error
         
         for attempt in range(1, max_total_attempts + 1):
             if self.verbose:
-                print(f"\n棣冩惙 Attempt {attempt}/{max_total_attempts}")
+                print(f"\n妫ｅ啯鎯?Attempt {attempt}/{max_total_attempts}")
             
             success, metrics, error_msg = execute_fn(program_path)
             
             if success:
                 if self.verbose:
-                    print("閴?Execution successful!")
+                    print("闁?Execution successful!")
                 return True, metrics, None
             
             if self.verbose:
-                print(f"閴?Execution failed")
+                print(f"闁?Execution failed")
                 if error_msg:
                     print(f"   Error: {error_msg[:200]}")
             
             if attempt >= max_total_attempts:
                 if self.verbose:
-                    print(f"閴?Max attempts reached")
+                    print(f"闁?Max attempts reached")
                 return False, None, error_msg
             
             # Try auto-install for missing packages
@@ -526,20 +526,20 @@ Fixed code:"""
                     missing_pkg = match.group(1)
                     if self._install_package(missing_pkg):
                         if self.verbose:
-                            print(f"棣冩敡 Retrying after package installation...")
+                            print(f"妫ｅ啯鏁?Retrying after package installation...")
                         continue
             
             # Try to fix with Claude
             if attempt < max_total_attempts and error_msg:
                 if self.verbose:
-                    print(f"\n棣冩暋 Attempting to fix code...")
+                    print(f"\n妫ｅ啯鏆?Attempting to fix code...")
                 
                 try:
                     with open(program_path, 'r', encoding='utf-8') as f:
                         code = f.read()
                 except Exception as e:
                     if self.verbose:
-                        print(f"閴?Cannot read file: {e}")
+                        print(f"闁?Cannot read file: {e}")
                     return False, None, error_msg
                 
                 fixed_code = self._fix_code_with_claude(code, error_msg)
@@ -549,7 +549,7 @@ Fixed code:"""
                     
                     if not is_valid:
                         if self.verbose:
-                            print(f"閴?Fix validation failed: {validation_error}")
+                            print(f"闁?Fix validation failed: {validation_error}")
                             print(f"   Rejecting this fix to prevent downgrade.")
                         error_msg = f"{error_msg} (Auto-fixer tried to change model, rejected)"
                         continue
@@ -559,25 +559,25 @@ Fixed code:"""
                     try:
                         os.rename(program_path, backup_path)
                         if self.verbose:
-                            print(f"棣冩惂 Backup: {backup_path}")
+                            print(f"妫ｅ啯鎯?Backup: {backup_path}")
                     except Exception as e:
                         if self.verbose:
-                            print(f"閳跨媴绗? Cannot backup: {e}")
+                            print(f"闁宠法濯寸粭? Cannot backup: {e}")
                     
                     # Write fixed code
                     try:
                         with open(program_path, 'w', encoding='utf-8') as f:
                             f.write(fixed_code)
                         if self.verbose:
-                            print("閴佸骏绗? Fixed code saved")
-                            print("閴?Fix validation passed - no model changes detected")
+                            print("闁翠礁楠忕粭? Fixed code saved")
+                            print("闁?Fix validation passed - no model changes detected")
                     except Exception as e:
                         if self.verbose:
-                            print(f"閴?Cannot write fixed code: {e}")
+                            print(f"闁?Cannot write fixed code: {e}")
                         return False, None, error_msg
                 else:
                     if self.verbose:
-                        print("閴?Cannot get fix from Claude")
+                        print("闁?Cannot get fix from Claude")
                     return False, None, error_msg
         
         return False, None, error_msg
@@ -607,7 +607,7 @@ Fixed code:"""
             (success, json_result, error_msg)
         """
         if self.verbose:
-            print(f"\n棣冩暕 Executing analysis code (timeout: {timeout}s)")
+            print(f"\n妫ｅ啯鏆?Executing analysis code (timeout: {timeout}s)")
         
         # Validate code safety
         if allowed_imports:
@@ -656,13 +656,13 @@ Fixed code:"""
                             json_str = stdout[json_start:json_end]
                             output = json.loads(json_str)
                             if self.verbose:
-                                print("閴?Analysis code executed successfully")
+                                print("闁?Analysis code executed successfully")
                             return True, output, None
                         else:
                             # Try parsing entire output as JSON
                             output = json.loads(stdout)
                             if self.verbose:
-                                print("閴?Analysis code executed successfully")
+                                print("闁?Analysis code executed successfully")
                             return True, output, None
                             
                     except json.JSONDecodeError as e:
@@ -790,7 +790,7 @@ Fixed code:"""
             
         except Exception as e:
             if self.verbose:
-                print(f"閴?Error fixing analysis code: {e}")
+                print(f"闁?Error fixing analysis code: {e}")
             return None
 
 
@@ -859,7 +859,7 @@ def validate_code_before_execution(program_path: str, auto_fix: bool = True, ver
                 f.write(fixed_code)
         except Exception as e:
             if verbose:
-                print(f"閳跨媴绗? Could not save fixes: {e}")
+                print(f"闁宠法濯寸粭? Could not save fixes: {e}")
     
     return is_valid, error
 
@@ -896,10 +896,10 @@ print(json.dumps(results, indent=2))
         )
         
         if success:
-            print("\n棣冨竴 Analysis test passed!")
+            print("\n妫ｅ啫绔?Analysis test passed!")
             print(f"Result: {result}")
         else:
-            print(f"\n棣冩Д Analysis test failed: {error}")
+            print(f"\n妫ｅ啯袛 Analysis test failed: {error}")
     else:
         file_path = sys.argv[1]
         
@@ -923,10 +923,10 @@ print(json.dumps(results, indent=2))
         success, metrics, error = fixer.try_fix_and_execute(file_path, test_execute)
         
         if success:
-            print("\n棣冨竴 Success!")
+            print("\n妫ｅ啫绔?Success!")
             print(f"Metrics: {metrics}")
         else:
-            print("\n棣冩Д Failed")
+            print("\n妫ｅ啯袛 Failed")
             if error:
                 print(f"Error: {error}")
 

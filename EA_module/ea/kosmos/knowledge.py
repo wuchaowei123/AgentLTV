@@ -237,7 +237,7 @@ class HumanKnowledgeBase:
                 data = yaml.safe_load(f)
                 self.techniques = data.get('techniques', [])
         except Exception as e:
-            print(f"鈿狅笍  Error loading knowledge base: {e}")
+            print(f"閳跨媴绗? Error loading knowledge base: {e}")
     
     def get_relevant(self, task_description: str) -> List[Technique]:
         """Get relevant techniques for the task"""
@@ -283,7 +283,7 @@ class HumanKnowledgeBase:
             with open(self.kb_path, 'w') as f:
                 yaml.dump({'techniques': self.techniques}, f, default_flow_style=False)
         except Exception as e:
-            print(f"鈿狅笍  Error saving knowledge base: {e}")
+            print(f"閳跨媴绗? Error saving knowledge base: {e}")
 
 
 class ArxivSearch:
@@ -316,7 +316,7 @@ class ArxivSearch:
             List of Technique objects from papers
         """
         if self.verbose:
-            logger.info(f"馃摎 arXiv search: {query[:50]}...")
+            logger.info(f"棣冩憥 arXiv search: {query[:50]}...")
         
         # Build arXiv query - keep it simple for better results
         # Use simpler query format to avoid timeout issues
@@ -373,10 +373,10 @@ class ArxivSearch:
                 if e.response.status_code == 429 and attempt < self.max_retries - 1:
                     continue  # Retry on rate limit
                 if self.verbose:
-                    logger.warning(f"鈿狅笍  arXiv search failed (attempt {attempt + 1}): {e}")
+                    logger.warning(f"閳跨媴绗? arXiv search failed (attempt {attempt + 1}): {e}")
             except Exception as e:
                 if self.verbose:
-                    logger.warning(f"鈿狅笍  arXiv search failed (attempt {attempt + 1}): {e}")
+                    logger.warning(f"閳跨媴绗? arXiv search failed (attempt {attempt + 1}): {e}")
         
         return []
     
@@ -447,7 +447,7 @@ class SemanticScholarSearch:
             List of Technique objects from papers
         """
         if self.verbose:
-            logger.info(f"馃摉 Semantic Scholar search: {query[:50]}...")
+            logger.info(f"棣冩憠 Semantic Scholar search: {query[:50]}...")
         
         params = {
             'query': query,
@@ -456,7 +456,7 @@ class SemanticScholarSearch:
         }
         
         headers = {
-            'User-Agent': 'EAFramework/1.0 (research project)'
+            'User-Agent': 'AgentLTV/1.0 (research project)'
         }
         
         # Retry with exponential backoff
@@ -491,10 +491,10 @@ class SemanticScholarSearch:
                 if e.response.status_code == 429 and attempt < self.max_retries - 1:
                     continue  # Retry on rate limit
                 if self.verbose:
-                    logger.warning(f"鈿狅笍  Semantic Scholar search failed (attempt {attempt + 1}): {e}")
+                    logger.warning(f"閳跨媴绗? Semantic Scholar search failed (attempt {attempt + 1}): {e}")
             except Exception as e:
                 if self.verbose:
-                    logger.warning(f"鈿狅笍  Semantic Scholar search failed (attempt {attempt + 1}): {e}")
+                    logger.warning(f"閳跨媴绗? Semantic Scholar search failed (attempt {attempt + 1}): {e}")
         
         return []
     
@@ -576,7 +576,7 @@ class GeminiWebSearch:
             List of Technique objects from web search
         """
         if self.verbose:
-            logger.info(f"馃寪 Gemini web search: {query[:50]}...")
+            logger.info(f"棣冨 Gemini web search: {query[:50]}...")
         
         client = self._get_client()
         if client is None:
@@ -617,7 +617,7 @@ Return up to {max_results} most relevant techniques."""
             
         except Exception as e:
             if self.verbose:
-                logger.warning(f"鈿狅笍  Gemini web search failed: {e}")
+                logger.warning(f"閳跨媴绗? Gemini web search failed: {e}")
             return []
     
     def _parse_gemini_response(self, text: str) -> List[Technique]:
@@ -706,7 +706,7 @@ class LiteratureSearch:
             Combined list of Technique objects from papers
         """
         if self.verbose:
-            logger.info(f"馃摎 Literature search: {query[:50]}...")
+            logger.info(f"棣冩憥 Literature search: {query[:50]}...")
         
         techniques = []
         
@@ -798,9 +798,9 @@ class HumanGuidance:
         
         lines = [
             "",
-            "鈺? * 60,
-            "馃幆 HUMAN GUIDANCE (Real-time steering from researcher)",
-            "鈺? * 60,
+            "閳? * 60,
+            "棣冨箚 HUMAN GUIDANCE (Real-time steering from researcher)",
+            "閳? * 60,
         ]
         
         if self.last_updated:
@@ -808,37 +808,37 @@ class HumanGuidance:
             lines.append("")
         
         if self.priorities:
-            lines.append("馃敶 HIGH PRIORITY (Do this first!):")
+            lines.append("棣冩暥 HIGH PRIORITY (Do this first!):")
             for p in self.priorities:
-                lines.append(f"   鈥?{p}")
+                lines.append(f"   閳?{p}")
             lines.append("")
         
         if self.try_ideas:
-            lines.append("馃挕 TRY THESE IDEAS:")
+            lines.append("棣冩寱 TRY THESE IDEAS:")
             for t in self.try_ideas:
-                lines.append(f"   鈥?{t}")
+                lines.append(f"   閳?{t}")
             lines.append("")
         
         if self.focus:
-            lines.append("馃攳 FOCUS ON:")
+            lines.append("棣冩敵 FOCUS ON:")
             for f in self.focus:
-                lines.append(f"   鈥?{f}")
+                lines.append(f"   閳?{f}")
             lines.append("")
         
         if self.avoid:
-            lines.append("鉀?AVOID (Don't do these):")
+            lines.append("閴€?AVOID (Don't do these):")
             for a in self.avoid:
-                lines.append(f"   鈥?{a}")
+                lines.append(f"   閳?{a}")
             lines.append("")
         
         if self.notes:
-            lines.append("馃摑 NOTES:")
+            lines.append("棣冩憫 NOTES:")
             for n in self.notes:
-                lines.append(f"   鈥?{n}")
+                lines.append(f"   閳?{n}")
             lines.append("")
         
         lines.append("Please consider this guidance when generating mutations!")
-        lines.append("鈺? * 60)
+        lines.append("閳? * 60)
         
         return "\n".join(lines)
 
@@ -892,7 +892,7 @@ class HumanGuidanceReader:
         path = Path(self.guidance_file_path)
         if not path.exists():
             if self.verbose:
-                logger.info(f"馃摑 Human guidance file not found: {path}")
+                logger.info(f"棣冩憫 Human guidance file not found: {path}")
             return HumanGuidance()
         
         # Check if file was modified
@@ -911,7 +911,7 @@ class HumanGuidanceReader:
         self._cached_guidance = guidance
         
         if self.verbose and not guidance.is_empty():
-            logger.info(f"馃摑 Loaded human guidance:")
+            logger.info(f"棣冩憫 Loaded human guidance:")
             logger.info(f"   Priorities: {len(guidance.priorities)}")
             logger.info(f"   Try ideas: {len(guidance.try_ideas)}")
             logger.info(f"   Focus areas: {len(guidance.focus)}")
@@ -1047,9 +1047,9 @@ class HybridKnowledgeManager:
                     verbose=verbose
                 )
                 if verbose:
-                    print(f"   馃摎 Full Kosmos literature integration enabled (Gemini 3.0 Pro)")
+                    print(f"   棣冩憥 Full Kosmos literature integration enabled (Gemini 3.0 Pro)")
             except Exception as e:
-                print(f"   鈿狅笍 Kosmos integration failed: {e}, falling back to simple search")
+                print(f"   閳跨媴绗?Kosmos integration failed: {e}, falling back to simple search")
                 self.simple_paper_search = SimplePaperSearch(verbose=verbose) if SimplePaperSearch else None
         else:
             self.simple_paper_search = SimplePaperSearch(verbose=verbose) if SimplePaperSearch else None
@@ -1069,23 +1069,23 @@ class HybridKnowledgeManager:
             if KAGGLE_CLIENT_AVAILABLE:
                 try:
                     self.kaggle_notebook_client = KaggleNotebookClient()
-                    logger.info("鉁?Kaggle Notebook Client initialized")
+                    logger.info("閴?Kaggle Notebook Client initialized")
                 except Exception as e:
-                    logger.warning(f"鈿狅笍 Kaggle Notebook Client init failed: {e}")
+                    logger.warning(f"閳跨媴绗?Kaggle Notebook Client init failed: {e}")
             
             if KAGGLE_SCRAPER_AVAILABLE:
                 try:
                     self.kaggle_discussion_scraper = KaggleDiscussionScraper(rate_limit=2.0)
-                    logger.info("鉁?Kaggle Discussion Scraper initialized")
+                    logger.info("閴?Kaggle Discussion Scraper initialized")
                 except Exception as e:
-                    logger.warning(f"鈿狅笍 Kaggle Discussion Scraper init failed: {e}")
+                    logger.warning(f"閳跨媴绗?Kaggle Discussion Scraper init failed: {e}")
             
             if KAGGLE_ANALYZER_AVAILABLE:
                 try:
                     self.kaggle_analyzer = KaggleTechniqueAnalyzer(llm_client=llm_client)
-                    logger.info("鉁?Kaggle Technique Analyzer initialized")
+                    logger.info("閴?Kaggle Technique Analyzer initialized")
                 except Exception as e:
-                    logger.warning(f"鈿狅笍 Kaggle Technique Analyzer init failed: {e}")
+                    logger.warning(f"閳跨媴绗?Kaggle Technique Analyzer init failed: {e}")
         
         # Cache for recent searches
         self.cache: List[Technique] = []
@@ -1094,15 +1094,15 @@ class HybridKnowledgeManager:
         self.cached_kaggle_discussions: List[Technique] = []  # NEW: Cache for Kaggle discussions
         
         if self.verbose:
-            print(f"馃摎 HybridKnowledgeManager initialized")
+            print(f"棣冩憥 HybridKnowledgeManager initialized")
             print(f"   Plateau threshold: {plateau_threshold} gens")
             print(f"   Periodic search: every {periodic_interval} gens")
             print(f"   Literature: arXiv + Semantic Scholar")
             print(f"   Web: Gemini with Google Search grounding")
-            print(f"   Kosmos Integration: {'鉁?Full (Gemini 3.0 Pro)' if self.kosmos_integration else '鉂?Disabled'}")
-            print(f"   Simple Paper Search: {'鉁?Fallback' if self.simple_paper_search else '鉂?Disabled'}")
-            print(f"   Kaggle Notebooks: {'鉁?Enabled' if self.kaggle_notebook_client else '鉂?Disabled'}")
-            print(f"   Kaggle Discussions: {'鉁?Enabled' if self.kaggle_discussion_scraper else '鉂?Disabled'}")
+            print(f"   Kosmos Integration: {'閴?Full (Gemini 3.0 Pro)' if self.kosmos_integration else '閴?Disabled'}")
+            print(f"   Simple Paper Search: {'閴?Fallback' if self.simple_paper_search else '閴?Disabled'}")
+            print(f"   Kaggle Notebooks: {'閴?Enabled' if self.kaggle_notebook_client else '閴?Disabled'}")
+            print(f"   Kaggle Discussions: {'閴?Enabled' if self.kaggle_discussion_scraper else '閴?Disabled'}")
             if kaggle_competition:
                 print(f"   Kaggle Competition: {kaggle_competition}")
             if human_guidance_path:
@@ -1154,7 +1154,7 @@ class HybridKnowledgeManager:
         
         if should_search:
             if self.verbose:
-                print(f"馃攳 Gen {current_gen}: External search triggered")
+                print(f"棣冩敵 Gen {current_gen}: External search triggered")
                 print(f"   Reason: {reason}")
             
             # Build search query
@@ -1179,10 +1179,10 @@ class HybridKnowledgeManager:
                     bundle.paper_abstracts = self.kosmos_integration.format_for_mutation_prompt(search_result)
                     self.cached_abstracts = bundle.paper_abstracts
                     if self.verbose:
-                        print(f"   馃摎 Kosmos: {len(search_result.papers)} papers, {search_result.total_concepts} concepts, {search_result.total_methods} methods")
+                        print(f"   棣冩憥 Kosmos: {len(search_result.papers)} papers, {search_result.total_concepts} concepts, {search_result.total_methods} methods")
                 except Exception as e:
                     if self.verbose:
-                        print(f"   鈿狅笍 Kosmos search failed: {e}")
+                        print(f"   閳跨媴绗?Kosmos search failed: {e}")
                     bundle.paper_abstracts = ""
             elif self.simple_paper_search:
                 bundle.paper_abstracts = self.simple_paper_search.search_and_format(
@@ -1192,7 +1192,7 @@ class HybridKnowledgeManager:
                 )
                 self.cached_abstracts = bundle.paper_abstracts
                 if self.verbose:
-                    print(f"   馃搫 Paper abstracts (simple): {len(bundle.paper_abstracts)} chars")
+                    print(f"   棣冩惈 Paper abstracts (simple): {len(bundle.paper_abstracts)} chars")
             
             # NEW: Search Kaggle notebooks
             if self.kaggle_notebook_client and self.kaggle_competition:
@@ -1200,7 +1200,7 @@ class HybridKnowledgeManager:
                 bundle.kaggle_notebooks = kaggle_nb_techniques
                 self.cached_kaggle_notebooks = kaggle_nb_techniques
                 if self.verbose:
-                    print(f"   馃摀 Kaggle notebooks: {len(bundle.kaggle_notebooks)} techniques")
+                    print(f"   棣冩憖 Kaggle notebooks: {len(bundle.kaggle_notebooks)} techniques")
             
             # NEW: Search Kaggle discussions
             if self.kaggle_discussion_scraper and self.kaggle_competition:
@@ -1208,7 +1208,7 @@ class HybridKnowledgeManager:
                 bundle.kaggle_discussions = kaggle_disc_techniques
                 self.cached_kaggle_discussions = kaggle_disc_techniques
                 if self.verbose:
-                    print(f"   馃挰 Kaggle discussions: {len(bundle.kaggle_discussions)} techniques")
+                    print(f"   棣冩尠 Kaggle discussions: {len(bundle.kaggle_discussions)} techniques")
             
             # Update cache
             self.cache = bundle.literature + bundle.web
@@ -1220,8 +1220,8 @@ class HybridKnowledgeManager:
             bundle.search_reason = reason
             
             if self.verbose:
-                print(f"   馃摎 Literature: {len(bundle.literature)} techniques")
-                print(f"   馃寪 Web: {len(bundle.web)} techniques")
+                print(f"   棣冩憥 Literature: {len(bundle.literature)} techniques")
+                print(f"   棣冨 Web: {len(bundle.web)} techniques")
         else:
             # Use cached knowledge
             bundle.cached = self.cache
@@ -1251,7 +1251,7 @@ class HybridKnowledgeManager:
         try:
             # Search for top notebooks
             if self.verbose:
-                logger.info(f"   馃攳 Searching Kaggle notebooks for '{self.kaggle_competition}'...")
+                logger.info(f"   棣冩敵 Searching Kaggle notebooks for '{self.kaggle_competition}'...")
             
             notebooks = self.kaggle_notebook_client.search_notebooks(
                 competition=self.kaggle_competition,
@@ -1303,10 +1303,10 @@ class HybridKnowledgeManager:
                     logger.warning(f"   Error analyzing notebook {nb.kernel_slug}: {e}")
                     continue
             
-            logger.info(f"   鉁?Extracted {len(techniques)} techniques from {len(notebooks)} notebooks")
+            logger.info(f"   閴?Extracted {len(techniques)} techniques from {len(notebooks)} notebooks")
             
         except Exception as e:
-            logger.error(f"   鉂?Kaggle notebook search failed: {e}")
+            logger.error(f"   閴?Kaggle notebook search failed: {e}")
         
         return techniques
     
@@ -1329,7 +1329,7 @@ class HybridKnowledgeManager:
         try:
             # Search for top discussions
             if self.verbose:
-                logger.info(f"   馃攳 Searching Kaggle discussions for '{self.kaggle_competition}'...")
+                logger.info(f"   棣冩敵 Searching Kaggle discussions for '{self.kaggle_competition}'...")
             
             discussions = self.kaggle_discussion_scraper.get_top_discussions(
                 competition=self.kaggle_competition,
@@ -1381,10 +1381,10 @@ class HybridKnowledgeManager:
                     logger.warning(f"   Error analyzing discussion {disc.id}: {e}")
                     continue
             
-            logger.info(f"   鉁?Extracted {len(techniques)} insights from {len(discussions)} discussions")
+            logger.info(f"   閴?Extracted {len(techniques)} insights from {len(discussions)} discussions")
             
         except Exception as e:
-            logger.error(f"   鉂?Kaggle discussion search failed: {e}")
+            logger.error(f"   閴?Kaggle discussion search failed: {e}")
         
         return techniques
     
@@ -1429,9 +1429,9 @@ class HybridKnowledgeManager:
         
         lines = [
             "",
-            "鈺? * 60,
-            "馃摎 EXTERNAL KNOWLEDGE (from real-time search)",
-            "鈺? * 60,
+            "閳? * 60,
+            "棣冩憥 EXTERNAL KNOWLEDGE (from real-time search)",
+            "閳? * 60,
         ]
         
         if bundle.search_performed:
@@ -1447,20 +1447,20 @@ class HybridKnowledgeManager:
             by_source[source].append(t)
         
         source_names = {
-            'human': '馃挕 EXPERT KNOWLEDGE (Curated)',
-            'arxiv': '馃搫 FROM ARXIV PAPERS',
-            'semantic_scholar': '馃摉 FROM SEMANTIC SCHOLAR',
-            'web': '馃寪 FROM WEB SEARCH (Google)',
-            'cached': '馃摝 CACHED KNOWLEDGE',
-            'kaggle_notebook': '馃摀 FROM KAGGLE NOTEBOOKS',  # NEW
-            'kaggle_discussion': '馃挰 FROM KAGGLE DISCUSSIONS',  # NEW
+            'human': '棣冩寱 EXPERT KNOWLEDGE (Curated)',
+            'arxiv': '棣冩惈 FROM ARXIV PAPERS',
+            'semantic_scholar': '棣冩憠 FROM SEMANTIC SCHOLAR',
+            'web': '棣冨 FROM WEB SEARCH (Google)',
+            'cached': '棣冩憹 CACHED KNOWLEDGE',
+            'kaggle_notebook': '棣冩憖 FROM KAGGLE NOTEBOOKS',  # NEW
+            'kaggle_discussion': '棣冩尠 FROM KAGGLE DISCUSSIONS',  # NEW
         }
         
         for source, techniques in by_source.items():
             lines.append(f"\n{source_names.get(source, source.upper())}:")
             
             for t in techniques[:8]:  # Max 8 per source (increased from 3)
-                lines.append(f"鈥?{t.name}")
+                lines.append(f"閳?{t.name}")
                 lines.append(f"  {t.description[:200]}")
                 if t.applicable_when:
                     lines.append(f"  When to use: {t.applicable_when}")
@@ -1474,7 +1474,7 @@ class HybridKnowledgeManager:
         
         lines.append("")
         lines.append("Consider these techniques if relevant to the task!")
-        lines.append("鈺? * 60)
+        lines.append("閳? * 60)
         
         # NEW: Add paper abstracts if available
         if bundle.paper_abstracts:

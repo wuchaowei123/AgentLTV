@@ -1,4 +1,4 @@
-# EAFramework Specification & Lessons Learned
+# AgentLTV Specification & Lessons Learned
 
 ## LLM Configuration Guidelines
 

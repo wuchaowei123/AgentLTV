@@ -1,5 +1,5 @@
 """
-Kosmos Integration Module for EAFramework
+Kosmos Integration Module for AgentLTV
 
 This module provides intelligent analysis and knowledge management
 to enhance the evolutionary code optimization process.

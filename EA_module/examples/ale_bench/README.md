@@ -3,7 +3,7 @@
 ```
 conda create -n ale_bench python=3.11
 conda active ale_bench
-git clone https://github.com/EAFramework/ALE-Bench.git
+git clone https://github.com/wuchaowei123/AgentLTV.git
 
 cd ALE-Bench
 pip install .

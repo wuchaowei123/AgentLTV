@@ -1,5 +1,5 @@
 """
-EAFramework - Universal Code Validator
+AgentLTV - Universal Code Validator
 Pre-execution static analysis for catching common LLM code generation errors
 
 FAILURE ANALYSIS FROM SC_IOS_2503 TASK:
@@ -204,31 +204,31 @@ ALIAS_IMPORTS = {
 
 # Unicode replacements for common LLM errors
 UNICODE_REPLACEMENTS = {
-    '鈮?: '==',          # APPROXIMATELY EQUAL TO
-    '鈮?: '!=',          # NOT EQUAL TO
-    '鈮?: '<=',          # LESS-THAN OR EQUAL TO
-    '鈮?: '>=',          # GREATER-THAN OR EQUAL TO
-    '脳': '*',           # MULTIPLICATION SIGN
-    '梅': '/',           # DIVISION SIGN
-    '鈭?: '-',           # MINUS SIGN (different from hyphen!)
-    '鈥?: '-',           # EN DASH
-    '鈥?: '-',           # EM DASH
+    '閳?: '==',          # APPROXIMATELY EQUAL TO
+    '閳?: '!=',          # NOT EQUAL TO
+    '閳?: '<=',          # LESS-THAN OR EQUAL TO
+    '閳?: '>=',          # GREATER-THAN OR EQUAL TO
+    '鑴?: '*',           # MULTIPLICATION SIGN
+    '姊?: '/',           # DIVISION SIGN
+    '閳?: '-',           # MINUS SIGN (different from hyphen!)
+    '閳?: '-',           # EN DASH
+    '閳?: '-',           # EM DASH
     '"': '"',           # LEFT DOUBLE QUOTATION MARK
     '"': '"',           # RIGHT DOUBLE QUOTATION MARK
     ''': "'",           # LEFT SINGLE QUOTATION MARK
     ''': "'",           # RIGHT SINGLE QUOTATION MARK
-    '鈥?: '...',         # HORIZONTAL ELLIPSIS
-    '鈫?: '->',          # RIGHTWARDS ARROW
-    '鈫?: '<-',          # LEFTWARDS ARROW
-    '路': '*',           # MIDDLE DOT
-    '鈭?: 'float("inf")',# INFINITY
-    '伪': 'alpha',       # GREEK SMALL LETTER ALPHA
-    '尾': 'beta',        # GREEK SMALL LETTER BETA
-    '纬': 'gamma',       # GREEK SMALL LETTER GAMMA
-    '位': 'lambda_',     # GREEK SMALL LETTER LAMBDA (reserved word!)
-    '渭': 'mu',          # GREEK SMALL LETTER MU
-    '蟽': 'sigma',       # GREEK SMALL LETTER SIGMA
-    '蔚': 'epsilon',     # GREEK SMALL LETTER EPSILON
+    '閳?: '...',         # HORIZONTAL ELLIPSIS
+    '閳?: '->',          # RIGHTWARDS ARROW
+    '閳?: '<-',          # LEFTWARDS ARROW
+    '璺?: '*',           # MIDDLE DOT
+    '閳?: 'float("inf")',# INFINITY
+    '浼?: 'alpha',       # GREEK SMALL LETTER ALPHA
+    '灏?: 'beta',        # GREEK SMALL LETTER BETA
+    '绾?: 'gamma',       # GREEK SMALL LETTER GAMMA
+    '浣?: 'lambda_',     # GREEK SMALL LETTER LAMBDA (reserved word!)
+    '娓?: 'mu',          # GREEK SMALL LETTER MU
+    '锜?: 'sigma',       # GREEK SMALL LETTER SIGMA
+    '钄?: 'epsilon',     # GREEK SMALL LETTER EPSILON
     '\u00a0': ' ',      # NON-BREAKING SPACE
     '\u2003': ' ',      # EM SPACE
     '\u2002': ' ',      # EN SPACE
@@ -239,7 +239,7 @@ UNICODE_REPLACEMENTS = {
 
 class CodeValidator:
     """
-    Universal code validator for EAFramework.
+    Universal code validator for AgentLTV.
     Performs static analysis to catch common LLM code generation errors.
     """
     
@@ -334,7 +334,7 @@ class CodeValidator:
         # Return fixed code if we made changes
         if fixes_applied and code != original_code:
             if self.verbose:
-                print(f"鉁?Applied {len(fixes_applied)} auto-fixes:")
+                print(f"閴?Applied {len(fixes_applied)} auto-fixes:")
                 for fix in fixes_applied:
                     print(f"   - {fix}")
             return True, None, code
@@ -350,7 +350,7 @@ class CodeValidator:
             if unicode_char in code:
                 count = code.count(unicode_char)
                 code = code.replace(unicode_char, replacement)
-                fixes.append(f"Replaced {repr(unicode_char)} 脳 {count}")
+                fixes.append(f"Replaced {repr(unicode_char)} 鑴?{count}")
         
         # Also check for any remaining non-ASCII characters that might cause issues
         suspicious_chars = set()
@@ -371,7 +371,7 @@ class CodeValidator:
                     suspicious_chars.add(char)
         
         if suspicious_chars and self.verbose:
-            print(f"鈿狅笍  Suspicious non-ASCII chars found: {suspicious_chars}")
+            print(f"閳跨媴绗? Suspicious non-ASCII chars found: {suspicious_chars}")
         
         return code, fixes
     
@@ -720,7 +720,7 @@ def quick_validate(code_path: str) -> Tuple[bool, Optional[str]]:
 if __name__ == '__main__':
     import argparse
     
-    parser = argparse.ArgumentParser(description='EAFramework Code Validator')
+    parser = argparse.ArgumentParser(description='AgentLTV Code Validator')
     parser.add_argument('file', help='Python file to validate')
     parser.add_argument('--fix', action='store_true', help='Apply auto-fixes')
     parser.add_argument('--quiet', action='store_true', help='Quiet mode')
@@ -728,7 +728,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     
     print("=" * 60)
-    print("EAFramework - Universal Code Validator")
+    print("AgentLTV - Universal Code Validator")
     print("=" * 60)
     
     validator = CodeValidator(
@@ -741,15 +741,15 @@ if __name__ == '__main__':
     is_valid, error, fixed_code = validator.validate(args.file)
     
     if is_valid:
-        print(f"\n鉁?{args.file} is valid")
+        print(f"\n閴?{args.file} is valid")
         if fixed_code and args.fix:
             # Write fixed code
             with open(args.file, 'w') as f:
                 f.write(fixed_code)
-            print(f"鉁?Auto-fixes applied and saved")
+            print(f"閴?Auto-fixes applied and saved")
         sys.exit(0)
     else:
-        print(f"\n鉂?{args.file} has errors:")
+        print(f"\n閴?{args.file} has errors:")
         print(f"   {error}")
         sys.exit(1)
 

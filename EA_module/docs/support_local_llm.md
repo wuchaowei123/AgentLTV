@@ -1,25 +1,25 @@
 
-# 馃З Integrating Local LLMs into **EAFramework**
+# 棣冃?Integrating Local LLMs into **AgentLTV**
 
-## 馃 Overview
+## 棣冾潵 Overview
 
-The original **EAFramework** code does **not** include built-in support for running **local LLMs**.
+The original **AgentLTV** code does **not** include built-in support for running **local LLMs**.
 To enable this functionality, parts of the codebase can be modified to integrate locally hosted models.
 
 ---
 
-## 馃彈锔?Code Organization
+## 棣冨綀閿?Code Organization
 
-**EAFramework** uses a **modular architecture** that supports multiple **LLM providers**.
+**AgentLTV** uses a **modular architecture** that supports multiple **LLM providers**.
 The relevant code for LLM interaction is located in the **`LLM/`** folder, which manages all model communications.
-EAFramework distinguishes between two LLM types:
+AgentLTV distinguishes between two LLM types:
 
 * **Regular LLMs**
 * **Embedding LLMs**
 
 ---
 
-## 鈿欙笍 Adding a Regular LLM
+## 閳挎瑱绗?Adding a Regular LLM
 
 To add support for a **regular LLM**, follow these steps. They will show an example of adding support for gpt-oss models running with unsloth, which provides an API compatible with OpenAI API (v1/completions).
 This LLM can then be specified in the configuration variables:
@@ -31,7 +31,7 @@ meta_llm_models:
 
 ---
 
-### 馃敡 Step 1: Modify the Client
+### 棣冩暋 Step 1: Modify the Client
 
 The file **`client.py`** is responsible for creating clients that interact with LLMs.
 Each client instance is later used to query a specific model.
@@ -72,7 +72,7 @@ elif "local-gptoss-unsloth" in model_name:
 
 ---
 
-### 馃搧 Step 2: Create the Local Query Function
+### 棣冩惂 Step 2: Create the Local Query Function
 
 Inside the **`models/`** folder, create a new subfolder to store the query functions for your local models:
 
@@ -80,7 +80,7 @@ Inside the **`models/`** folder, create a new subfolder to store the query funct
 LLM/models/local/
 ```
 
-> Don鈥檛 forget to include an empty `__init__.py` file.
+> Don閳ユ獩 forget to include an empty `__init__.py` file.
 
 This folder should contain a **custom query function** for the local model. I called my file local_gptoss_unsloth.py.
 It should follow the same structure as other functions in `LLM/models/`, but with small adjustments.
@@ -97,7 +97,7 @@ This function is later imported and registered in **`query.py`**.
 
 ---
 
-### 馃З Step 3: Update `__init__.py`
+### 棣冃?Step 3: Update `__init__.py`
 
 Configure **`__init__.py`** to include and expose the new local query function, so it can be imported elsewhere.
 
@@ -117,7 +117,7 @@ __all__ = [
 
 ---
 
-### 馃摤 Step 4: Update `query.py`
+### 棣冩懁 Step 4: Update `query.py`
 
 Import and register the new local query function in query.py.
 
@@ -143,7 +143,7 @@ elif "local-gptoss-unsloth" in model_name:  # ADDED THIS LINE
 
 ---
 
-### 馃 Step 5: Other Observations
+### 棣冾潵 Step 5: Other Observations
 
 The file **`query.py`** also defines functions such as:
 
@@ -154,7 +154,7 @@ However, these are **not referenced anywhere else** in the repository, so no mod
 
 ---
 
-### 鉁?Summary
+### 閴?Summary
 
 | Step | File                                         | Change               | Description                                              |
 | ---- | -------------------------------------------- | -------------------- | -------------------------------------------------------- |
@@ -162,11 +162,11 @@ However, these are **not referenced anywhere else** in the repository, so no mod
 | 2    | `models/local/query_local_gptoss_unsloth.py` | New function         | Query local model, adjust tokens, extract reasoning info |
 | 3    | `__init__.py`                                | Add import           | Expose new query function                                |
 | 4    | `query.py`                                   | Register model       | Add conditional for local LLM                            |
-| 5    | 鈥?                                           | Review only          | Ignored unused functions                                 |
+| 5    | 閳?                                           | Review only          | Ignored unused functions                                 |
 
 ---
 
-## 馃К Adding a Local Embedding Model
+## 棣冃?Adding a Local Embedding Model
 
 For embedding models, you can use **Ollama**, which follows the **OpenAI API** format.
 The only relevant file is **`embedding.py`**.
@@ -223,9 +223,9 @@ elif self.model_name.startswith("local-"):
 
 ---
 
-## 馃殌 Result
+## 棣冩畬 Result
 
-EAFramework can now connect to **locally hosted LLMs** and **embedding models** through **OpenAI-compatible APIs**.
+AgentLTV can now connect to **locally hosted LLMs** and **embedding models** through **OpenAI-compatible APIs**.
 This setup supports **Ollama** and other frameworks such as **gpt-oss** under **Unsloth**.
 
 If your model has different requirements, follow the same pattern with a distinct model identifier and your own custom logic.

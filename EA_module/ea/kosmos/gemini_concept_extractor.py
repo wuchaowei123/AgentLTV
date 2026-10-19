@@ -195,7 +195,7 @@ class GeminiConceptExtractor:
                     # Use Google AI API with API key
                     self.genai_client = genai.Client(api_key=api_key)
                     if verbose:
-                        logger.info("鉁?Google GenAI client initialized with API key")
+                        logger.info("閴?Google GenAI client initialized with API key")
                 else:
                     # Use Vertex AI (GCP environment)
                     self.genai_client = genai.Client(
@@ -204,7 +204,7 @@ class GeminiConceptExtractor:
                         location=location
                     )
                     if verbose:
-                        logger.info(f"鉁?Google GenAI client initialized with Vertex AI (project={project})")
+                        logger.info(f"閴?Google GenAI client initialized with Vertex AI (project={project})")
             except Exception as e:
                 logger.warning(f"Failed to init Google GenAI client: {e}")
                 self.genai_client = None
@@ -221,7 +221,7 @@ class GeminiConceptExtractor:
                     temperatures=temperature,
                 )
             except ImportError:
-                logger.warning("EAFramework LLM client not available, using litellm directly")
+                logger.warning("AgentLTV LLM client not available, using litellm directly")
 
         # Caching setup
         self.use_cache = use_cache
@@ -241,8 +241,8 @@ class GeminiConceptExtractor:
 
         if verbose:
             logger.info(f"Initialized GeminiConceptExtractor (model={model})")
-            logger.info(f"   Direct PDF upload: {'鉁?Enabled' if self.use_direct_pdf else '鉂?Disabled'}")
-            logger.info(f"   Text extraction fallback: {'鉁?Available' if PYMUPDF_AVAILABLE else '鉂?Not available'}")
+            logger.info(f"   Direct PDF upload: {'閴?Enabled' if self.use_direct_pdf else '閴?Disabled'}")
+            logger.info(f"   Text extraction fallback: {'閴?Available' if PYMUPDF_AVAILABLE else '閴?Not available'}")
     
     # =========================================================================
     # PDF EXTRACTION METHODS
@@ -399,7 +399,7 @@ class GeminiConceptExtractor:
             
             if result.returncode == 0:
                 if self.verbose:
-                    logger.info(f"   鉁?PDF uploaded to GCS")
+                    logger.info(f"   閴?PDF uploaded to GCS")
                 return gcs_path
             else:
                 logger.error(f"   GCS upload failed: {result.stderr}")
@@ -450,7 +450,7 @@ class GeminiConceptExtractor:
                 )
                 
                 if self.verbose:
-                    logger.info(f"   鉁?PDF uploaded directly: {uploaded_file.name}")
+                    logger.info(f"   閴?PDF uploaded directly: {uploaded_file.name}")
                 
                 # Generate content with the uploaded file
                 response = self.genai_client.models.generate_content(
@@ -496,7 +496,7 @@ class GeminiConceptExtractor:
                         
                         if response and response.text:
                             if self.verbose:
-                                logger.info("   鉁?Generated content from GCS PDF")
+                                logger.info("   閴?Generated content from GCS PDF")
                             return response.text
                 else:
                     raise e
@@ -746,12 +746,12 @@ class GeminiConceptExtractor:
                     
                     if response_text:
                         if self.verbose:
-                            logger.info("   鉁?Used direct PDF upload to Gemini")
+                            logger.info("   閴?Used direct PDF upload to Gemini")
         
         # Fallback to text extraction
         if not response_text:
             if self.verbose:
-                logger.info("   馃搫 Using text extraction fallback...")
+                logger.info("   棣冩惈 Using text extraction fallback...")
             
             prompt = self._build_concept_extraction_prompt(
                 paper,

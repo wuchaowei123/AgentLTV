@@ -1,7 +1,7 @@
 """
 Kosmos Analyzer
 
-Universal analyzer for EAFramework that:
+Universal analyzer for AgentLTV that:
 1. Generates hypotheses about why code achieved its performance
 2. Generates analysis code to rank hypotheses by evidence
 3. Returns all ranked hypotheses for mutation guidance
@@ -57,7 +57,7 @@ class AnalysisResult:
 
 class KosmosAnalyzer:
     """
-    Universal analyzer for EAFramework.
+    Universal analyzer for AgentLTV.
     
     Works with ANY task by reading task description from config.
     Generates hypotheses and ranks them using LLM-generated analysis code.
@@ -95,7 +95,7 @@ class KosmosAnalyzer:
         self.model = self.config.llm_model
         
         if self.verbose:
-            print(f"棣冩暕 KosmosAnalyzer initialized")
+            print(f"妫ｅ啯鏆?KosmosAnalyzer initialized")
             print(f"   Task: {self.task_description[:50]}...")
             print(f"   Metric: {self.metric_name}")
             print(f"   Model: {self.model}")
@@ -122,7 +122,7 @@ class KosmosAnalyzer:
             AnalysisResult with ranked hypotheses
         """
         if self.verbose:
-            print(f"\n棣冩暕 Analyzing node (metric: {metrics.get('combined_score', 'N/A')})")
+            print(f"\n妫ｅ啯鏆?Analyzing node (metric: {metrics.get('combined_score', 'N/A')})")
         
         try:
             # Step 1: Generate hypotheses
@@ -155,7 +155,7 @@ class KosmosAnalyzer:
             else:
                 # Fallback: return hypotheses with default scores
                 if self.verbose:
-                    print(f"閳跨媴绗? Analysis failed, using default ranking")
+                    print(f"闁宠法濯寸粭? Analysis failed, using default ranking")
                 ranked = [
                     RankedHypothesis(
                         hypothesis=h,
@@ -179,7 +179,7 @@ class KosmosAnalyzer:
             
         except Exception as e:
             if self.verbose:
-                print(f"閴?Analysis error: {e}")
+                print(f"闁?Analysis error: {e}")
             return AnalysisResult(
                 hypotheses=[],
                 recommendations=[],
@@ -248,7 +248,7 @@ Return as JSON array of strings (hypotheses only, no explanations):
             
         except Exception as e:
             if self.verbose:
-                print(f"閴?Error generating hypotheses: {e}")
+                print(f"闁?Error generating hypotheses: {e}")
             return []
     
     def _generate_analysis_code(
@@ -323,7 +323,7 @@ Return ONLY the Python code, no explanations.
             
         except Exception as e:
             if self.verbose:
-                print(f"閴?Error generating analysis code: {e}")
+                print(f"闁?Error generating analysis code: {e}")
             return self._get_fallback_analysis_code(hypotheses, metrics)
     
     def _get_fallback_analysis_code(
@@ -432,12 +432,12 @@ print(json.dumps({{"scores": scores}}, indent=2))
                     return data['choices'][0]['message']['content'].strip()
             
             if self.verbose:
-                print(f"閴?LLM call failed: {response.status_code}")
+                print(f"闁?LLM call failed: {response.status_code}")
             return None
             
         except Exception as e:
             if self.verbose:
-                print(f"閴?LLM error: {e}")
+                print(f"闁?LLM error: {e}")
             return None
     
     def format_for_mutation_prompt(
@@ -451,9 +451,9 @@ print(json.dumps({{"scores": scores}}, indent=2))
         
         lines = [
             "",
-            "閳? * 60,
-            "棣冩暕 KOSMOS ANALYSIS (Evidence-Based)",
-            "閳? * 60,
+            "闁? * 60,
+            "妫ｅ啯鏆?KOSMOS ANALYSIS (Evidence-Based)",
+            "闁? * 60,
             "",
             "RANKED HYPOTHESES (by evidence strength):",
         ]
@@ -463,17 +463,17 @@ print(json.dumps({{"scores": scores}}, indent=2))
             lines.append(f"")
             lines.append(f"{i}. [{confidence} {h.score:.2f}] {h.hypothesis}")
             lines.append(f"   Evidence: {h.evidence[:100]}")
-            lines.append(f"   閳?{h.recommendation}")
+            lines.append(f"   闁?{h.recommendation}")
         
         if analysis_result.recommendations:
             lines.append("")
             lines.append("TOP RECOMMENDATIONS:")
             for rec in analysis_result.recommendations[:3]:
-                lines.append(f"閳?{rec}")
+                lines.append(f"闁?{rec}")
         
         lines.append("")
         lines.append("Focus on HIGH-ranked hypotheses first!")
-        lines.append("閳? * 60)
+        lines.append("闁? * 60)
         
         return "\n".join(lines)
 
