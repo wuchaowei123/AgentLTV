@@ -277,6 +277,10 @@ If you use AgentLTV in your research, please cite:
 }
 ```
 
+### ACM Reference Format
+
+Wu, Chaowei, Chen, Huazhu, Yang, Qirui, Li, Jiahui, Luo, Li, and Guo, Mengzhuo. 2026. An Automated Multi-Agent Search-then-Evolution Framework for Lifetime Value Prediction. In *Proceedings of the 35th ACM International Conference on Information and Knowledge Management (CIKM '26)*, November 07--11, 2026, Rome, Italy. ACM, New York, NY, USA. https://doi.org/10.1145/3799682.3841119
+
 ---
 
 ## License
