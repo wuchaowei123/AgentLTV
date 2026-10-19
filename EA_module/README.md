@@ -97,37 +97,37 @@ The EA module uses [Hydra](https://hydra.cc/) for configuration. Key configurati
 
 ```
 EA_module/
-鈹溾攢鈹€ ea/                          # Main package
-鈹?  鈹溾攢鈹€ core/                    # Core evolution logic
-鈹?  鈹?  鈹溾攢鈹€ runner.py            # EvolutionRunner + EvolutionConfig
-鈹?  鈹?  鈹溾攢鈹€ sampler.py           # Prompt sampling
-鈹?  鈹?  鈹溾攢鈹€ wrap_eval.py         # Evaluation wrapper
-鈹?  鈹?  鈹溾攢鈹€ adaptive_patch.py    # Adaptive patch selection
-鈹?  鈹?  鈹溾攢鈹€ summarizer.py        # Meta-recommendations
-鈹?  鈹?  鈹斺攢鈹€ novelty_judge.py     # Novelty assessment
-鈹?  鈹溾攢鈹€ database/                # Program database
-鈹?  鈹?  鈹溾攢鈹€ dbase.py             # ProgramDatabase
-鈹?  鈹?  鈹溾攢鈹€ islands.py           # Island management
-鈹?  鈹?  鈹溾攢鈹€ parents.py           # Parent selection
-鈹?  鈹?  鈹斺攢鈹€ inspirations.py      # Context selection
-鈹?  鈹溾攢鈹€ launch/                  # Job scheduling
-鈹?  鈹?  鈹溾攢鈹€ local.py             # Local execution
-鈹?  鈹?  鈹溾攢鈹€ slurm.py             # Slurm cluster execution
-鈹?  鈹?  鈹斺攢鈹€ scheduler.py         # Job scheduler
-鈹?  鈹溾攢鈹€ llm/                     # LLM client
-鈹?  鈹溾攢鈹€ edit/                    # Code patching
-鈹?  鈹溾攢鈹€ prompts/                 # Prompt templates
-鈹?  鈹溾攢鈹€ utils/                   # Utilities
-鈹?  鈹溾攢鈹€ plots/                   # Visualization
-鈹?  鈹溾攢鈹€ webui/                   # Web interface
-鈹?  鈹溾攢鈹€ knowledge/               # Knowledge management
-鈹?  鈹斺攢鈹€ kosmos/                  # Analysis tools
-鈹溾攢鈹€ configs/                     # Hydra configurations
-鈹溾攢鈹€ examples/                    # Example tasks
-鈹溾攢鈹€ tests/                       # Test suite
-鈹溾攢鈹€ docs/                        # Documentation
-鈹溾攢鈹€ pyproject.toml               # Package configuration
-鈹斺攢鈹€ README.md                    # This file
+├── ea/                          # Main package
+│   ├── core/                    # Core evolution logic
+│   │   ├── runner.py            # EvolutionRunner + EvolutionConfig
+│   │   ├── sampler.py           # Prompt sampling
+│   │   ├── wrap_eval.py         # Evaluation wrapper
+│   │   ├── adaptive_patch.py    # Adaptive patch selection
+│   │   ├── summarizer.py        # Meta-recommendations
+│   │   └── novelty_judge.py     # Novelty assessment
+│   ├── database/                # Program database
+│   │   ├── dbase.py             # ProgramDatabase
+│   │   ├── islands.py           # Island management
+│   │   ├── parents.py           # Parent selection
+│   │   └── inspirations.py      # Context selection
+│   ├── launch/                  # Job scheduling
+│   │   ├── local.py             # Local execution
+│   │   ├── slurm.py             # Slurm cluster execution
+│   │   └── scheduler.py         # Job scheduler
+│   ├── llm/                     # LLM client
+│   ├── edit/                    # Code patching
+│   ├── prompts/                 # Prompt templates
+│   ├── utils/                   # Utilities
+│   ├── plots/                   # Visualization
+│   ├── webui/                   # Web interface
+│   ├── knowledge/               # Knowledge management
+│   └── kosmos/                  # Analysis tools
+├── configs/                     # Hydra configurations
+├── examples/                    # Example tasks
+├── tests/                       # Test suite
+├── docs/                        # Documentation
+├── pyproject.toml               # Package configuration
+└── README.md                    # This file
 ```
 
 ## Citation
