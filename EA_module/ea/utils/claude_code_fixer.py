@@ -30,8 +30,8 @@ from typing import Optional, Tuple, Dict, Any
 
 
 # Default LiteLLM configuration
-DEFAULT_API_BASE = "http://litellm.aviagames.net"
-DEFAULT_API_KEY = "sk-E4cGjuW5UkhKNsh3kGsJww"
+DEFAULT_API_BASE = os.getenv("OPENAI_API_BASE", "")
+DEFAULT_API_KEY = os.getenv("OPENAI_API_KEY", "")
 DEFAULT_MODEL = "claude-sonnet-4.5"  # Best for code
 
 
@@ -166,7 +166,7 @@ class ClaudeCodeFixer:
         self.verbose = verbose
         
         if self.verbose:
-            print(f"馃敡 Claude Code Fixer initialized")
+            print(f"棣冩暋 Claude Code Fixer initialized")
             print(f"   Model: {self.model}")
             print(f"   API: {self.api_base}")
     
@@ -186,7 +186,7 @@ class ClaudeCodeFixer:
             }
             
             if self.verbose:
-                print(f"馃 Sending to Claude ({self.model})...")
+                print(f"棣冾樆 Sending to Claude ({self.model})...")
             
             response = requests.post(
                 f'{self.api_base}/chat/completions',
@@ -205,26 +205,26 @@ class ClaudeCodeFixer:
                     content = self._extract_code(content)
                     
                     if self.verbose:
-                        print(f"鉁?Got response ({len(content)} chars)")
+                        print(f"閴?Got response ({len(content)} chars)")
                     
                     return content
                 else:
                     if self.verbose:
-                        print(f"鉂?Unexpected response format")
+                        print(f"閴?Unexpected response format")
                     return None
             else:
                 if self.verbose:
-                    print(f"鉂?API error: {response.status_code}")
+                    print(f"閴?API error: {response.status_code}")
                     print(f"   Response: {response.text[:500]}")
                 return None
                 
         except requests.exceptions.Timeout:
             if self.verbose:
-                print(f"鉂?Request timed out after {self.timeout}s")
+                print(f"閴?Request timed out after {self.timeout}s")
             return None
         except Exception as e:
             if self.verbose:
-                print(f"鉂?Error: {e}")
+                print(f"閴?Error: {e}")
             return None
     
     def _extract_code(self, response: str) -> str:
@@ -337,7 +337,7 @@ class ClaudeCodeFixer:
                 code = f.read()
         except Exception as e:
             if self.verbose:
-                print(f"鉂?Cannot read file: {e}")
+                print(f"閴?Cannot read file: {e}")
             return False, None
         
         success, fixed_code = self.fix(code)
@@ -347,10 +347,10 @@ class ClaudeCodeFixer:
                 with open(file_path, 'w', encoding='utf-8') as f:
                     f.write(fixed_code)
                 if self.verbose:
-                    print(f"鉁?Fixed code saved to {file_path}")
+                    print(f"閴?Fixed code saved to {file_path}")
             except Exception as e:
                 if self.verbose:
-                    print(f"鈿狅笍  Cannot save file: {e}")
+                    print(f"閳跨媴绗? Cannot save file: {e}")
         
         return success, fixed_code
     
@@ -376,7 +376,7 @@ class ClaudeCodeFixer:
                 code = f.read()
         except Exception as e:
             if self.verbose:
-                print(f"鉂?Cannot read file: {e}")
+                print(f"閴?Cannot read file: {e}")
             return False, None
         
         success, fixed_code = self.fix_with_error(code, error)
@@ -386,10 +386,10 @@ class ClaudeCodeFixer:
                 with open(file_path, 'w', encoding='utf-8') as f:
                     f.write(fixed_code)
                 if self.verbose:
-                    print(f"鉁?Fixed code saved to {file_path}")
+                    print(f"閴?Fixed code saved to {file_path}")
             except Exception as e:
                 if self.verbose:
-                    print(f"鈿狅笍  Cannot save file: {e}")
+                    print(f"閳跨媴绗? Cannot save file: {e}")
         
         return success, fixed_code
 
@@ -502,14 +502,14 @@ Examples:
         )
     
     if success:
-        print("\n鉁?Code fixed successfully!")
+        print("\n閴?Code fixed successfully!")
         if args.no_save and fixed_code:
             print("\n" + "=" * 60)
             print("FIXED CODE:")
             print("=" * 60)
             print(fixed_code)
     else:
-        print("\n鉂?Failed to fix code")
+        print("\n閴?Failed to fix code")
         sys.exit(1)
 
 

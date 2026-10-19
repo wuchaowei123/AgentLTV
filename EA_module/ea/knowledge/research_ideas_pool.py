@@ -118,7 +118,7 @@ class MultiInterestExtractor(nn.Module):
             interests.append(interest)
         return torch.stack(interests, dim=1)  # (B, K, H)
 ''',
-        references=["MIND (Alibaba)", "ComiRec", "DMIN"],
+        references=["MIND", "ComiRec", "DMIN"],
     ),
     
     ResearchIdea(
@@ -532,7 +532,7 @@ def format_for_llm_selection(
         categories[idea.category].append(idea)
     
     lines = [
-        f"# 🔬 {title}",
+        f"# 馃敩 {title}",
         "",
         "Select ONE idea to implement based on:",
         f"- Current plateau length: {plateau_length} generations",

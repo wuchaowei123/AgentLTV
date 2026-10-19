@@ -35,8 +35,8 @@ from typing import Optional, Dict, Any
 # Default configuration
 DEFAULT_MODEL = "claude-sonnet-4-5"  # Claude Sonnet 4.5 via LiteLLM (use hyphens not dots)
 DEFAULT_TIMEOUT = 21600  # 6 hours for ML training tasks (was 1 hour, increased to prevent orphan processes)
-DEFAULT_API_BASE = "http://litellm.aviagames.net"
-DEFAULT_API_KEY = "sk-E4cGjuW5UkhKNsh3kGsJww"
+DEFAULT_API_BASE = os.getenv("OPENAI_API_BASE", "")
+DEFAULT_API_KEY = os.getenv("OPENAI_API_KEY", "")
 
 
 def create_prompt(
@@ -78,7 +78,7 @@ TASK CONTEXT:
 
     prompt = f"""You are a Python code fixer for ML/Data Science scripts. Fix and run the script EXACTLY ONCE.
 
-鈿狅笍 CRITICAL: Before doing ANYTHING, check if the script is already running:
+閳跨媴绗?CRITICAL: Before doing ANYTHING, check if the script is already running:
    pgrep -f "{script_path}" && echo "SCRIPT ALREADY RUNNING - DO NOT START ANOTHER!" && exit 0
 
 SCRIPT: {script_path}
@@ -91,11 +91,11 @@ TASK:
 3. Check for syntax errors - if found, fix them and save to {script_path}
 4. Run it ONCE with: AVIA_OUTPUT_JSON={output_path} {python_path} {script_path}
 5. If it fails:
-   - ModuleNotFoundError 鈫?Install package: {python_path} -m pip install <package>
-   - ImportError 鈫?Fix missing imports
-   - SyntaxError 鈫?Fix the syntax
-   - NameError 鈫?Add missing variable/import
-   - Any other error 鈫?Analyze and fix the code
+   - ModuleNotFoundError 閳?Install package: {python_path} -m pip install <package>
+   - ImportError 閳?Fix missing imports
+   - SyntaxError 閳?Fix the syntax
+   - NameError 閳?Add missing variable/import
+   - Any other error 閳?Analyze and fix the code
    - Save fixed code to {script_path}
    - Run again (but ONLY if it failed, never run twice if first attempt is still running)
 6. CRITICAL: After the script runs successfully, the output JSON should be at {output_path}.
@@ -182,13 +182,13 @@ def run_claude_fixer(
     )
     
     if verbose:
-        print(f"馃敡 Claude Auto Fixer", file=sys.stderr)
+        print(f"棣冩暋 Claude Auto Fixer", file=sys.stderr)
         print(f"   Script: {script_path}", file=sys.stderr)
         print(f"   Output: {output_path}", file=sys.stderr)
         print(f"   Python: {python_path}", file=sys.stderr)
         print(f"   Model: {model}", file=sys.stderr)
         print(f"   Timeout: {timeout}s", file=sys.stderr)
-        print(f"馃 Calling Claude Code...", file=sys.stderr)
+        print(f"棣冾樆 Calling Claude Code...", file=sys.stderr)
     
     start_time = datetime.now()
     
@@ -219,7 +219,7 @@ def run_claude_fixer(
         except subprocess.TimeoutExpired:
             # Kill the entire process group (includes all children like main.py)
             if verbose:
-                print(f"鈴?Timeout reached, killing process tree (PGID: {process.pid})...", file=sys.stderr)
+                print(f"閳?Timeout reached, killing process tree (PGID: {process.pid})...", file=sys.stderr)
             try:
                 # Kill the entire process group
                 os.killpg(process.pid, signal.SIGKILL)
@@ -239,7 +239,7 @@ def run_claude_fixer(
         result.returncode = returncode
         
         if verbose:
-            print(f"鉁?Claude Code completed in {elapsed:.1f}s", file=sys.stderr)
+            print(f"閴?Claude Code completed in {elapsed:.1f}s", file=sys.stderr)
             print(f"   Exit code: {result.returncode}", file=sys.stderr)
         
         # Parse Claude's output (text, not JSON)
@@ -248,7 +248,7 @@ def run_claude_fixer(
         # Check if output JSON was created by Claude
         if os.path.exists(output_path):
             if verbose:
-                print(f"馃搧 Result JSON saved by Claude: {output_path}", file=sys.stderr)
+                print(f"棣冩惂 Result JSON saved by Claude: {output_path}", file=sys.stderr)
             with open(output_path, 'r') as f:
                 final_result = json.load(f)
                 final_result['execution_time'] = elapsed
@@ -268,7 +268,7 @@ def run_claude_fixer(
             if default_mtime > start_timestamp:
                 # File was created/modified during our run
                 if verbose:
-                    print(f"馃搧 Found fresh script output at {default_output}, copying...", file=sys.stderr)
+                    print(f"棣冩惂 Found fresh script output at {default_output}, copying...", file=sys.stderr)
                 import shutil
                 shutil.copy(default_output, output_path)
                 with open(output_path, 'r') as f:
@@ -280,12 +280,12 @@ def run_claude_fixer(
                     return final_result
             else:
                 if verbose:
-                    print(f"鈿狅笍  Found {default_output} but it's stale (from before our run)", file=sys.stderr)
+                    print(f"閳跨媴绗? Found {default_output} but it's stale (from before our run)", file=sys.stderr)
         
         # Otherwise, try to extract from output
             # Claude didn't save the JSON, try to extract from output
             if verbose:
-                print(f"鈿狅笍  Claude did not save result JSON, creating fallback", file=sys.stderr)
+                print(f"閳跨媴绗? Claude did not save result JSON, creating fallback", file=sys.stderr)
             
             stdout = result.stdout or ""
             stderr = result.stderr or ""
@@ -305,7 +305,7 @@ def run_claude_fixer(
                     try:
                         extracted_score = float(match.group(1))
                         if verbose:
-                            print(f"馃搳 Extracted score from output: {extracted_score}", file=sys.stderr)
+                            print(f"棣冩惓 Extracted score from output: {extracted_score}", file=sys.stderr)
                         break
                     except ValueError:
                         pass
@@ -348,7 +348,7 @@ def run_claude_fixer(
     except subprocess.TimeoutExpired:
         elapsed = (datetime.now() - start_time).total_seconds()
         if verbose:
-            print(f"鉂?Claude Code timed out after {timeout}s", file=sys.stderr)
+            print(f"閴?Claude Code timed out after {timeout}s", file=sys.stderr)
         
         error_result = {
             "success": False,
@@ -364,7 +364,7 @@ def run_claude_fixer(
     except FileNotFoundError:
         elapsed = (datetime.now() - start_time).total_seconds()
         if verbose:
-            print(f"鉂?Claude Code CLI not found. Install with: npm install -g @anthropic-ai/claude-code", file=sys.stderr)
+            print(f"閴?Claude Code CLI not found. Install with: npm install -g @anthropic-ai/claude-code", file=sys.stderr)
         
         error_result = {
             "success": False,
@@ -380,7 +380,7 @@ def run_claude_fixer(
     except Exception as e:
         elapsed = (datetime.now() - start_time).total_seconds()
         if verbose:
-            print(f"鉂?Error: {e}", file=sys.stderr)
+            print(f"閴?Error: {e}", file=sys.stderr)
         
         error_result = {
             "success": False,
@@ -527,7 +527,7 @@ def main():
     # Print summary
     success = result.get("success", False)
     if success:
-        print(f"鉁?SUCCESS")
+        print(f"閴?SUCCESS")
         score = result.get("score")
         if score is not None:
             print(f"   Score: {score}")
@@ -535,7 +535,7 @@ def main():
         if metrics:
             print(f"   Metrics: {metrics}")
     else:
-        print(f"鉂?FAILED")
+        print(f"閴?FAILED")
         error = result.get("error", "Unknown error")
         print(f"   Error: {str(error)[:200]}")
     

@@ -184,7 +184,7 @@ Implement multi-interest extraction to capture diverse user preferences:
 class MultiInterestExtractor(nn.Module):
     '''
     Multi-Interest Network: Extracts K different interest vectors.
-    Reference: MIND (Alibaba), ComiRec, DMIN
+    Reference: MIND, ComiRec, DMIN
     '''
     def __init__(self, hidden_dim, num_interests=4, dropout=0.2):
         super().__init__()
@@ -973,12 +973,12 @@ class ResearchDirector:
             if task_ideas:
                 # Task-Only: Only use task-specific ideas (Option A)
                 self._combined_ideas = task_ideas
-                print(f"馃摎 ResearchDirector: Loaded {len(task_ideas)} task-specific ideas (Task-Only Mode)")
+                print(f"棣冩憥 ResearchDirector: Loaded {len(task_ideas)} task-specific ideas (Task-Only Mode)")
         
         # Fallback to generic ONLY if no task-specific ideas found
         if not self._combined_ideas:
             self._combined_ideas = list(RESEARCH_IDEAS)
-            print(f"馃摎 ResearchDirector: No task-specific ideas found, using {len(RESEARCH_IDEAS)} generic ideas")
+            print(f"棣冩憥 ResearchDirector: No task-specific ideas found, using {len(RESEARCH_IDEAS)} generic ideas")
         
         if self.use_new_pool:
             # Map ideas for lookup
@@ -1057,24 +1057,24 @@ class ResearchDirector:
             # 1. arXiv Search
             try:
                 from ea.kosmos.simple_paper_search import SimplePaperSearch
-                logger.info(f"馃摎 Searching arXiv for: {search_query[:60]}...")
+                logger.info(f"棣冩憥 Searching arXiv for: {search_query[:60]}...")
                 search = SimplePaperSearch(verbose=True)
                 arxiv_papers = search.search_and_format(
                     query=search_query,
                     max_results=3
                 )
                 if arxiv_papers:
-                    logger.info(f"馃摎 arXiv search returned {len(arxiv_papers)} chars of content")
+                    logger.info(f"棣冩憥 arXiv search returned {len(arxiv_papers)} chars of content")
                 else:
-                    logger.warning("馃摎 arXiv search returned empty result")
+                    logger.warning("棣冩憥 arXiv search returned empty result")
             except Exception as e:
-                logger.warning(f"馃摎 arXiv search failed: {e}")
+                logger.warning(f"棣冩憥 arXiv search failed: {e}")
                 arxiv_papers = ""
             
             # 2. Gemini Web Search (with Google grounding)
             try:
                 from ea.kosmos.knowledge import GeminiWebSearch
-                logger.info(f"馃寪 Searching web via Gemini for: {search_query[:60]}...")
+                logger.info(f"棣冨 Searching web via Gemini for: {search_query[:60]}...")
                 web_search = GeminiWebSearch(verbose=True)
                 web_techniques = web_search.search(
                     query=search_query,
@@ -1084,11 +1084,11 @@ class ResearchDirector:
                     web_search_results = "\n\n### Web Search Results:\n"
                     for i, tech in enumerate(web_techniques, 1):
                         web_search_results += f"\n**{i}. {tech.name}**\n{tech.description}\n"
-                    logger.info(f"馃寪 Gemini web search returned {len(web_techniques)} techniques")
+                    logger.info(f"棣冨 Gemini web search returned {len(web_techniques)} techniques")
                 else:
-                    logger.info("馃寪 Gemini web search returned no results")
+                    logger.info("棣冨 Gemini web search returned no results")
             except Exception as e:
-                logger.warning(f"馃寪 Gemini web search failed: {e}")
+                logger.warning(f"棣冨 Gemini web search failed: {e}")
         
         prompt = f"""You are a senior ML research director specializing in {task_description} optimization.
 
@@ -1298,21 +1298,20 @@ Respond with:
         implementation_prompt = get_implementation_prompt(idea.id)
         
         return f"""
-鈺斺晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晽
-鈺?                   馃毃馃毃馃毃 MANDATORY FORCED EXPLORATION 馃毃馃毃馃毃                    鈺?鈺氣晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨暆
+閳烘柡鏅查埡鎰ㄦ櫜閳烘劏鏅查埡鎰ㄦ櫜閳烘劏鏅查埡鎰ㄦ櫜閳烘劏鏅查埡鎰ㄦ櫜閳烘劏鏅查埡鎰ㄦ櫜閳烘劏鏅查埡鎰ㄦ櫜閳烘劏鏅查埡鎰ㄦ櫜閳烘劏鏅查埡鎰ㄦ櫜閳烘劏鏅查埡鎰ㄦ櫜閳烘劏鏅查埡鎰ㄦ櫜閳烘劏鏅查埡鎰ㄦ櫜閳烘劏鏅查埡鎰ㄦ櫜閳烘劏鏅查埡鎰ㄦ櫜閳烘劏鏅查埡鎰ㄦ櫜閳烘劏鏅查埡鎰ㄦ櫜閳烘劏鏅查埡鎰ㄦ櫜閳烘劏鏅查埡鎰ㄦ櫜閳烘劏鏅查埡鎰ㄦ櫜閳烘劏鏅查埡鎰ㄦ櫜閳烘劏鏅查埡鎰ㄦ櫧
+閳?                   棣冩瘍棣冩瘍棣冩瘍 MANDATORY FORCED EXPLORATION 棣冩瘍棣冩瘍棣冩瘍                    閳?閳烘埃鏅查埡鎰ㄦ櫜閳烘劏鏅查埡鎰ㄦ櫜閳烘劏鏅查埡鎰ㄦ櫜閳烘劏鏅查埡鎰ㄦ櫜閳烘劏鏅查埡鎰ㄦ櫜閳烘劏鏅查埡鎰ㄦ櫜閳烘劏鏅查埡鎰ㄦ櫜閳烘劏鏅查埡鎰ㄦ櫜閳烘劏鏅查埡鎰ㄦ櫜閳烘劏鏅查埡鎰ㄦ櫜閳烘劏鏅查埡鎰ㄦ櫜閳烘劏鏅查埡鎰ㄦ櫜閳烘劏鏅查埡鎰ㄦ櫜閳烘劏鏅查埡鎰ㄦ櫜閳烘劏鏅查埡鎰ㄦ櫜閳烘劏鏅查埡鎰ㄦ櫜閳烘劏鏅查埡鎰ㄦ櫜閳烘劏鏅查埡鎰ㄦ櫜閳烘劏鏅查埡鎰ㄦ櫜閳烘劏鏅查埡鎰ㄦ殕
 
-鈿狅笍 THE EVOLUTION HAS PLATEAUED - YOU MUST IMPLEMENT THE SPECIFIC TECHNIQUE BELOW 鈿狅笍
-
+閳跨媴绗?THE EVOLUTION HAS PLATEAUED - YOU MUST IMPLEMENT THE SPECIFIC TECHNIQUE BELOW 閳跨媴绗?
 DO NOT:
-鉂?Do a crossover between programs
-鉂?Make minor tweaks to existing code
-鉂?Ignore this directive and do something else
-鉂?Just add features without changing the core architecture
+閴?Do a crossover between programs
+閴?Make minor tweaks to existing code
+閴?Ignore this directive and do something else
+閴?Just add features without changing the core architecture
 
 YOU MUST:
-鉁?Implement the EXACT research idea specified below
-鉁?Use the provided code snippet as your starting point
-鉁?Make MAJOR architectural changes
+閴?Implement the EXACT research idea specified below
+閴?Use the provided code snippet as your starting point
+閴?Make MAJOR architectural changes
 
 ================================================================================
 ## REQUIRED IMPLEMENTATION: [{idea.id}] {idea.name}
@@ -1338,11 +1337,11 @@ YOU MUST:
 ## MANDATORY REQUIREMENTS
 ================================================================================
 
-1. 鈿?REPLACE the current model architecture with the one described above
-2. 鈿?USE the provided code snippet - adapt it to fit the existing data pipeline
-3. 鈿?DO NOT just add this as an extra feature - make it the CORE approach
-4. 鈿?Preserve the evaluation interface (EVOLVE-BLOCK boundaries)
-5. 鈿?The output must still be: (val_f1, test_predictions, feature_importance)
+1. 閳?REPLACE the current model architecture with the one described above
+2. 閳?USE the provided code snippet - adapt it to fit the existing data pipeline
+3. 閳?DO NOT just add this as an extra feature - make it the CORE approach
+4. 閳?Preserve the evaluation interface (EVOLVE-BLOCK boundaries)
+5. 閳?The output must still be: (val_f1, test_predictions, feature_importance)
 
 THIS IS NOT OPTIONAL - THE SYSTEM HAS DETECTED A PLATEAU AND REQUIRES A 
 FUNDAMENTALLY DIFFERENT APPROACH. IMPLEMENT THE ABOVE TECHNIQUE.
@@ -1540,7 +1539,7 @@ Provide your analysis and selection:
         direction = selection['direction']
         
         return f"""
-馃毃 **FORCED EXPLORATION MODE** 馃毃
+棣冩瘍 **FORCED EXPLORATION MODE** 棣冩瘍
 
 The evolution has plateaued. You MUST implement the following research direction:
 

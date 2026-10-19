@@ -13,14 +13,14 @@ from pathlib import Path
 class ClaudeCodeCLIFixer:
     def __init__(self):
         # Set environment variables
-        self.api_base = os.getenv('ANTHROPIC_BASE_URL', 'http://litellm.aviagames.net')
+        self.api_base = os.getenv('ANTHROPIC_BASE_URL', '')
         self.api_key = os.getenv('ANTHROPIC_AUTH_TOKEN', 'sk-1gcvcMUA8g8aNy7y_FRfXg')
         
         # Set environment for claude CLI
         os.environ['ANTHROPIC_BASE_URL'] = self.api_base
         os.environ['ANTHROPIC_AUTH_TOKEN'] = self.api_key
         
-        print(f"✅ Claude Code CLI Fixer initialized")
+        print(f"鉁?Claude Code CLI Fixer initialized")
         print(f"   API Base: {self.api_base}")
         print(f"   Claude CLI: {self._get_claude_path()}")
     
@@ -37,12 +37,12 @@ class ClaudeCodeCLIFixer:
     def auto_fix_and_run(self, file_path):
         """Use Claude Code CLI to automatically fix and run code"""
         if not os.path.exists(file_path):
-            print(f"❌ File not found: {file_path}")
+            print(f"鉂?File not found: {file_path}")
             return False
         
         abs_file_path = os.path.abspath(file_path)
         
-        print(f"🚀 Using Claude Code CLI to fix and run: {abs_file_path}")
+        print(f"馃殌 Using Claude Code CLI to fix and run: {abs_file_path}")
         print("=" * 60)
         
         # Create the prompt for Claude Code
@@ -72,7 +72,7 @@ Start by running the code first."""
                 prompt
             ]
             
-            print(f"🤖 Running Claude Code CLI...")
+            print(f"馃 Running Claude Code CLI...")
             result = subprocess.run(
                 cmd,
                 capture_output=True,
@@ -82,29 +82,29 @@ Start by running the code first."""
             )
             
             print("\n" + "=" * 60)
-            print("📤 Claude Code Output:")
+            print("馃摛 Claude Code Output:")
             print("=" * 60)
             print(result.stdout)
             
             if result.stderr:
                 print("\n" + "=" * 60)
-                print("⚠️  Errors/Warnings:")
+                print("鈿狅笍  Errors/Warnings:")
                 print("=" * 60)
                 print(result.stderr)
             
             # Check if execution was successful
             if result.returncode == 0:
-                print("\n✅ Claude Code completed successfully!")
+                print("\n鉁?Claude Code completed successfully!")
                 return True
             else:
-                print(f"\n❌ Claude Code exited with code: {result.returncode}")
+                print(f"\n鉂?Claude Code exited with code: {result.returncode}")
                 return False
                 
         except subprocess.TimeoutExpired:
-            print(f"\n❌ Claude Code timed out after 30 minutes")
+            print(f"\n鉂?Claude Code timed out after 30 minutes")
             return False
         except Exception as e:
-            print(f"\n❌ Error running Claude Code: {e}")
+            print(f"\n鉂?Error running Claude Code: {e}")
             return False
 
 def main():
@@ -119,10 +119,10 @@ def main():
     success = fixer.auto_fix_and_run(file_path)
     
     if success:
-        print("\n🎉 Task complete! Code executed successfully.")
+        print("\n馃帀 Task complete! Code executed successfully.")
         sys.exit(0)
     else:
-        print("\n😞 Task failed.")
+        print("\n馃槥 Task failed.")
         sys.exit(1)
 
 if __name__ == "__main__":

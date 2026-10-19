@@ -252,88 +252,88 @@ Examples:
 
 def validate_database_environment():
     """Validate that database environment is properly set up."""
-    print("🔍 Validating database environment...")
+    print("馃攳 Validating database environment...")
     
     # Check Google Cloud Project
     # Check Claude API configuration
     if not os.environ.get("ANTHROPIC_AUTH_TOKEN"):
-        print("⚠️  Warning: ANTHROPIC_AUTH_TOKEN not set. Setting default...")
+        print("鈿狅笍  Warning: ANTHROPIC_AUTH_TOKEN not set. Setting default...")
         os.environ["ANTHROPIC_AUTH_TOKEN"] = "sk-1gcvcMUA8g8aNy7y_FRfXg"
     
     if not os.environ.get("ANTHROPIC_BASE_URL"):
-        print("ℹ️  Setting default ANTHROPIC_BASE_URL...")
-        os.environ["ANTHROPIC_BASE_URL"] = "http://litellm.aviagames.net"
+        print("鈩癸笍  Setting default ANTHROPIC_BASE_URL...")
+        
     
-    print(f"✅ Claude API configured: {os.environ.get('ANTHROPIC_BASE_URL')}")
+    print(f"鉁?Claude API configured: {os.environ.get('ANTHROPIC_BASE_URL')}")
     
     # Check database directory permissions
     db_dir = Path(".")
     if not os.access(db_dir, os.W_OK):
-        print(f"⚠️  Warning: No write permission in current directory for database")
+        print(f"鈿狅笍  Warning: No write permission in current directory for database")
         return False
     
-    print("✅ Database environment validation passed")
+    print("鉁?Database environment validation passed")
     return True
 
 
 def display_database_task_info(task_config: TaskConfiguration, args):
     """Display database-enhanced task information."""
-    print("╔" + "═" * 78 + "╗")
-    print("║" + " " * 20 + "Database-Enhanced Universal Scientific AI" + " " * 17 + "║")
-    print("╚" + "═" * 78 + "╝")
+    print("鈺? + "鈺? * 78 + "鈺?)
+    print("鈺? + " " * 20 + "Database-Enhanced Universal Scientific AI" + " " * 17 + "鈺?)
+    print("鈺? + "鈺? * 78 + "鈺?)
     print()
     
-    print(f"🎯 Domain: {task_config.domain}")
-    print(f"📋 Task: {task_config.task_name}")
-    print(f"📊 Metric: {task_config.evaluation_metric}")
-    print(f"📁 Data Files: {list(task_config.data_files.keys())}")
+    print(f"馃幆 Domain: {task_config.domain}")
+    print(f"馃搵 Task: {task_config.task_name}")
+    print(f"馃搳 Metric: {task_config.evaluation_metric}")
+    print(f"馃搧 Data Files: {list(task_config.data_files.keys())}")
     
     # Database features status
-    print(f"\n🗄️ Database Features:")
-    print(f"   • Database Path: {args.db_path}")
-    print(f"   • Manual Execution: {'✅ (wait enabled)' if args.wait_for_manual else '⚠️ (auto-continue)'}")
-    print(f"   • Monitoring: {'✅' if not args.disable_monitoring else '❌'}")
-    print(f"   • User Feedback: {'✅' if args.enable_user_feedback else '❌'}")
-    print(f"   • Code Reload: {'✅' if args.enable_code_reload else '❌'}")
-    print(f"   • Export Frequency: Every {args.export_frequency} iterations")
+    print(f"\n馃梽锔?Database Features:")
+    print(f"   鈥?Database Path: {args.db_path}")
+    print(f"   鈥?Manual Execution: {'鉁?(wait enabled)' if args.wait_for_manual else '鈿狅笍 (auto-continue)'}")
+    print(f"   鈥?Monitoring: {'鉁? if not args.disable_monitoring else '鉂?}")
+    print(f"   鈥?User Feedback: {'鉁? if args.enable_user_feedback else '鉂?}")
+    print(f"   鈥?Code Reload: {'鉁? if args.enable_code_reload else '鉂?}")
+    print(f"   鈥?Export Frequency: Every {args.export_frequency} iterations")
     
     # Adaptive C-PUCT status
-    print(f"\n🎯 Search Configuration:")
+    print(f"\n馃幆 Search Configuration:")
     if not args.disable_adaptive_c_puct:
-        print(f"   • Adaptive C-PUCT: ✅ Enabled")
+        print(f"   鈥?Adaptive C-PUCT: 鉁?Enabled")
         print(f"     - Early phase (0-20%): C = {args.c_puct_early}")
         print(f"     - Mid phase (20-70%): C = {args.c_puct_mid}")
         print(f"     - Late phase (70-100%): C = {args.c_puct_late}")
     else:
-        print(f"   • Adaptive C-PUCT: ❌ Disabled")
-        print(f"   • Fixed C-PUCT: {args.c_puct}")
+        print(f"   鈥?Adaptive C-PUCT: 鉂?Disabled")
+        print(f"   鈥?Fixed C-PUCT: {args.c_puct}")
     
     # Enhanced features status
-    print(f"\n🚀 Enhanced Features:")
+    print(f"\n馃殌 Enhanced Features:")
     preparation_enabled = args.enable_all_phases or args.research_enhanced
     analysis_enabled = args.enable_all_phases or args.research_enhanced
     
-    print(f"   • Phase 1 (Preparation): {'✅' if preparation_enabled else '❌'}")
-    print(f"   • Phase 2 (Enhanced Search): ✅ (database-integrated)")
-    print(f"   • Phase 3 (Analysis): {'✅' if analysis_enabled else '❌'}")
-    print(f"   • Multi-strategy Init: {'✅' if args.multi_strategy_init else '❌'}")
-    print(f"   • Research Integration: {'✅' if args.research_enhanced else '❌'}")
+    print(f"   鈥?Phase 1 (Preparation): {'鉁? if preparation_enabled else '鉂?}")
+    print(f"   鈥?Phase 2 (Enhanced Search): 鉁?(database-integrated)")
+    print(f"   鈥?Phase 3 (Analysis): {'鉁? if analysis_enabled else '鉂?}")
+    print(f"   鈥?Multi-strategy Init: {'鉁? if args.multi_strategy_init else '鉂?}")
+    print(f"   鈥?Research Integration: {'鉁? if args.research_enhanced else '鉂?}")
     
     if task_config.research_ideas:
-        print(f"\n💡 Research Ideas:")
+        print(f"\n馃挕 Research Ideas:")
         for idea in task_config.research_ideas[:3]:  # Show first 3
-            print(f"   • {idea}")
+            print(f"   鈥?{idea}")
         if len(task_config.research_ideas) > 3:
-            print(f"   • ... and {len(task_config.research_ideas) - 3} more")
+            print(f"   鈥?... and {len(task_config.research_ideas) - 3} more")
     
-    print(f"\n🔄 Starting database-enhanced automated scientific software discovery...")
+    print(f"\n馃攧 Starting database-enhanced automated scientific software discovery...")
     print("=" * 80)
 
 
 def show_database_status(db_path: str):
     """Show current database status."""
     if not os.path.exists(db_path):
-        print(f"📊 Database Status: New database will be created at {db_path}")
+        print(f"馃搳 Database Status: New database will be created at {db_path}")
         return
     
     try:
@@ -341,28 +341,28 @@ def show_database_status(db_path: str):
         db = DatabaseManager(db_path)
         stats = db.get_execution_statistics()
         
-        print(f"📊 Existing Database Status ({db_path}):")
-        print(f"   • Total Nodes: {stats['total_nodes']}")
-        print(f"   • Success Rate: {stats['success_rate']:.1f}%")
+        print(f"馃搳 Existing Database Status ({db_path}):")
+        print(f"   鈥?Total Nodes: {stats['total_nodes']}")
+        print(f"   鈥?Success Rate: {stats['success_rate']:.1f}%")
         if stats['best_score']:
-            print(f"   • Best Score: {stats['best_score']:.4f}")
+            print(f"   鈥?Best Score: {stats['best_score']:.4f}")
         
         # Show status breakdown
         status_counts = stats['status_counts']
         for status, count in status_counts.items():
             emoji = {
-                'pending': '⏳',
-                'executing': '🔄',
-                'completed': '✅',
-                'failed': '❌',
-                'manual_required': '🚨'
-            }.get(status, '❓')
-            print(f"   • {emoji} {status}: {count}")
+                'pending': '鈴?,
+                'executing': '馃攧',
+                'completed': '鉁?,
+                'failed': '鉂?,
+                'manual_required': '馃毃'
+            }.get(status, '鉂?)
+            print(f"   鈥?{emoji} {status}: {count}")
         
         print()
         
     except Exception as e:
-        print(f"⚠️ Could not read database status: {e}")
+        print(f"鈿狅笍 Could not read database status: {e}")
 
 
 def run_database_enhanced_search(task_config: TaskConfiguration, args) -> dict:
@@ -443,13 +443,13 @@ def save_database_enhanced_results(results: dict, output_dir: Path, args):
         db_stats = results['results']['database_enhanced_stats']
         eval_stats = results['results']['database_evaluation_stats']
         
-        f.write(f"🏆 DATABASE-ENHANCED RESULTS:\n")
+        f.write(f"馃弳 DATABASE-ENHANCED RESULTS:\n")
         f.write(f"   Best Score: {best_solution.score:.6f}\n")
         f.write(f"   Strategy: {best_solution.genealogy.mutation_type}\n")
         f.write(f"   Database Node: {getattr(best_solution, 'node_id', 'Unknown')}\n")
         f.write(f"   Generation: {best_solution.genealogy.generation}\n\n")
         
-        f.write(f"🗄️ DATABASE INTEGRATION:\n")
+        f.write(f"馃梽锔?DATABASE INTEGRATION:\n")
         f.write(f"   Database Path: {db_stats['database_path']}\n")
         f.write(f"   Success Rate: {eval_stats['success_rate']:.1f}%\n")
         f.write(f"   Manual Executions Completed: {db_stats['manual_executions_completed']}\n")
@@ -457,7 +457,7 @@ def save_database_enhanced_results(results: dict, output_dir: Path, args):
         f.write(f"   Total Auto-fixes: {db_stats['total_auto_fixes']}\n")
         f.write(f"   Database Exports: {db_stats['database_exports_created']}\n\n")
         
-        f.write(f"📊 EVALUATION STATISTICS:\n")
+        f.write(f"馃搳 EVALUATION STATISTICS:\n")
         eval_stats_detail = eval_stats['evaluation_stats']
         f.write(f"   Total Evaluations: {eval_stats_detail['total_evaluations']}\n")
         f.write(f"   Successful: {eval_stats_detail['successful_evaluations']}\n")
@@ -465,7 +465,7 @@ def save_database_enhanced_results(results: dict, output_dir: Path, args):
         f.write(f"   Manual Required: {eval_stats_detail['manual_executions_required']}\n")
         f.write(f"   Auto-fixes Applied: {eval_stats_detail['auto_fixes_applied']}\n\n")
         
-        f.write(f"🎯 TOP DATABASE NODES:\n")
+        f.write(f"馃幆 TOP DATABASE NODES:\n")
         for i, node_info in enumerate(results['results']['best_nodes_from_database'], 1):
             f.write(f"   {i}. {node_info['node_id']}: {node_info['score']:.4f} ({node_info['mutation_type']})\n")
     
@@ -478,13 +478,13 @@ def main():
     
     # Validate environment
     if not validate_database_environment():
-        print("❌ Environment validation failed. Some features may not work.")
+        print("鉂?Environment validation failed. Some features may not work.")
     
     # Load task configuration
     try:
         task_config = TaskConfiguration(args.task)
     except Exception as e:
-        print(f"❌ Error loading task configuration: {e}")
+        print(f"鉂?Error loading task configuration: {e}")
         sys.exit(1)
     
     # Show database status if requested
@@ -497,9 +497,9 @@ def main():
             from core.database.db_manager import DatabaseManager
             db = DatabaseManager(args.db_path)
             removed = db.cleanup_old_nodes(args.cleanup_days)
-            print(f"🧹 Cleaned up {removed} database entries older than {args.cleanup_days} days")
+            print(f"馃Ч Cleaned up {removed} database entries older than {args.cleanup_days} days")
         except Exception as e:
-            print(f"⚠️ Database cleanup failed: {e}")
+            print(f"鈿狅笍 Database cleanup failed: {e}")
     
     # Display database-enhanced task information
     display_database_task_info(task_config, args)
@@ -517,50 +517,50 @@ def main():
         eval_stats = results['results']['database_evaluation_stats']
         
         print("\n" + "=" * 80)
-        print("🎉 Database-Enhanced Scientific Software Discovery Complete!")
+        print("馃帀 Database-Enhanced Scientific Software Discovery Complete!")
         print("=" * 80)
-        print(f"🏆 Best Score: {best_solution.score:.6f}")
-        print(f"🔬 Strategy Used: {best_solution.genealogy.mutation_type}")
-        print(f"🗄️ Database Node: {getattr(best_solution, 'node_id', 'Unknown')}")
-        print(f"📊 Total Nodes Explored: {len(results['search_agent'].nodes)}")
-        print(f"✅ Database Success Rate: {eval_stats['success_rate']:.1f}%")
-        print(f"🔧 Manual Executions: {db_stats['manual_executions_completed']}")
-        print(f"🛠️ Auto-fixes Applied: {db_stats['total_auto_fixes']}")
+        print(f"馃弳 Best Score: {best_solution.score:.6f}")
+        print(f"馃敩 Strategy Used: {best_solution.genealogy.mutation_type}")
+        print(f"馃梽锔?Database Node: {getattr(best_solution, 'node_id', 'Unknown')}")
+        print(f"馃搳 Total Nodes Explored: {len(results['search_agent'].nodes)}")
+        print(f"鉁?Database Success Rate: {eval_stats['success_rate']:.1f}%")
+        print(f"馃敡 Manual Executions: {db_stats['manual_executions_completed']}")
+        print(f"馃洜锔?Auto-fixes Applied: {db_stats['total_auto_fixes']}")
         
         # Save results
         best_code_file = save_database_enhanced_results(results, output_dir, args)
-        print(f"\n💾 Results saved to: {output_dir}")
-        print(f"💡 Best solution saved to: {best_code_file}")
-        print(f"🗄️ Database available at: {args.db_path}")
+        print(f"\n馃捑 Results saved to: {output_dir}")
+        print(f"馃挕 Best solution saved to: {best_code_file}")
+        print(f"馃梽锔?Database available at: {args.db_path}")
         
         # Export final results if requested
         if args.export_final_results:
             search_agent = results['search_agent']
             if search_agent.db_evaluator.export_results(args.export_final_results):
-                print(f"📊 Final results exported to: {args.export_final_results}")
+                print(f"馃搳 Final results exported to: {args.export_final_results}")
         
         # Show database monitoring commands
-        print(f"\n🔍 Monitor database with:")
+        print(f"\n馃攳 Monitor database with:")
         print(f"   python execution_monitor.py --db-path {args.db_path} --status")
         print(f"   python execution_monitor.py --db-path {args.db_path} --best 10")
         print(f"   python execution_monitor.py --db-path {args.db_path} --manual")
         
         # Show best code if verbose
         if args.verbose:
-            print(f"\n📝 Best Database-Enhanced Solution Code:")
+            print(f"\n馃摑 Best Database-Enhanced Solution Code:")
             print("-" * 60)
             print(best_solution.code[:500] + "..." if len(best_solution.code) > 500 else best_solution.code)
         
     except KeyboardInterrupt:
-        print("\n⚠️  Search interrupted by user")
-        print(f"💾 Progress saved in database: {args.db_path}")
+        print("\n鈿狅笍  Search interrupted by user")
+        print(f"馃捑 Progress saved in database: {args.db_path}")
         sys.exit(130)
     except Exception as e:
-        print(f"❌ Error during database-enhanced search: {e}")
+        print(f"鉂?Error during database-enhanced search: {e}")
         if args.verbose:
             import traceback
             traceback.print_exc()
-        print(f"💾 Partial progress may be saved in database: {args.db_path}")
+        print(f"馃捑 Partial progress may be saved in database: {args.db_path}")
         sys.exit(1)
 
 

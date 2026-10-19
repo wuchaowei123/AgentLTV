@@ -6,9 +6,9 @@ Uses Claude Code CLI's programmatic mode (--print with --output-format json)
 to automatically fix and run Python code in an iterative loop.
 
 This mimics the interactive Claude Code session workflow:
-1. Run code → Get error
-2. Ask Claude to fix → Apply fix  
-3. Run code again → Repeat until success
+1. Run code 鈫?Get error
+2. Ask Claude to fix 鈫?Apply fix  
+3. Run code again 鈫?Repeat until success
 """
 
 import subprocess
@@ -31,7 +31,7 @@ class ClaudeCodeProgrammaticFixer:
             max_attempts: Maximum number of fix attempts
         """
         self.max_attempts = max_attempts
-        self.api_base = os.getenv("ANTHROPIC_BASE_URL", "http://litellm.aviagames.net")
+        self.api_base = os.getenv('ANTHROPIC_BASE_URL', '')
         self.auth_token = os.getenv("ANTHROPIC_AUTH_TOKEN", "sk-1gcvcMUA8g8aNy7y_FRfXg")
         self.model = os.getenv("ANTHROPIC_MODEL", "gpt-5")
         
@@ -42,7 +42,7 @@ class ClaudeCodeProgrammaticFixer:
         os.environ["ANTHROPIC_DEFAULT_HAIKU_MODEL"] = self.model
         os.environ["CLAUDE_CODE_SUBAGENT_MODEL"] = self.model
         
-        print("✅ Claude Code Programmatic Auto Fixer initialized")
+        print("鉁?Claude Code Programmatic Auto Fixer initialized")
         print(f"   API Base: {self.api_base}")
         print(f"   Model: {self.model}")
         print(f"   Max attempts: {max_attempts}")
@@ -106,7 +106,7 @@ class ClaudeCodeProgrammaticFixer:
         # Retry logic for timeouts
         for retry_attempt in range(max_retries + 1):
             if retry_attempt > 0:
-                print(f"   🔄 Retry {retry_attempt}/{max_retries}...")
+                print(f"   馃攧 Retry {retry_attempt}/{max_retries}...")
                 time.sleep(2)  # Brief delay before retry
             
             cmd = [
@@ -134,38 +134,38 @@ class ClaudeCodeProgrammaticFixer:
                 
                 if result.returncode == 124:
                     # Timeout - try retry if available
-                    print(f"   ⏱️  Claude Code CLI timed out after {timeout}s (attempt {retry_attempt + 1}/{max_retries + 1})")
+                    print(f"   鈴憋笍  Claude Code CLI timed out after {timeout}s (attempt {retry_attempt + 1}/{max_retries + 1})")
                     if retry_attempt < max_retries:
                         continue  # Retry
                     else:
                         return None  # All retries exhausted
                 
                 if result.returncode != 0:
-                    print(f"   ❌ Claude Code CLI failed (exit code: {result.returncode})")
+                    print(f"   鉂?Claude Code CLI failed (exit code: {result.returncode})")
                     print(f"   Error: {result.stderr[:500]}")
                     return None
                 
                 # Parse JSON response
                 try:
                     response = json.loads(result.stdout)
-                    print(f"   ✓ Claude response received in {duration:.1f} seconds")
-                    print(f"   📊 Turns: {response.get('num_turns', 'N/A')}")
+                    print(f"   鉁?Claude response received in {duration:.1f} seconds")
+                    print(f"   馃搳 Turns: {response.get('num_turns', 'N/A')}")
                     if retry_attempt > 0:
-                        print(f"   ✅ Succeeded after {retry_attempt} retry(ies)")
+                        print(f"   鉁?Succeeded after {retry_attempt} retry(ies)")
                     return response
                 except json.JSONDecodeError as e:
-                    print(f"   ❌ Failed to parse JSON response: {e}")
+                    print(f"   鉂?Failed to parse JSON response: {e}")
                     print(f"   Raw output: {result.stdout[:500]}")
                     return None
                     
             except subprocess.TimeoutExpired:
-                print(f"   ⏱️  Process timed out after {timeout + 5}s (attempt {retry_attempt + 1}/{max_retries + 1})")
+                print(f"   鈴憋笍  Process timed out after {timeout + 5}s (attempt {retry_attempt + 1}/{max_retries + 1})")
                 if retry_attempt < max_retries:
                     continue  # Retry
                 else:
                     return None  # All retries exhausted
             except Exception as e:
-                print(f"   ❌ Error calling Claude Code CLI: {e}")
+                print(f"   鉂?Error calling Claude Code CLI: {e}")
                 return None
         
         return None  # Should not reach here
@@ -212,7 +212,7 @@ class ClaudeCodeProgrammaticFixer:
             return False
         
         module_name = match.group(1)
-        print(f"   📦 Detected missing module: {module_name}")
+        print(f"   馃摝 Detected missing module: {module_name}")
         
         # Map common module names to pip package names
         module_to_package = {
@@ -227,7 +227,7 @@ class ClaudeCodeProgrammaticFixer:
         base_module = module_name.split('.')[0]
         package_name = module_to_package.get(base_module, base_module)
         
-        print(f"   🔧 Attempting to install: {package_name}")
+        print(f"   馃敡 Attempting to install: {package_name}")
         
         try:
             import subprocess
@@ -239,14 +239,14 @@ class ClaudeCodeProgrammaticFixer:
             )
             
             if result.returncode == 0:
-                print(f"   ✅ Successfully installed {package_name}")
+                print(f"   鉁?Successfully installed {package_name}")
                 return True
             else:
-                print(f"   ❌ Failed to install {package_name}: {result.stderr[:200]}")
+                print(f"   鉂?Failed to install {package_name}: {result.stderr[:200]}")
                 return False
                 
         except Exception as e:
-            print(f"   ❌ Error during installation: {e}")
+            print(f"   鉂?Error during installation: {e}")
             return False
     
     def auto_fix_and_run(self, file_path: str, run_timeout: int = 600) -> Tuple[bool, str]:
@@ -255,8 +255,8 @@ class ClaudeCodeProgrammaticFixer:
         
         This mimics the interactive Claude Code workflow:
         1. Run code
-        2. If error → Ask Claude to fix
-        3. Run again → Repeat until success or max attempts
+        2. If error 鈫?Ask Claude to fix
+        3. Run again 鈫?Repeat until success or max attempts
         
         Args:
             file_path: Path to Python file
@@ -268,47 +268,47 @@ class ClaudeCodeProgrammaticFixer:
         abs_path = Path(file_path).resolve()
         
         print("=" * 70)
-        print("🚀 STARTING PROGRAMMATIC AUTO-FIX-AND-RUN WORKFLOW")
+        print("馃殌 STARTING PROGRAMMATIC AUTO-FIX-AND-RUN WORKFLOW")
         print("=" * 70)
-        print(f"📁 File: {abs_path}")
-        print(f"🔢 Max attempts: {self.max_attempts}")
-        print(f"⏱️  Run timeout: {run_timeout} seconds")
-        print(f"🤖 Model: {self.model}")
+        print(f"馃搧 File: {abs_path}")
+        print(f"馃敘 Max attempts: {self.max_attempts}")
+        print(f"鈴憋笍  Run timeout: {run_timeout} seconds")
+        print(f"馃 Model: {self.model}")
         print("=" * 70)
         print()
         
         all_output = []
         
         for attempt in range(1, self.max_attempts + 1):
-            print("─" * 70)
-            print(f"📍 ATTEMPT {attempt}/{self.max_attempts}")
-            print("─" * 70)
+            print("鈹€" * 70)
+            print(f"馃搷 ATTEMPT {attempt}/{self.max_attempts}")
+            print("鈹€" * 70)
             print()
             
             # Run the code
-            print(f"🔄 Running {abs_path.name}...")
+            print(f"馃攧 Running {abs_path.name}...")
             success, output, error = self.run_code(str(abs_path), run_timeout=run_timeout)
             all_output.append(output)
             
             if success:
                 print()
                 print("=" * 70)
-                print("✅ SUCCESS! CODE EXECUTED WITHOUT ERRORS!")
+                print("鉁?SUCCESS! CODE EXECUTED WITHOUT ERRORS!")
                 print("=" * 70)
                 print()
-                print("📊 Final output (last 50 lines):")
+                print("馃搳 Final output (last 50 lines):")
                 print('\n'.join(output.split('\n')[-50:]))
                 print()
                 return True, '\n\n'.join(all_output)
             
-            print(f"❌ EXECUTION FAILED")
+            print(f"鉂?EXECUTION FAILED")
             error_info = self.extract_error_info(output)
             print(f"   Error:\n{error_info[:500]}")
             print()
             
             # Try to auto-install missing packages first
             if self.try_auto_install_package(output):
-                print(f"   🔄 Package installed, re-running code...")
+                print(f"   馃攧 Package installed, re-running code...")
                 print()
                 # Re-run immediately after installing package
                 success, output, error = self.run_code(str(abs_path), run_timeout=run_timeout)
@@ -317,20 +317,20 @@ class ClaudeCodeProgrammaticFixer:
                 if success:
                     print()
                     print("=" * 70)
-                    print("✅ SUCCESS AFTER AUTO-INSTALL!")
+                    print("鉁?SUCCESS AFTER AUTO-INSTALL!")
                     print("=" * 70)
                     print()
-                    print("📊 Final output (last 50 lines):")
+                    print("馃搳 Final output (last 50 lines):")
                     print('\n'.join(output.split('\n')[-50:]))
                     print()
                     return True, '\n\n'.join(all_output)
                 else:
-                    print(f"   ⚠️  Still failing after package install, will ask Claude for fix")
+                    print(f"   鈿狅笍  Still failing after package install, will ask Claude for fix")
                     error_info = self.extract_error_info(output)
             
             # If not last attempt, ask Claude to fix
             if attempt < self.max_attempts:
-                print(f"🤖 Asking Claude Code CLI to fix the error...")
+                print(f"馃 Asking Claude Code CLI to fix the error...")
                 
                 # Construct prompt for Claude
                 prompt = f"""Please read {abs_path} and fix the error. The code failed with this error:
@@ -339,34 +339,34 @@ class ClaudeCodeProgrammaticFixer:
 
 Please update the file to fix this error.""".replace('"', '\\"')  # Escape quotes for bash
                 
-                print(f"   📝 Prompt length: {len(prompt)} characters")
+                print(f"   馃摑 Prompt length: {len(prompt)} characters")
                 
                 response = self.ask_claude_code(prompt, timeout=120)
                 
                 if not response:
-                    print(f"   ❌ Failed to get Claude response, skipping to next attempt...")
+                    print(f"   鉂?Failed to get Claude response, skipping to next attempt...")
                     continue
                 
                 if response.get('is_error'):
-                    print(f"   ❌ Claude returned error: {response.get('result', 'Unknown error')}")
+                    print(f"   鉂?Claude returned error: {response.get('result', 'Unknown error')}")
                     continue
                 
                 result_text = response.get('result', '')
-                print(f"   💡 Claude's response (first 300 chars):")
+                print(f"   馃挕 Claude's response (first 300 chars):")
                 print(f"      {result_text[:300]}...")
                 print()
-                print("   ✅ Claude has updated the file")
+                print("   鉁?Claude has updated the file")
                 print()
                 
                 # Small delay before next attempt
                 time.sleep(1)
             else:
                 print()
-                print("😞 Max attempts reached without success")
+                print("馃槥 Max attempts reached without success")
         
         print()
         print("=" * 70)
-        print("❌ FAILED TO FIX CODE AFTER ALL ATTEMPTS")
+        print("鉂?FAILED TO FIX CODE AFTER ALL ATTEMPTS")
         print("=" * 70)
         return False, '\n\n'.join(all_output)
 
@@ -377,15 +377,15 @@ def test_programmatic_fixer():
     
     test_file = Path.cwd() / "test_broken_code.py"
     if not test_file.exists():
-        print(f"❌ Test file not found: {test_file}")
+        print(f"鉂?Test file not found: {test_file}")
         return
     
     success, output = fixer.auto_fix_and_run(str(test_file), run_timeout=60)
     
     if success:
-        print("🎉 Test passed!")
+        print("馃帀 Test passed!")
     else:
-        print("❌ Test failed")
+        print("鉂?Test failed")
     
     return success
 

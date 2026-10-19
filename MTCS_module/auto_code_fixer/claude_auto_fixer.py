@@ -15,14 +15,14 @@ import requests
 class ClaudeAutoFixer:
     def __init__(self):
         self.max_attempts = 3
-        self.api_base = os.getenv('ANTHROPIC_BASE_URL', 'http://litellm.aviagames.net')
+        self.api_base = os.getenv('ANTHROPIC_BASE_URL', '')
         self.api_key = os.getenv('ANTHROPIC_AUTH_TOKEN', 'sk-1gcvcMUA8g8aNy7y_FRfXg')
         self.model = 'gpt-5'
         
         if not self.api_key:
             raise ValueError("ANTHROPIC_AUTH_TOKEN environment variable not set")
         
-        print(f"✅ Claude Auto Fixer initialized")
+        print(f"鉁?Claude Auto Fixer initialized")
         print(f"   API Base: {self.api_base}")
         print(f"   Model: {self.model}")
         
@@ -64,7 +64,7 @@ Error message:
 Please provide the complete fixed code. Return ONLY the Python code without any explanation or markdown formatting. The code should be directly executable."""
             
             # Call Claude API
-            print("🤖 Using Claude to analyze and fix code...")
+            print("馃 Using Claude to analyze and fix code...")
             
             headers = {
                 'Authorization': f'Bearer {self.api_key}',
@@ -99,7 +99,7 @@ Please provide the complete fixed code. Return ONLY the Python code without any 
                 elif 'content' in response_data and len(response_data['content']) > 0:
                     fixed_code = response_data['content'][0]['text'].strip()
                 else:
-                    print(f"❌ Unexpected response format: {response_data}")
+                    print(f"鉂?Unexpected response format: {response_data}")
                     return None
                 
                 # Extract code from markdown if present
@@ -120,12 +120,12 @@ Please provide the complete fixed code. Return ONLY the Python code without any 
                 
                 return fixed_code
             else:
-                print(f"❌ Claude API call failed: {response.status_code}")
+                print(f"鉂?Claude API call failed: {response.status_code}")
                 print(f"   Response: {response.text}")
                 return None
                 
         except Exception as e:
-            print(f"❌ Error during fix process: {e}")
+            print(f"鉂?Error during fix process: {e}")
             return None
     
     def extract_score_from_output(self, stdout):
@@ -134,7 +134,7 @@ Please provide the complete fixed code. Return ONLY the Python code without any 
         
         # Try to extract score from output
         score_patterns = [
-            r'📊\s+(?:f1_score|F1|accuracy|AUC|RMSE):\s+([0-9.]+)',
+            r'馃搳\s+(?:f1_score|F1|accuracy|AUC|RMSE):\s+([0-9.]+)',
             r'Score:\s+([0-9.]+)',
             r'Final score:\s+([0-9.]+)',
             r'Result:\s+([0-9.]+)',
@@ -174,20 +174,20 @@ Please provide the complete fixed code. Return ONLY the Python code without any 
             try:
                 with open(result_file, 'w', encoding='utf-8') as f:
                     json.dump(result_data, f, indent=2)
-                print(f"💾 Results saved to: {result_file}")
+                print(f"馃捑 Results saved to: {result_file}")
                 return result_file
             except Exception as e:
-                print(f"❌ Failed to save result file: {e}")
+                print(f"鉂?Failed to save result file: {e}")
         
         return None
 
     def auto_fix_and_run(self, file_path):
         """Automatically fix and run code"""
         if not os.path.exists(file_path):
-            print(f"❌ File not found: {file_path}")
+            print(f"鉂?File not found: {file_path}")
             return False
         
-        print(f"🚀 Starting auto-fix and execution: {file_path}")
+        print(f"馃殌 Starting auto-fix and execution: {file_path}")
         print("=" * 50)
         
         final_stdout = ""
@@ -195,7 +195,7 @@ Please provide the complete fixed code. Return ONLY the Python code without any 
         final_success = False
         
         for attempt in range(1, self.max_attempts + 1):
-            print(f"\n📍 Attempt {attempt} to execute...")
+            print(f"\n馃搷 Attempt {attempt} to execute...")
             
             # Execute code
             success, stdout, stderr = self.execute_python_file(file_path)
@@ -205,9 +205,9 @@ Please provide the complete fixed code. Return ONLY the Python code without any 
             final_success = success
             
             if success:
-                print("✅ Code executed successfully!")
+                print("鉁?Code executed successfully!")
                 if stdout:
-                    print("\n📤 Output:")
+                    print("\n馃摛 Output:")
                     print(stdout)
                 
                 # Extract score and save result file
@@ -215,11 +215,11 @@ Please provide the complete fixed code. Return ONLY the Python code without any 
                 self.save_result_file(file_path, True, score, stdout, stderr)
                 return True
             else:
-                print(f"❌ Execution failed: {stderr}")
+                print(f"鉂?Execution failed: {stderr}")
                 
                 if attempt < self.max_attempts:
                     # Attempt to fix
-                    print(f"\n🔧 Attempting to fix code (attempt {attempt})...")
+                    print(f"\n馃敡 Attempting to fix code (attempt {attempt})...")
                     
                     fixed_code = self.fix_code_with_claude(file_path, stderr)
                     
@@ -227,20 +227,20 @@ Please provide the complete fixed code. Return ONLY the Python code without any 
                         # Backup original file
                         backup_path = f"{file_path}.backup_{int(time.time())}"
                         os.rename(file_path, backup_path)
-                        print(f"📁 Original file backed up as: {backup_path}")
+                        print(f"馃搧 Original file backed up as: {backup_path}")
                         
                         # Write fixed code
                         with open(file_path, 'w', encoding='utf-8') as f:
                             f.write(fixed_code)
                         
-                        print("✏️  Fixed code saved")
+                        print("鉁忥笍  Fixed code saved")
                     else:
-                        print("❌ Unable to get fix suggestion")
+                        print("鉂?Unable to get fix suggestion")
                         # Save failure result
                         self.save_result_file(file_path, False, 0.0, final_stdout, final_stderr)
                         return False
                 else:
-                    print(f"❌ Max attempts reached ({self.max_attempts}), fix failed")
+                    print(f"鉂?Max attempts reached ({self.max_attempts}), fix failed")
                     # Save failure result
                     self.save_result_file(file_path, False, 0.0, final_stdout, final_stderr)
                     return False
@@ -259,9 +259,9 @@ def main():
     success = fixer.auto_fix_and_run(file_path)
     
     if success:
-        print("\n🎉 Task complete! Code executed successfully.")
+        print("\n馃帀 Task complete! Code executed successfully.")
     else:
-        print("\n😞 Task failed, unable to fix code.")
+        print("\n馃槥 Task failed, unable to fix code.")
 
 if __name__ == "__main__":
     main()

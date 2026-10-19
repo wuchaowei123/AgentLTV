@@ -161,53 +161,53 @@ Examples:
 
 def validate_environment():
     """Validate that all required environments and dependencies are available."""
-    print("🔍 Validating environment...")
+    print("馃攳 Validating environment...")
     
     # Check Claude API configuration
     if not os.environ.get("ANTHROPIC_AUTH_TOKEN"):
-        print("⚠️  Warning: ANTHROPIC_AUTH_TOKEN not set. Setting default...")
+        print("鈿狅笍  Warning: ANTHROPIC_AUTH_TOKEN not set. Setting default...")
         os.environ["ANTHROPIC_AUTH_TOKEN"] = "sk-1gcvcMUA8g8aNy7y_FRfXg"
     
     if not os.environ.get("ANTHROPIC_BASE_URL"):
-        print("ℹ️  Setting default ANTHROPIC_BASE_URL...")
-        os.environ["ANTHROPIC_BASE_URL"] = "http://litellm.aviagames.net"
+        print("鈩癸笍  Setting default ANTHROPIC_BASE_URL...")
+        
     
-    print(f"✅ Claude API configured: {os.environ.get('ANTHROPIC_BASE_URL')}")
-    print("✅ Environment validation passed")
+    print(f"鉁?Claude API configured: {os.environ.get('ANTHROPIC_BASE_URL')}")
+    print("鉁?Environment validation passed")
     return True
 
 
 def display_enhanced_task_info(task_config: TaskConfiguration, args):
     """Display enhanced task information."""
-    print("╔" + "═" * 68 + "╗")
-    print("║" + " " * 15 + "Enhanced Universal MTCS_module" + " " * 14 + "║")
-    print("╚" + "═" * 68 + "╝")
+    print("鈺? + "鈺? * 68 + "鈺?)
+    print("鈺? + " " * 15 + "Enhanced Universal MTCS_module" + " " * 14 + "鈺?)
+    print("鈺? + "鈺? * 68 + "鈺?)
     print()
     
-    print(f"🎯 Domain: {task_config.domain}")
-    print(f"📋 Task: {task_config.task_name}")
-    print(f"📊 Metric: {task_config.evaluation_metric}")
-    print(f"📁 Data Files: {list(task_config.data_files.keys())}")
+    print(f"馃幆 Domain: {task_config.domain}")
+    print(f"馃搵 Task: {task_config.task_name}")
+    print(f"馃搳 Metric: {task_config.evaluation_metric}")
+    print(f"馃搧 Data Files: {list(task_config.data_files.keys())}")
     
     # Enhanced features status
-    print(f"\n🚀 Enhanced Features:")
+    print(f"\n馃殌 Enhanced Features:")
     preparation_enabled = not args.disable_preparation and (args.enable_all_phases or args.research_enhanced)
     analysis_enabled = not args.disable_analysis and (args.enable_all_phases or args.research_enhanced)
     
-    print(f"   • Phase 1 (Preparation): {'✅' if preparation_enabled else '❌'}")
-    print(f"   • Phase 2 (Enhanced Search): ✅")
-    print(f"   • Phase 3 (Analysis): {'✅' if analysis_enabled else '❌'}")
-    print(f"   • Multi-strategy Init: {'✅' if args.multi_strategy_init else '❌'}")
-    print(f"   • Research Integration: {'✅' if args.research_enhanced else '❌'}")
+    print(f"   鈥?Phase 1 (Preparation): {'鉁? if preparation_enabled else '鉂?}")
+    print(f"   鈥?Phase 2 (Enhanced Search): 鉁?)
+    print(f"   鈥?Phase 3 (Analysis): {'鉁? if analysis_enabled else '鉂?}")
+    print(f"   鈥?Multi-strategy Init: {'鉁? if args.multi_strategy_init else '鉂?}")
+    print(f"   鈥?Research Integration: {'鉁? if args.research_enhanced else '鉂?}")
     
     if task_config.research_ideas:
-        print(f"\n💡 Research Ideas:")
+        print(f"\n馃挕 Research Ideas:")
         for idea in task_config.research_ideas[:3]:  # Show first 3
-            print(f"   • {idea}")
+            print(f"   鈥?{idea}")
         if len(task_config.research_ideas) > 3:
-            print(f"   • ... and {len(task_config.research_ideas) - 3} more")
+            print(f"   鈥?... and {len(task_config.research_ideas) - 3} more")
     
-    print(f"\n🔄 Starting enhanced automated scientific software discovery...")
+    print(f"\n馃攧 Starting enhanced automated scientific software discovery...")
     print("=" * 70)
 
 
@@ -252,7 +252,7 @@ def run_enhanced_search(task_config: TaskConfiguration, args) -> dict:
 
 def run_baseline_comparison(task_config: TaskConfiguration, args) -> dict:
     """Run baseline system for comparison."""
-    print("\n🔄 Running baseline system for comparison...")
+    print("\n馃攧 Running baseline system for comparison...")
     
     # Import baseline system
     from core.controller.search import UniversalTreeSearch, SearchConfiguration
@@ -337,19 +337,19 @@ def save_enhanced_results(enhanced_results: dict, baseline_results: dict, output
         enhanced_stats = enhanced_results['results']['enhanced_stats']
         multi_phase = enhanced_results['results']['multi_phase_results']
         
-        f.write(f"🏆 ENHANCED SYSTEM RESULTS:\n")
+        f.write(f"馃弳 ENHANCED SYSTEM RESULTS:\n")
         f.write(f"   Best Score: {best_enhanced.score:.6f}\n")
         f.write(f"   Strategy: {best_enhanced.genealogy.mutation_type}\n")
         f.write(f"   Generation: {best_enhanced.genealogy.generation}\n\n")
         
-        f.write(f"📊 MULTI-PHASE STATISTICS:\n")
+        f.write(f"馃搳 MULTI-PHASE STATISTICS:\n")
         f.write(f"   Preparation Time: {enhanced_stats['preparation_phase_time']:.1f}s\n")
         f.write(f"   Analysis Time: {enhanced_stats['analysis_phase_time']:.1f}s\n")
         f.write(f"   Research Ideas Generated: {enhanced_stats['research_ideas_generated']}\n")
         f.write(f"   Hybrid Solutions Created: {enhanced_stats['hybrid_solutions_created']}\n")
         f.write(f"   Initialization Strategies: {len(multi_phase['initialization_strategies'])}\n\n")
         
-        f.write(f"🎯 STRATEGY PERFORMANCE:\n")
+        f.write(f"馃幆 STRATEGY PERFORMANCE:\n")
         for strategy, count in enhanced_stats['strategies_attempted'].items():
             f.write(f"   {strategy}: {count} attempts\n")
         
@@ -359,7 +359,7 @@ def save_enhanced_results(enhanced_results: dict, baseline_results: dict, output
             improvement = best_enhanced.score - best_baseline.score
             relative_improvement = (improvement / best_baseline.score) * 100 if best_baseline.score > 0 else 0
             
-            f.write(f"\n🔄 BASELINE COMPARISON:\n")
+            f.write(f"\n馃攧 BASELINE COMPARISON:\n")
             f.write(f"   Enhanced Score: {best_enhanced.score:.6f}\n")
             f.write(f"   Baseline Score: {best_baseline.score:.6f}\n")
             f.write(f"   Improvement: +{improvement:.6f} (+{relative_improvement:.1f}%)\n")
@@ -373,13 +373,13 @@ def main():
     
     # Validate environment
     if not validate_environment():
-        print("❌ Environment validation failed. Some features may not work.")
+        print("鉂?Environment validation failed. Some features may not work.")
     
     # Load task configuration
     try:
         task_config = TaskConfiguration(args.task)
     except Exception as e:
-        print(f"❌ Error loading task configuration: {e}")
+        print(f"鉂?Error loading task configuration: {e}")
         sys.exit(1)
     
     # Display enhanced task information
@@ -402,13 +402,13 @@ def main():
         enhanced_stats = enhanced_results['results']['enhanced_stats']
         
         print("\n" + "=" * 70)
-        print("🎉 Enhanced Scientific Software Discovery Complete!")
+        print("馃帀 Enhanced Scientific Software Discovery Complete!")
         print("=" * 70)
-        print(f"🏆 Best Enhanced Score: {best_enhanced.score:.6f}")
-        print(f"🔬 Strategy Used: {best_enhanced.genealogy.mutation_type}")
-        print(f"📊 Total Nodes Explored: {len(enhanced_results['search_agent'].nodes)}")
-        print(f"🧪 Research Ideas Generated: {enhanced_stats['research_ideas_generated']}")
-        print(f"🧬 Hybrid Solutions Created: {enhanced_stats['hybrid_solutions_created']}")
+        print(f"馃弳 Best Enhanced Score: {best_enhanced.score:.6f}")
+        print(f"馃敩 Strategy Used: {best_enhanced.genealogy.mutation_type}")
+        print(f"馃搳 Total Nodes Explored: {len(enhanced_results['search_agent'].nodes)}")
+        print(f"馃И Research Ideas Generated: {enhanced_stats['research_ideas_generated']}")
+        print(f"馃К Hybrid Solutions Created: {enhanced_stats['hybrid_solutions_created']}")
         
         # Show comparison if available
         if baseline_results:
@@ -416,27 +416,27 @@ def main():
             improvement = best_enhanced.score - best_baseline.score
             relative_improvement = (improvement / best_baseline.score) * 100 if best_baseline.score > 0 else 0
             
-            print(f"\n🔄 ENHANCED vs BASELINE:")
+            print(f"\n馃攧 ENHANCED vs BASELINE:")
             print(f"   Enhanced: {best_enhanced.score:.6f}")
             print(f"   Baseline: {best_baseline.score:.6f}")
             print(f"   Improvement: +{improvement:.6f} (+{relative_improvement:.1f}%)")
         
         # Save results
         best_code_file = save_enhanced_results(enhanced_results, baseline_results, output_dir, args)
-        print(f"\n💾 Results saved to: {output_dir}")
-        print(f"💡 Best enhanced code saved to: {best_code_file}")
+        print(f"\n馃捑 Results saved to: {output_dir}")
+        print(f"馃挕 Best enhanced code saved to: {best_code_file}")
         
         # Show best code if verbose
         if args.verbose:
-            print(f"\n📝 Best Enhanced Solution Code:")
+            print(f"\n馃摑 Best Enhanced Solution Code:")
             print("-" * 50)
             print(best_enhanced.code[:500] + "..." if len(best_enhanced.code) > 500 else best_enhanced.code)
         
     except KeyboardInterrupt:
-        print("\n⚠️  Search interrupted by user")
+        print("\n鈿狅笍  Search interrupted by user")
         sys.exit(130)
     except Exception as e:
-        print(f"❌ Error during enhanced search: {e}")
+        print(f"鉂?Error during enhanced search: {e}")
         if args.verbose:
             import traceback
             traceback.print_exc()

@@ -110,7 +110,7 @@ def validate_environment():
     missing_vars = [var for var in required_vars if not os.getenv(var)]
     
     if missing_vars:
-        print("❌ Error: Missing required environment variables:")
+        print("鉂?Error: Missing required environment variables:")
         for var in missing_vars:
             print(f"   - {var}")
         print("\nPlease set these variables:")
@@ -119,35 +119,35 @@ def validate_environment():
     
     # Check Claude API configuration
     if not os.environ.get("ANTHROPIC_AUTH_TOKEN"):
-        print("ℹ️  Setting default ANTHROPIC_AUTH_TOKEN...")
+        print("鈩癸笍  Setting default ANTHROPIC_AUTH_TOKEN...")
         os.environ["ANTHROPIC_AUTH_TOKEN"] = "sk-1gcvcMUA8g8aNy7y_FRfXg"
     
     if not os.environ.get("ANTHROPIC_BASE_URL"):
-        print("ℹ️  Setting default ANTHROPIC_BASE_URL...")
-        os.environ["ANTHROPIC_BASE_URL"] = "http://litellm.aviagames.net"
+        print("鈩癸笍  Setting default ANTHROPIC_BASE_URL...")
+        
     
-    print(f"✅ Claude API configured: {os.environ.get('ANTHROPIC_BASE_URL')}")
+    print(f"鉁?Claude API configured: {os.environ.get('ANTHROPIC_BASE_URL')}")
         
     return True
 
 def display_task_info(task_config: TaskConfiguration):
     """Display information about the loaded task."""
-    print("╔══════════════════════════════════════════════════════════════════╗")
-    print("║                     Universal MTCS_module                ║")
-    print("╚══════════════════════════════════════════════════════════════════╝")
+    print("鈺斺晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晽")
+    print("鈺?                    Universal MTCS_module                鈺?)
+    print("鈺氣晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨暆")
     print()
-    print(f"🎯 Domain: {task_config.domain}")
-    print(f"📋 Task: {task_config.task_name}")
-    print(f"📊 Metric: {task_config.evaluation_metric}")
-    print(f"📁 Data Files: {list(task_config.data_files.keys())}")
+    print(f"馃幆 Domain: {task_config.domain}")
+    print(f"馃搵 Task: {task_config.task_name}")
+    print(f"馃搳 Metric: {task_config.evaluation_metric}")
+    print(f"馃搧 Data Files: {list(task_config.data_files.keys())}")
     
     if task_config.research_ideas:
-        print(f"💡 Research Ideas:")
+        print(f"馃挕 Research Ideas:")
         for idea in task_config.research_ideas:
-            print(f"   • {idea}")
+            print(f"   鈥?{idea}")
     
     print()
-    print("🔄 Starting automated scientific software discovery...")
+    print("馃攧 Starting automated scientific software discovery...")
     print("=" * 70)
 
 def create_initial_prompt(task_config: TaskConfiguration) -> str:
@@ -268,7 +268,7 @@ forecasts = sf.predict(h={forecast_horizon})
     try:
         return template.format(**template_vars)
     except KeyError as e:
-        print(f"⚠️  Warning: Missing template variable {e}, using default template")
+        print(f"鈿狅笍  Warning: Missing template variable {e}, using default template")
         return domain_templates["machine_learning"]
 
 def main():
@@ -283,7 +283,7 @@ def main():
     try:
         task_config = TaskConfiguration(args.task)
     except Exception as e:
-        print(f"❌ Error loading task configuration: {e}")
+        print(f"鉂?Error loading task configuration: {e}")
         sys.exit(1)
     
     # Display task information
@@ -322,9 +322,9 @@ def main():
             search_config=search_config
         )
         
-        print(f"🚀 Starting tree search with {args.iterations} iterations...")
-        print(f"🎯 Target metric: {task_config.evaluation_metric}")
-        print(f"💾 Results will be saved to: {output_dir}")
+        print(f"馃殌 Starting tree search with {args.iterations} iterations...")
+        print(f"馃幆 Target metric: {task_config.evaluation_metric}")
+        print(f"馃捑 Results will be saved to: {output_dir}")
         print()
         
         # Run the search
@@ -332,12 +332,12 @@ def main():
         
         # Display results
         print("\n" + "=" * 70)
-        print("🎉 Scientific Software Discovery Complete!")
+        print("馃帀 Scientific Software Discovery Complete!")
         print("=" * 70)
-        print(f"🏆 Best {task_config.evaluation_metric}: {best_solution.score:.6f}")
-        print(f"🔬 Domain: {task_config.domain}")
-        print(f"📊 Total Nodes Explored: {len(search_agent.nodes)}")
-        print(f"💾 Results saved to: {output_dir}")
+        print(f"馃弳 Best {task_config.evaluation_metric}: {best_solution.score:.6f}")
+        print(f"馃敩 Domain: {task_config.domain}")
+        print(f"馃搳 Total Nodes Explored: {len(search_agent.nodes)}")
+        print(f"馃捑 Results saved to: {output_dir}")
         
         # Save best solution
         best_code_file = output_dir / "best_solution.py"
@@ -346,18 +346,18 @@ def main():
             f.write(f"# {task_config.evaluation_metric}: {best_solution.score:.6f}\n\n")
             f.write(best_solution.code)
         
-        print(f"💡 Best code saved to: {best_code_file}")
+        print(f"馃挕 Best code saved to: {best_code_file}")
         
         if args.verbose:
-            print(f"\n📝 Best Solution Code:")
+            print(f"\n馃摑 Best Solution Code:")
             print("-" * 50)
             print(best_solution.code)
             
     except KeyboardInterrupt:
-        print("\n⚠️  Search interrupted by user")
+        print("\n鈿狅笍  Search interrupted by user")
         sys.exit(0)
     except Exception as e:
-        print(f"❌ Error during search: {e}")
+        print(f"鉂?Error during search: {e}")
         if args.verbose:
             import traceback
             traceback.print_exc()

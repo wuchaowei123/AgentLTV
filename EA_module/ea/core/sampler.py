@@ -112,7 +112,7 @@ class PromptSampler:
             eval_history_msg = ""
 
         # Add top-k inspirations
-        # TODO(RobertTLange): Check if order needs inversion
+        # TODO: Check if order needs inversion
         if len(top_k_inspirations) > 0:
             eval_history_msg += construct_eval_history_msg(
                 top_k_inspirations,

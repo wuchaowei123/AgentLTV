@@ -19,7 +19,7 @@ class ClaudeCodeCLIAutoFixer:
     def setup_environment(self):
         """Setup environment variables for Claude Code CLI"""
         # These are read from environment or use defaults
-        self.api_base = os.environ.get('ANTHROPIC_BASE_URL', 'http://litellm.aviagames.net')
+        self.api_base = os.environ.get('ANTHROPIC_BASE_URL', '')
         self.api_token = os.environ.get('ANTHROPIC_AUTH_TOKEN', 'sk-1gcvcMUA8g8aNy7y_FRfXg')
         
         # Set environment for subprocess
@@ -30,16 +30,16 @@ class ClaudeCodeCLIAutoFixer:
         self.env['ANTHROPIC_DEFAULT_HAIKU_MODEL'] = self.model
         self.env['CLAUDE_CODE_SUBAGENT_MODEL'] = self.model
         
-        print(f"✅ Claude Code CLI Auto Fixer initialized")
+        print(f"鉁?Claude Code CLI Auto Fixer initialized")
         print(f"   API Base: {self.api_base}")
         print(f"   Model: {self.model}")
     
     def run_code(self, code_file, timeout=300, conda_env="pytorch"):
         """Run the code file and capture output/errors"""
-        print(f"\n🔄 Running {code_file}...")
-        print(f"   ⏱️  Timeout: {timeout} seconds")
-        print(f"   🐍 Conda env: {conda_env}")
-        print(f"   📍 Working directory: {os.path.dirname(os.path.abspath(code_file)) or '.'}")
+        print(f"\n馃攧 Running {code_file}...")
+        print(f"   鈴憋笍  Timeout: {timeout} seconds")
+        print(f"   馃悕 Conda env: {conda_env}")
+        print(f"   馃搷 Working directory: {os.path.dirname(os.path.abspath(code_file)) or '.'}")
         start_time = time.time()
         
         # Get absolute path and separate directory and filename
@@ -48,8 +48,8 @@ class ClaudeCodeCLIAutoFixer:
         code_name = os.path.basename(abs_path)
         
         cmd = f'source ~/.bashrc && conda activate {conda_env} && cd {code_dir} && timeout {timeout} python {code_name} 2>&1'
-        print(f"   💻 Command: {cmd[:150]}...")
-        print(f"   ⏳ Starting execution...")
+        print(f"   馃捇 Command: {cmd[:150]}...")
+        print(f"   鈴?Starting execution...")
         sys.stdout.flush()
         
         result = subprocess.run(
@@ -59,9 +59,9 @@ class ClaudeCodeCLIAutoFixer:
         )
         
         elapsed = time.time() - start_time
-        print(f"   ✓ Execution completed in {elapsed:.1f} seconds")
-        print(f"   📊 Exit code: {result.returncode}")
-        print(f"   📝 Output length: {len(result.stdout + result.stderr)} characters")
+        print(f"   鉁?Execution completed in {elapsed:.1f} seconds")
+        print(f"   馃搳 Exit code: {result.returncode}")
+        print(f"   馃摑 Output length: {len(result.stdout + result.stderr)} characters")
         sys.stdout.flush()
         
         return result.returncode, result.stdout + result.stderr
@@ -103,10 +103,10 @@ class ClaudeCodeCLIAutoFixer:
     
     def ask_claude_to_fix(self, code_file, error_info, timeout=120):
         """Use Claude Code CLI to suggest a fix with specific line changes"""
-        print(f"\n🤖 Asking Claude Code CLI for fix suggestion...")
-        print(f"   📁 File: {code_file}")
-        print(f"   ⏱️  Timeout: {timeout} seconds")
-        print(f"   🔍 Error line: {error_info['error_line']}")
+        print(f"\n馃 Asking Claude Code CLI for fix suggestion...")
+        print(f"   馃搧 File: {code_file}")
+        print(f"   鈴憋笍  Timeout: {timeout} seconds")
+        print(f"   馃攳 Error line: {error_info['error_line']}")
         sys.stdout.flush()
         
         start_time = time.time()
@@ -119,9 +119,9 @@ Error Output:
 
 Suggest the specific fix needed. Be concise."""
         
-        print(f"   📝 Prompt length: {len(prompt)} characters")
+        print(f"   馃摑 Prompt length: {len(prompt)} characters")
         cmd = f'claude -p "{prompt}" --model {self.model}'
-        print(f"   ⏳ Sending request to Claude Code CLI...")
+        print(f"   鈴?Sending request to Claude Code CLI...")
         sys.stdout.flush()
         
         try:
@@ -134,35 +134,35 @@ Suggest the specific fix needed. Be concise."""
             )
             
             elapsed = time.time() - start_time
-            print(f"   ✓ Claude response received in {elapsed:.1f} seconds")
+            print(f"   鉁?Claude response received in {elapsed:.1f} seconds")
             
             if result.returncode == 0:
                 response = result.stdout.strip()
-                print(f"   📊 Response length: {len(response)} characters")
-                print(f"   💡 Claude's suggestion (first 300 chars):")
+                print(f"   馃搳 Response length: {len(response)} characters")
+                print(f"   馃挕 Claude's suggestion (first 300 chars):")
                 print(f"      {response[:300]}...")
                 sys.stdout.flush()
                 return response
             else:
-                print(f"   ⚠️  Claude Code CLI failed (exit code: {result.returncode})")
-                print(f"   ❌ Error: {result.stderr[:200]}")
+                print(f"   鈿狅笍  Claude Code CLI failed (exit code: {result.returncode})")
+                print(f"   鉂?Error: {result.stderr[:200]}")
                 sys.stdout.flush()
                 return None
                 
         except subprocess.TimeoutExpired:
-            print(f"   ⚠️  Claude Code CLI timed out after {timeout} seconds")
+            print(f"   鈿狅笍  Claude Code CLI timed out after {timeout} seconds")
             sys.stdout.flush()
             return None
     
     def parse_and_apply_fix(self, code_file, fix_suggestion):
         """Parse Claude's fix suggestion and apply it to the file"""
         if not fix_suggestion:
-            print(f"\n🔧 No fix suggestion to apply")
+            print(f"\n馃敡 No fix suggestion to apply")
             return False
         
-        print(f"\n🔧 Attempting to apply fix automatically...")
-        print(f"   📁 File: {code_file}")
-        print(f"   🔍 Analyzing suggestion for patterns...")
+        print(f"\n馃敡 Attempting to apply fix automatically...")
+        print(f"   馃搧 File: {code_file}")
+        print(f"   馃攳 Analyzing suggestion for patterns...")
         sys.stdout.flush()
         
         # Try to extract line number and replacement from various formats
@@ -172,58 +172,58 @@ Suggest the specific fix needed. Be concise."""
         
         try:
             # Read current file
-            print(f"   📖 Reading current file...")
+            print(f"   馃摉 Reading current file...")
             with open(code_file, 'r', encoding='utf-8') as f:
                 lines = f.readlines()
-            print(f"   ✓ File has {len(lines)} lines")
+            print(f"   鉁?File has {len(lines)} lines")
             sys.stdout.flush()
             
             # Simple heuristic: look for common error patterns and fix them
             # Example: 'label' -> 'labels', variable typos, etc.
             
             # Check for common patterns in the suggestion
-            print(f"   🔎 Checking for 'label' -> 'labels' pattern...")
+            print(f"   馃攷 Checking for 'label' -> 'labels' pattern...")
             if "'label'" in fix_suggestion.lower() and "'labels'" in fix_suggestion.lower():
                 # Fix column name issue
                 for i, line in enumerate(lines):
                     if "train_df['label']" in line:
-                        print(f"   ✓ Found 'train_df['label']' on line {i+1}")
+                        print(f"   鉁?Found 'train_df['label']' on line {i+1}")
                         lines[i] = line.replace("train_df['label']", "train_df['labels']")
-                        print(f"   ✓ Replaced with 'train_df['labels']'")
+                        print(f"   鉁?Replaced with 'train_df['labels']'")
                         
                         # Write back
-                        print(f"   💾 Writing changes to file...")
+                        print(f"   馃捑 Writing changes to file...")
                         with open(code_file, 'w', encoding='utf-8') as f:
                             f.writelines(lines)
-                        print(f"   ✅ Fix applied successfully!")
+                        print(f"   鉁?Fix applied successfully!")
                         sys.stdout.flush()
                         return True
             
             # Look for .to() method fix
-            print(f"   🔎 Checking for '.to(device)' pattern...")
+            print(f"   馃攷 Checking for '.to(device)' pattern...")
             if ".to(device)" in fix_suggestion and "sentence" in fix_suggestion.lower():
                 for i, line in enumerate(lines):
                     if ".to(device)" in line and "embedding_model" in line:
                         # Comment out the problematic line
-                        print(f"   ✓ Found '.to(device)' on line {i+1}")
+                        print(f"   鉁?Found '.to(device)' on line {i+1}")
                         lines[i] = "# " + line
-                        print(f"   ✓ Commented out the line")
+                        print(f"   鉁?Commented out the line")
                         
                         # Write back
-                        print(f"   💾 Writing changes to file...")
+                        print(f"   馃捑 Writing changes to file...")
                         with open(code_file, 'w', encoding='utf-8') as f:
                             f.writelines(lines)
-                        print(f"   ✅ Fix applied successfully!")
+                        print(f"   鉁?Fix applied successfully!")
                         sys.stdout.flush()
                         return True
             
-            print(f"   ⚠️  Could not auto-apply fix - no pattern matched")
-            print(f"   📄 Full suggestion: {fix_suggestion[:400]}...")
+            print(f"   鈿狅笍  Could not auto-apply fix - no pattern matched")
+            print(f"   馃搫 Full suggestion: {fix_suggestion[:400]}...")
             sys.stdout.flush()
             return False
             
         except Exception as e:
-            print(f"   ⚠️  Error applying fix: {str(e)}")
+            print(f"   鈿狅笍  Error applying fix: {str(e)}")
             sys.stdout.flush()
             return False
     
@@ -232,19 +232,19 @@ Suggest the specific fix needed. Be concise."""
         Iteratively run code and fix errors using Claude Code CLI
         """
         print(f"\n{'=' * 70}")
-        print(f"🚀 STARTING AUTO-FIX-AND-RUN WORKFLOW")
+        print(f"馃殌 STARTING AUTO-FIX-AND-RUN WORKFLOW")
         print(f"{'=' * 70}")
-        print(f"📁 File: {code_file}")
-        print(f"🔢 Max attempts: {self.max_attempts}")
-        print(f"⏱️  Run timeout: {run_timeout} seconds")
-        print(f"🤖 Model: {self.model}")
+        print(f"馃搧 File: {code_file}")
+        print(f"馃敘 Max attempts: {self.max_attempts}")
+        print(f"鈴憋笍  Run timeout: {run_timeout} seconds")
+        print(f"馃 Model: {self.model}")
         print(f"{'=' * 70}\n")
         sys.stdout.flush()
         
         for attempt in range(1, self.max_attempts + 1):
-            print(f"\n{'─' * 70}")
-            print(f"📍 ATTEMPT {attempt}/{self.max_attempts}")
-            print(f"{'─' * 70}")
+            print(f"\n{'鈹€' * 70}")
+            print(f"馃搷 ATTEMPT {attempt}/{self.max_attempts}")
+            print(f"{'鈹€' * 70}")
             sys.stdout.flush()
             
             # Run the code
@@ -252,18 +252,18 @@ Suggest the specific fix needed. Be concise."""
             
             if return_code == 0:
                 print(f"\n{'=' * 70}")
-                print(f"✅ SUCCESS! CODE EXECUTED WITHOUT ERRORS!")
+                print(f"鉁?SUCCESS! CODE EXECUTED WITHOUT ERRORS!")
                 print(f"{'=' * 70}")
-                print(f"\n📊 Final output (last 50 lines):")
+                print(f"\n馃搳 Final output (last 50 lines):")
                 print('\n'.join(output.split('\n')[-50:]))
                 print(f"\n{'=' * 70}")
                 sys.stdout.flush()
                 return True, output
             
             # Extract error information
-            print(f"\n🔍 Extracting error information...")
+            print(f"\n馃攳 Extracting error information...")
             error_info = self.extract_error_info(output)
-            print(f"\n❌ EXECUTION FAILED")
+            print(f"\n鉂?EXECUTION FAILED")
             print(f"   Exit code: {return_code}")
             print(f"   Error detected around line: {error_info['error_line']}")
             error_type = error_info.get('error_type', 'Unknown') or 'Unknown'
@@ -274,7 +274,7 @@ Suggest the specific fix needed. Be concise."""
             fix_suggestion = self.ask_claude_to_fix(code_file, error_info)
             
             if fix_suggestion is None:
-                print(f"\n⚠️  COULD NOT GET FIX SUGGESTION FROM CLAUDE")
+                print(f"\n鈿狅笍  COULD NOT GET FIX SUGGESTION FROM CLAUDE")
                 print(f"   Skipping to next attempt...")
                 sys.stdout.flush()
                 continue
@@ -283,18 +283,18 @@ Suggest the specific fix needed. Be concise."""
             fix_applied = self.parse_and_apply_fix(code_file, fix_suggestion)
             
             if fix_applied:
-                print(f"\n✅ FIX APPLIED SUCCESSFULLY!")
+                print(f"\n鉁?FIX APPLIED SUCCESSFULLY!")
                 print(f"   Moving to next iteration to test the fix...")
                 sys.stdout.flush()
             else:
-                print(f"\n⚠️  COULD NOT APPLY FIX AUTOMATICALLY")
+                print(f"\n鈿狅笍  COULD NOT APPLY FIX AUTOMATICALLY")
                 print(f"   This pattern is not supported yet")
                 print(f"   Full suggestion: {fix_suggestion[:500]}...")
                 print(f"   Skipping to next attempt...")
                 sys.stdout.flush()
                 continue
         
-        print(f"\n😞 Failed to fix code after {self.max_attempts} attempts")
+        print(f"\n馃槥 Failed to fix code after {self.max_attempts} attempts")
         return False, output
 
 
