@@ -287,9 +287,22 @@ MIT License - See [LICENSE](LICENSE) for details.
 
 ## Acknowledgments
 
-- Claude, GPT-4, and Gemini for LLM-powered code generation
-- SQLite for robust data persistence
-- The evolutionary computation and LLM-based code generation communities
+AgentLTV builds upon ideas from the LLM-based code generation, tree search, and evolutionary computation communities. We thank the authors of the following foundational works:
+
+**LLM Code Generation & Self-Refinement**
+- Madaan et al. *Self-Refine: Iterative Refinement with Self-Feedback* (NeurIPS 2023)
+- Yao et al. *Tree of Thoughts: Deliberate Problem Solving with Large Language Models* (NeurIPS 2023)
+
+**Tree Search for Language Models**
+- Koh et al. *Tree Search for Language Model Agents* (arXiv 2024)
+- Aygün et al. *An AI System to Help Scientists Write Expert-Level Empirical Software* (arXiv 2025)
+
+**Evolutionary Code Optimization**
+- Romera-Paredes et al. *Mathematical Discoveries from Program Search with Large Language Models* (Nature 2024)
+- Novikov et al. *AlphaEvolve: A Coding Agent for Scientific and Algorithmic Discovery* (arXiv 2025)
+- Yu et al. *AlphaResearch: Accelerating New Algorithm Discovery with Language Models* (arXiv 2025)
+- Assumpção et al. *CodeEvolve: An Open Source Evolutionary Coding Agent for Algorithm Discovery and Optimization* (arXiv 2025)
+- Lange et al. *ShinkaEvolve: Towards Open-Ended and Sample-Efficient Program Evolution* (arXiv 2025)
 
 ---
 
